@@ -1,0 +1,28 @@
+[2026-05-08T22:17:11.329Z] ════════════════════════════════════════════════════════════
+ROLV Benchmark  run_id=2026-05-08T22-17-11-328Z
+k=1  suite=internal
+════════════════════════════════════════════════════════════
+[2026-05-08T22:17:11.343Z] 
+══ Internal Suite: rolv ══
+[2026-05-08T22:17:11.346Z] 
+[Pass@k] model=rolv  k=1  prompts=7
+[2026-05-08T22:17:47.308Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_bGczU7\bench.R
+[2026-05-08T22:17:47.321Z]   [R exit] error=ENOENT signal=undefined duration=10ms
+[2026-05-08T22:17:47.322Z]   [R stderr] (empty)
+[2026-05-08T22:17:47.324Z]   [R stdout] (empty)
+[2026-05-08T22:17:47.327Z]   [pbmc_01] pass@1=0.000  (0/1 passed)
+[2026-05-08T22:18:27.654Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_p2Zvxk\bench.R
+[2026-05-08T22:18:27.662Z]   [R exit] error=ENOENT signal=undefined duration=6ms
+[2026-05-08T22:18:27.664Z]   [R stderr] (empty)
+[2026-05-08T22:18:27.665Z]   [R stdout] (empty)
+[2026-05-08T22:18:27.667Z]   [pbmc_02] pass@1=0.000  (0/1 passed)
+[2026-05-08T22:19:03.401Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_yJaa9n\bench.R
+[2026-05-08T22:19:03.407Z]   [R exit] error=ENOENT signal=undefined duration=4ms
+[2026-05-08T22:19:03.408Z]   [R stderr] (empty)
+[2026-05-08T22:19:03.411Z]   [R stdout] (empty)
+[2026-05-08T22:19:03.413Z]   [pbmc_03] pass@1=0.000  (0/1 passed)
+[2026-05-08T22:19:51.804Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_jBcqnq\bench.R
+[2026-05-08T22:19:51.809Z]   [R exit] error=ENOENT signal=undefined duration=4ms
+[2026-05-08T22:19:51.811Z]   [R stderr] (empty)
+[2026-05-08T22:19:51.812Z]   [R stdout] (empty)
+[2026-05-08T22:19:51.813Z]   [pbmc_04] pass@1=0.000  (0/1 passed)

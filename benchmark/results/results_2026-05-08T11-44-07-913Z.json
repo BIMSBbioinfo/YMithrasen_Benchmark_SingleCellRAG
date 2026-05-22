@@ -1,0 +1,223 @@
+{
+  "run_id": "2026-05-08T11-44-07-913Z",
+  "internal": {},
+  "routing": {
+    "rows": [
+      {
+        "id": "r_01",
+        "label": "code",
+        "predicted": "code",
+        "correct": true
+      },
+      {
+        "id": "r_02",
+        "label": "pubmed",
+        "predicted": "geo",
+        "correct": false
+      },
+      {
+        "id": "r_03",
+        "label": "geo",
+        "predicted": "geo",
+        "correct": true
+      },
+      {
+        "id": "r_04",
+        "label": "vision",
+        "predicted": "vision",
+        "correct": true
+      },
+      {
+        "id": "r_05",
+        "label": "general",
+        "predicted": "general",
+        "correct": true
+      },
+      {
+        "id": "r_06",
+        "label": "code",
+        "predicted": "code",
+        "correct": true
+      },
+      {
+        "id": "r_07",
+        "label": "pubmed",
+        "predicted": "general",
+        "correct": false
+      },
+      {
+        "id": "r_08",
+        "label": "geo",
+        "predicted": "geo",
+        "correct": true
+      },
+      {
+        "id": "r_09",
+        "label": "general",
+        "predicted": "general",
+        "correct": true
+      },
+      {
+        "id": "r_10",
+        "label": "vision",
+        "predicted": "vision",
+        "correct": true
+      },
+      {
+        "id": "r_11",
+        "label": "code",
+        "predicted": "code",
+        "correct": true
+      },
+      {
+        "id": "r_12",
+        "label": "pubmed",
+        "predicted": "general",
+        "correct": false
+      },
+      {
+        "id": "r_13",
+        "label": "geo",
+        "predicted": "geo",
+        "correct": true
+      },
+      {
+        "id": "r_14",
+        "label": "general",
+        "predicted": "general",
+        "correct": true
+      },
+      {
+        "id": "r_15",
+        "label": "vision",
+        "predicted": "vision",
+        "correct": true
+      },
+      {
+        "id": "r_16",
+        "label": "code",
+        "predicted": "code",
+        "correct": true
+      },
+      {
+        "id": "r_17",
+        "label": "pubmed",
+        "predicted": "pubmed",
+        "correct": true
+      },
+      {
+        "id": "r_18",
+        "label": "geo",
+        "predicted": "geo",
+        "correct": true
+      },
+      {
+        "id": "r_19",
+        "label": "general",
+        "predicted": "general",
+        "correct": true
+      },
+      {
+        "id": "r_20",
+        "label": "vision",
+        "predicted": "vision",
+        "correct": true
+      },
+      {
+        "id": "r_21",
+        "label": "code",
+        "predicted": "code",
+        "correct": true
+      },
+      {
+        "id": "r_22",
+        "label": "pubmed",
+        "predicted": "pubmed",
+        "correct": true
+      },
+      {
+        "id": "r_23",
+        "label": "geo",
+        "predicted": "geo",
+        "correct": true
+      },
+      {
+        "id": "r_24",
+        "label": "general",
+        "predicted": "general",
+        "correct": true
+      },
+      {
+        "id": "r_25",
+        "label": "vision",
+        "predicted": "general",
+        "correct": false
+      },
+      {
+        "id": "r_26",
+        "label": "code",
+        "predicted": "code",
+        "correct": true
+      },
+      {
+        "id": "r_27",
+        "label": "pubmed",
+        "predicted": "pubmed",
+        "correct": true
+      },
+      {
+        "id": "r_28",
+        "label": "geo",
+        "predicted": "geo",
+        "correct": true
+      },
+      {
+        "id": "r_29",
+        "label": "general",
+        "predicted": "general",
+        "correct": true
+      },
+      {
+        "id": "r_30",
+        "label": "vision",
+        "predicted": "vision",
+        "correct": true
+      }
+    ],
+    "perClass": {
+      "pubmed": {
+        "precision": 1,
+        "recall": 0.5,
+        "f1": 0.6666666666666666
+      },
+      "code": {
+        "precision": 1,
+        "recall": 1,
+        "f1": 1
+      },
+      "geo": {
+        "precision": 0.8571428571428571,
+        "recall": 1,
+        "f1": 0.923076923076923
+      },
+      "vision": {
+        "precision": 1,
+        "recall": 0.8333333333333334,
+        "f1": 0.9090909090909091
+      },
+      "general": {
+        "precision": 0.6666666666666666,
+        "recall": 1,
+        "f1": 0.8
+      }
+    },
+    "macro": {
+      "precision": 0.9047619047619048,
+      "recall": 0.8666666666666668,
+      "f1": 0.8597668997668997
+    },
+    "accuracy": 0.8666666666666667
+  },
+  "qa": {},
+  "summary": {}
+}

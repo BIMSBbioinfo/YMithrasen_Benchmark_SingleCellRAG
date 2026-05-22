@@ -1,0 +1,443 @@
+{
+  "run_id": "2026-05-08T11-48-03-168Z",
+  "internal": {},
+  "routing": null,
+  "qa": {
+    "rolv": {
+      "rows": [
+        {
+          "id": "qa_01",
+          "question": "What marker genes are used to identify CD4 T cells in PBMCs?",
+          "expected": "IL7R CCR7 CD4",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_02",
+          "question": "What is the purpose of the PercentageFeatureSet function in Seurat?",
+          "expected": "calculate percentage of reads mapping to a feature set such as mitochondrial genes",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_03",
+          "question": "What does a high mitochondrial gene percentage indicate in scRNA-seq QC?",
+          "expected": "cell stress or dying cells low quality cells",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_04",
+          "question": "Which Seurat function performs graph-based clustering?",
+          "expected": "FindClusters",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_05",
+          "question": "What marker genes identify B cells in PBMCs?",
+          "expected": "MS4A1 CD79A",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_06",
+          "question": "What is the difference between NormalizeData and SCTransform in Seurat?",
+          "expected": "NormalizeData uses log normalization SCTransform uses regularized negative binomial regression and removes technical variation",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_07",
+          "question": "What does the FindVariableFeatures function select for?",
+          "expected": "highly variable genes features that show high cell to cell variation",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_08",
+          "question": "Which marker genes identify NK cells?",
+          "expected": "GNLY NKG7 NCAM1",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_09",
+          "question": "What is the purpose of RunHarmony in single-cell analysis?",
+          "expected": "batch correction integration of multiple samples datasets",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_10",
+          "question": "What does ARI measure in clustering evaluation?",
+          "expected": "adjusted rand index similarity between predicted clusters and ground truth labels",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_11",
+          "question": "What marker genes identify CD14 monocytes in PBMCs?",
+          "expected": "CD14 LYZ",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_12",
+          "question": "What is kBET used for in single-cell analysis?",
+          "expected": "batch effect testing measuring how well cells from different batches mix",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_13",
+          "question": "What does the ElbowPlot help determine in Seurat?",
+          "expected": "number of principal components to use number of PCs dimensionality",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_14",
+          "question": "Which gene is a canonical marker for CD8 T cells?",
+          "expected": "CD8A CD8B",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_15",
+          "question": "What does UMAP stand for?",
+          "expected": "uniform manifold approximation and projection",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_16",
+          "question": "What Seurat function finds differentially expressed genes between clusters?",
+          "expected": "FindMarkers FindAllMarkers",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_17",
+          "question": "What is the Leiden algorithm used for in scRNA-seq?",
+          "expected": "graph based clustering community detection",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_18",
+          "question": "What does LISI measure in batch correction evaluation?",
+          "expected": "local inverse simpsons index mixing of batches or cell types in embedding",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_19",
+          "question": "What is a key advantage of SCTransform over log normalization?",
+          "expected": "corrects for sequencing depth without requiring separate scaling step regresses out technical variation",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_20",
+          "question": "What marker genes identify dendritic cells in PBMCs?",
+          "expected": "FCER1A CST3 ITGAX",
+          "score": 0,
+          "response": ""
+        }
+      ],
+      "normalized_gene_turing_score": 0
+    },
+    "gpt4o": {
+      "rows": [
+        {
+          "id": "qa_01",
+          "question": "What marker genes are used to identify CD4 T cells in PBMCs?",
+          "expected": "IL7R CCR7 CD4",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_02",
+          "question": "What is the purpose of the PercentageFeatureSet function in Seurat?",
+          "expected": "calculate percentage of reads mapping to a feature set such as mitochondrial genes",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_03",
+          "question": "What does a high mitochondrial gene percentage indicate in scRNA-seq QC?",
+          "expected": "cell stress or dying cells low quality cells",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_04",
+          "question": "Which Seurat function performs graph-based clustering?",
+          "expected": "FindClusters",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_05",
+          "question": "What marker genes identify B cells in PBMCs?",
+          "expected": "MS4A1 CD79A",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_06",
+          "question": "What is the difference between NormalizeData and SCTransform in Seurat?",
+          "expected": "NormalizeData uses log normalization SCTransform uses regularized negative binomial regression and removes technical variation",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_07",
+          "question": "What does the FindVariableFeatures function select for?",
+          "expected": "highly variable genes features that show high cell to cell variation",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_08",
+          "question": "Which marker genes identify NK cells?",
+          "expected": "GNLY NKG7 NCAM1",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_09",
+          "question": "What is the purpose of RunHarmony in single-cell analysis?",
+          "expected": "batch correction integration of multiple samples datasets",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_10",
+          "question": "What does ARI measure in clustering evaluation?",
+          "expected": "adjusted rand index similarity between predicted clusters and ground truth labels",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_11",
+          "question": "What marker genes identify CD14 monocytes in PBMCs?",
+          "expected": "CD14 LYZ",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_12",
+          "question": "What is kBET used for in single-cell analysis?",
+          "expected": "batch effect testing measuring how well cells from different batches mix",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_13",
+          "question": "What does the ElbowPlot help determine in Seurat?",
+          "expected": "number of principal components to use number of PCs dimensionality",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_14",
+          "question": "Which gene is a canonical marker for CD8 T cells?",
+          "expected": "CD8A CD8B",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_15",
+          "question": "What does UMAP stand for?",
+          "expected": "uniform manifold approximation and projection",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_16",
+          "question": "What Seurat function finds differentially expressed genes between clusters?",
+          "expected": "FindMarkers FindAllMarkers",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_17",
+          "question": "What is the Leiden algorithm used for in scRNA-seq?",
+          "expected": "graph based clustering community detection",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_18",
+          "question": "What does LISI measure in batch correction evaluation?",
+          "expected": "local inverse simpsons index mixing of batches or cell types in embedding",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_19",
+          "question": "What is a key advantage of SCTransform over log normalization?",
+          "expected": "corrects for sequencing depth without requiring separate scaling step regresses out technical variation",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_20",
+          "question": "What marker genes identify dendritic cells in PBMCs?",
+          "expected": "FCER1A CST3 ITGAX",
+          "score": 0,
+          "response": ""
+        }
+      ],
+      "normalized_gene_turing_score": 0
+    },
+    "gemini": {
+      "rows": [
+        {
+          "id": "qa_01",
+          "question": "What marker genes are used to identify CD4 T cells in PBMCs?",
+          "expected": "IL7R CCR7 CD4",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_02",
+          "question": "What is the purpose of the PercentageFeatureSet function in Seurat?",
+          "expected": "calculate percentage of reads mapping to a feature set such as mitochondrial genes",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_03",
+          "question": "What does a high mitochondrial gene percentage indicate in scRNA-seq QC?",
+          "expected": "cell stress or dying cells low quality cells",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_04",
+          "question": "Which Seurat function performs graph-based clustering?",
+          "expected": "FindClusters",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_05",
+          "question": "What marker genes identify B cells in PBMCs?",
+          "expected": "MS4A1 CD79A",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_06",
+          "question": "What is the difference between NormalizeData and SCTransform in Seurat?",
+          "expected": "NormalizeData uses log normalization SCTransform uses regularized negative binomial regression and removes technical variation",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_07",
+          "question": "What does the FindVariableFeatures function select for?",
+          "expected": "highly variable genes features that show high cell to cell variation",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_08",
+          "question": "Which marker genes identify NK cells?",
+          "expected": "GNLY NKG7 NCAM1",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_09",
+          "question": "What is the purpose of RunHarmony in single-cell analysis?",
+          "expected": "batch correction integration of multiple samples datasets",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_10",
+          "question": "What does ARI measure in clustering evaluation?",
+          "expected": "adjusted rand index similarity between predicted clusters and ground truth labels",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_11",
+          "question": "What marker genes identify CD14 monocytes in PBMCs?",
+          "expected": "CD14 LYZ",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_12",
+          "question": "What is kBET used for in single-cell analysis?",
+          "expected": "batch effect testing measuring how well cells from different batches mix",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_13",
+          "question": "What does the ElbowPlot help determine in Seurat?",
+          "expected": "number of principal components to use number of PCs dimensionality",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_14",
+          "question": "Which gene is a canonical marker for CD8 T cells?",
+          "expected": "CD8A CD8B",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_15",
+          "question": "What does UMAP stand for?",
+          "expected": "uniform manifold approximation and projection",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_16",
+          "question": "What Seurat function finds differentially expressed genes between clusters?",
+          "expected": "FindMarkers FindAllMarkers",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_17",
+          "question": "What is the Leiden algorithm used for in scRNA-seq?",
+          "expected": "graph based clustering community detection",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_18",
+          "question": "What does LISI measure in batch correction evaluation?",
+          "expected": "local inverse simpsons index mixing of batches or cell types in embedding",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_19",
+          "question": "What is a key advantage of SCTransform over log normalization?",
+          "expected": "corrects for sequencing depth without requiring separate scaling step regresses out technical variation",
+          "score": 0,
+          "response": ""
+        },
+        {
+          "id": "qa_20",
+          "question": "What marker genes identify dendritic cells in PBMCs?",
+          "expected": "FCER1A CST3 ITGAX",
+          "score": 0,
+          "response": ""
+        }
+      ],
+      "normalized_gene_turing_score": 0
+    }
+  },
+  "summary": {}
+}

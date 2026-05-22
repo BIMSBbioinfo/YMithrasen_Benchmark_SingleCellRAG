@@ -1,0 +1,130 @@
+[2026-05-08T16:48:22.511Z] ════════════════════════════════════════════════════════════
+ROLV Benchmark  run_id=2026-05-08T16-48-22-510Z
+k=3  suite=qa
+════════════════════════════════════════════════════════════
+[2026-05-08T16:48:22.524Z] 
+[GenomicsQA] model=rolv  pairs=20
+[2026-05-08T16:49:13.722Z]   QA qa_01: score=1.00
+[2026-05-08T16:50:15.993Z]   QA qa_02: score=0.69
+[2026-05-08T16:51:17.179Z]   QA qa_03: score=0.88
+[2026-05-08T16:52:19.094Z]   QA qa_04: score=1.00
+[2026-05-08T16:53:29.212Z]   QA qa_05: score=1.00
+[2026-05-08T16:54:27.875Z]   QA qa_06: score=0.93
+[2026-05-08T16:55:14.159Z]   QA qa_07: score=0.91
+[2026-05-08T16:56:06.514Z]   QA qa_08: score=1.00
+[2026-05-08T16:57:04.498Z]   QA qa_09: score=0.86
+[2026-05-08T16:57:51.801Z]   QA qa_10: score=0.91
+[2026-05-08T16:58:37.231Z]   QA qa_11: score=1.00
+[2026-05-08T16:59:32.197Z]   QA qa_12: score=0.64
+[2026-05-08T17:00:15.229Z]   QA qa_13: score=1.00
+[2026-05-08T17:27:34.385Z] [orchestrator] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\orchestrator_shim.js" "eyJwcm9tcHQiOiJXaGljaCBnZW5lIGlzIGEgY2Fub25pY2FsIG1hcmtlciBmb3IgQ0Q4IFQgY2VsbHM/IiwiaG
+[2026-05-08T17:27:34.764Z]   QA qa_14: score=0.00
+[2026-05-08T17:28:35.064Z]   QA qa_15: score=1.00
+[2026-05-08T17:29:15.944Z]   QA qa_16: score=1.00
+[2026-05-08T17:30:07.548Z]   QA qa_17: score=1.00
+[2026-05-08T17:31:11.413Z]   QA qa_18: score=1.00
+[2026-05-08T17:32:07.232Z]   QA qa_19: score=0.54
+[2026-05-08T17:33:02.032Z]   QA qa_20: score=0.67
+[2026-05-08T17:33:02.034Z]   Normalized Gene-Turing Score: 0.851
+[2026-05-08T17:33:02.037Z] 
+[GenomicsQA] model=gpt4o  pairs=20
+[2026-05-08T17:33:05.935Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgbWFya2VyIGdlbmVzIGFyZSB1c2VkIHRvIGlkZW50aWZ5IE
+[2026-05-08T17:33:05.937Z]   QA qa_01: score=0.00
+[2026-05-08T17:33:09.670Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgaXMgdGhlIHB1cnBvc2Ugb2YgdGhlIFBlcmNlbnRhZ2VGZW
+[2026-05-08T17:33:09.671Z]   QA qa_02: score=0.00
+[2026-05-08T17:33:12.366Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgZG9lcyBhIGhpZ2ggbWl0b2Nob25kcmlhbCBnZW5lIHBlcm
+[2026-05-08T17:33:12.368Z]   QA qa_03: score=0.00
+[2026-05-08T17:33:14.939Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoaWNoIFNldXJhdCBmdW5jdGlvbiBwZXJmb3JtcyBncmFwaC1iYX
+[2026-05-08T17:33:14.941Z]   QA qa_04: score=0.00
+[2026-05-08T17:33:17.862Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgbWFya2VyIGdlbmVzIGlkZW50aWZ5IEIgY2VsbHMgaW4gUE
+[2026-05-08T17:33:17.864Z]   QA qa_05: score=0.00
+[2026-05-08T17:33:20.615Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiBOb3JtYWxpem
+[2026-05-08T17:33:20.617Z]   QA qa_06: score=0.00
+[2026-05-08T17:33:23.296Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgZG9lcyB0aGUgRmluZFZhcmlhYmxlRmVhdHVyZXMgZnVuY3
+[2026-05-08T17:33:23.298Z]   QA qa_07: score=0.00
+[2026-05-08T17:33:26.120Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoaWNoIG1hcmtlciBnZW5lcyBpZGVudGlmeSBOSyBjZWxscz8ifQ
+[2026-05-08T17:33:26.122Z]   QA qa_08: score=0.00
+[2026-05-08T17:33:28.883Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgaXMgdGhlIHB1cnBvc2Ugb2YgUnVuSGFybW9ueSBpbiBzaW
+[2026-05-08T17:33:28.885Z]   QA qa_09: score=0.00
+[2026-05-08T17:33:31.692Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgZG9lcyBBUkkgbWVhc3VyZSBpbiBjbHVzdGVyaW5nIGV2YW
+[2026-05-08T17:33:31.694Z]   QA qa_10: score=0.00
+[2026-05-08T17:33:34.511Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgbWFya2VyIGdlbmVzIGlkZW50aWZ5IENEMTQgbW9ub2N5dG
+[2026-05-08T17:33:34.512Z]   QA qa_11: score=0.00
+[2026-05-08T17:33:37.124Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgaXMga0JFVCB1c2VkIGZvciBpbiBzaW5nbGUtY2VsbCBhbm
+[2026-05-08T17:33:37.125Z]   QA qa_12: score=0.00
+[2026-05-08T17:33:39.971Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgZG9lcyB0aGUgRWxib3dQbG90IGhlbHAgZGV0ZXJtaW5lIG
+[2026-05-08T17:33:39.972Z]   QA qa_13: score=0.00
+[2026-05-08T17:33:42.792Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoaWNoIGdlbmUgaXMgYSBjYW5vbmljYWwgbWFya2VyIGZvciBDRD
+[2026-05-08T17:33:42.793Z]   QA qa_14: score=0.00
+[2026-05-08T17:33:45.531Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgZG9lcyBVTUFQIHN0YW5kIGZvcj8ifQ=="
+[baseline_sh
+[2026-05-08T17:33:45.533Z]   QA qa_15: score=0.00
+[2026-05-08T17:33:48.159Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgU2V1cmF0IGZ1bmN0aW9uIGZpbmRzIGRpZmZlcmVudGlhbG
+[2026-05-08T17:33:48.161Z]   QA qa_16: score=0.00
+[2026-05-08T17:33:50.943Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgaXMgdGhlIExlaWRlbiBhbGdvcml0aG0gdXNlZCBmb3IgaW
+[2026-05-08T17:33:50.944Z]   QA qa_17: score=0.00
+[2026-05-08T17:33:53.705Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgZG9lcyBMSVNJIG1lYXN1cmUgaW4gYmF0Y2ggY29ycmVjdG
+[2026-05-08T17:33:53.706Z]   QA qa_18: score=0.00
+[2026-05-08T17:33:56.520Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgaXMgYSBrZXkgYWR2YW50YWdlIG9mIFNDVHJhbnNmb3JtIG
+[2026-05-08T17:33:56.521Z]   QA qa_19: score=0.00
+[2026-05-08T17:33:59.346Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldoYXQgbWFya2VyIGdlbmVzIGlkZW50aWZ5IGRlbmRyaXRpYyBjZW
+[2026-05-08T17:33:59.348Z]   QA qa_20: score=0.00
+[2026-05-08T17:33:59.349Z]   Normalized Gene-Turing Score: 0.000
+[2026-05-08T17:33:59.350Z] 
+[GenomicsQA] model=gemini  pairs=20
+[2026-05-08T17:34:00.600Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBtYXJrZXIgZ2VuZXMgYXJlIHVzZWQgdG8gaW
+[2026-05-08T17:34:00.603Z]   QA qa_01: score=0.00
+[2026-05-08T17:34:01.722Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBpcyB0aGUgcHVycG9zZSBvZiB0aGUgUGVyY2
+[2026-05-08T17:34:01.724Z]   QA qa_02: score=0.00
+[2026-05-08T17:34:02.911Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBkb2VzIGEgaGlnaCBtaXRvY2hvbmRyaWFsIG
+[2026-05-08T17:34:02.912Z]   QA qa_03: score=0.00
+[2026-05-08T17:34:04.046Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hpY2ggU2V1cmF0IGZ1bmN0aW9uIHBlcmZvcm1zIG
+[2026-05-08T17:34:04.048Z]   QA qa_04: score=0.00
+[2026-05-08T17:34:05.205Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBtYXJrZXIgZ2VuZXMgaWRlbnRpZnkgQiBjZW
+[2026-05-08T17:34:05.206Z]   QA qa_05: score=0.00
+[2026-05-08T17:34:06.407Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIE
+[2026-05-08T17:34:06.408Z]   QA qa_06: score=0.00
+[2026-05-08T17:34:07.520Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBkb2VzIHRoZSBGaW5kVmFyaWFibGVGZWF0dX
+[2026-05-08T17:34:07.522Z]   QA qa_07: score=0.00
+[2026-05-08T17:34:08.678Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hpY2ggbWFya2VyIGdlbmVzIGlkZW50aWZ5IE5LIG
+[2026-05-08T17:34:08.679Z]   QA qa_08: score=0.00
+[2026-05-08T17:34:09.878Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBpcyB0aGUgcHVycG9zZSBvZiBSdW5IYXJtb2
+[2026-05-08T17:34:09.879Z]   QA qa_09: score=0.00
+[2026-05-08T17:34:11.020Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBkb2VzIEFSSSBtZWFzdXJlIGluIGNsdXN0ZX
+[2026-05-08T17:34:11.022Z]   QA qa_10: score=0.00
+[2026-05-08T17:34:12.194Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBtYXJrZXIgZ2VuZXMgaWRlbnRpZnkgQ0QxNC
+[2026-05-08T17:34:12.196Z]   QA qa_11: score=0.00
+[2026-05-08T17:34:13.299Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBpcyBrQkVUIHVzZWQgZm9yIGluIHNpbmdsZS
+[2026-05-08T17:34:13.300Z]   QA qa_12: score=0.00
+[2026-05-08T17:34:14.463Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBkb2VzIHRoZSBFbGJvd1Bsb3QgaGVscCBkZX
+[2026-05-08T17:34:14.464Z]   QA qa_13: score=0.00
+[2026-05-08T17:34:15.608Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hpY2ggZ2VuZSBpcyBhIGNhbm9uaWNhbCBtYXJrZX
+[2026-05-08T17:34:15.609Z]   QA qa_14: score=0.00
+[2026-05-08T17:34:16.767Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBkb2VzIFVNQVAgc3RhbmQgZm9yPyJ9"
+[bas
+[2026-05-08T17:34:16.768Z]   QA qa_15: score=0.00
+[2026-05-08T17:34:17.935Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBTZXVyYXQgZnVuY3Rpb24gZmluZHMgZGlmZm
+[2026-05-08T17:34:17.936Z]   QA qa_16: score=0.00
+[2026-05-08T17:34:19.015Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBpcyB0aGUgTGVpZGVuIGFsZ29yaXRobSB1c2
+[2026-05-08T17:34:19.017Z]   QA qa_17: score=0.00
+[2026-05-08T17:34:20.233Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBkb2VzIExJU0kgbWVhc3VyZSBpbiBiYXRjaC
+[2026-05-08T17:34:20.235Z]   QA qa_18: score=0.00
+[2026-05-08T17:34:21.414Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBpcyBhIGtleSBhZHZhbnRhZ2Ugb2YgU0NUcm
+[2026-05-08T17:34:21.415Z]   QA qa_19: score=0.00
+[2026-05-08T17:34:22.502Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV2hhdCBtYXJrZXIgZ2VuZXMgaWRlbnRpZnkgZGVuZH
+[2026-05-08T17:34:22.504Z]   QA qa_20: score=0.00
+[2026-05-08T17:34:22.507Z]   Normalized Gene-Turing Score: 0.000
+[2026-05-08T17:34:22.508Z] 
+────────────────────────────────────────────────────────────────────
+BENCHMARK SUMMARY
+────────────────────────────────────────────────────────────────────
+[2026-05-08T17:34:22.509Z] 
+GENOMICS QA (Gene-Turing Score)
+[2026-05-08T17:34:22.510Z]   rolv      : 0.851
+[2026-05-08T17:34:22.512Z]   gpt4o     : 0.000
+[2026-05-08T17:34:22.514Z]   gemini    : 0.000
+[2026-05-08T17:34:22.516Z] ────────────────────────────────────────────────────────────────────
+[2026-05-08T17:34:22.519Z] Results saved → C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\results_2026-05-08T16-48-22-510Z.json
+[2026-05-08T17:34:22.522Z] CSV → C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\results_2026-05-08T16-48-22-510Z_summary.csv
+[2026-05-08T17:34:22.523Z] 
+✅ Done.

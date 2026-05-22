@@ -1,0 +1,60 @@
+[2026-05-12T11:50:11.550Z] ════════════════════════════════════════════════════════════
+ROLV Benchmark  run_id=2026-05-12T11-50-11-549Z
+k=1  suite=internal
+════════════════════════════════════════════════════════════
+[2026-05-12T11:50:11.556Z] 
+══ Internal Suite: rolv ══
+[2026-05-12T11:50:11.558Z] 
+[Pass@k] model=rolv  k=1  prompts=7
+[2026-05-12T11:50:45.410Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_FrmlZL\bench.R
+[2026-05-12T11:50:45.411Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_FrmlZL\bench.R"
+[2026-05-12T11:50:49.674Z]   [R exit] error=undefined signal=undefined duration=4261ms
+[2026-05-12T11:50:49.675Z]   [R stderr] BENCH_EXEC_ERROR: Barcode file missing. Expecting barcodes.tsv.gz 
+
+[2026-05-12T11:50:49.676Z]   [R stdout] (empty)
+[2026-05-12T11:50:49.677Z]   [pbmc_01] pass@1=0.000  (0/1 passed)
+[2026-05-12T11:51:25.812Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_atAPDv\bench.R
+[2026-05-12T11:51:25.814Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_atAPDv\bench.R"
+[2026-05-12T11:51:29.684Z]   [R exit] error=undefined signal=undefined duration=3868ms
+[2026-05-12T11:51:29.685Z]   [R stderr] BENCH_EXEC_ERROR: Barcode file missing. Expecting barcodes.tsv.gz 
+
+[2026-05-12T11:51:29.686Z]   [R stdout] (empty)
+[2026-05-12T11:51:29.686Z]   [pbmc_02] pass@1=0.000  (0/1 passed)
+[2026-05-12T11:52:05.760Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_THq7a8\bench.R
+[2026-05-12T11:52:05.763Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_THq7a8\bench.R"
+[2026-05-12T11:52:14.156Z]   [R exit] error=undefined signal=undefined duration=8388ms
+[2026-05-12T11:52:14.159Z]   [R stderr] BENCH_EXEC_ERROR: Barcode file missing. Expecting barcodes.tsv.gz 
+
+[2026-05-12T11:52:14.162Z]   [R stdout] (empty)
+[2026-05-12T11:52:14.164Z]   [pbmc_03] pass@1=0.000  (0/1 passed)
+[2026-05-12T11:52:57.603Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_P7qUAd\bench.R
+[2026-05-12T11:52:57.605Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_P7qUAd\bench.R"
+[2026-05-12T11:53:05.272Z]   [R exit] error=undefined signal=undefined duration=7663ms
+[2026-05-12T11:53:05.272Z]   [R stderr] BENCH_EXEC_ERROR: Barcode file missing. Expecting barcodes.tsv.gz 
+
+[2026-05-12T11:53:05.274Z]   [R stdout] (empty)
+[2026-05-12T11:53:05.275Z]   [pbmc_04] pass@1=0.000  (0/1 passed)
+[2026-05-12T11:53:43.547Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_qYG8z3\bench.R
+[2026-05-12T11:53:43.548Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_qYG8z3\bench.R"
+[2026-05-12T11:53:50.508Z]   [R exit] error=undefined signal=undefined duration=6958ms
+[2026-05-12T11:53:50.509Z]   [R stderr] BENCH_EXEC_ERROR: Barcode file missing. Expecting barcodes.tsv.gz 
+
+[2026-05-12T11:53:50.511Z]   [R stdout] (empty)
+[2026-05-12T11:53:50.512Z]   [pbmc_05] pass@1=0.000  (0/1 passed)
+[2026-05-12T11:54:33.657Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_FvaM9p\bench.R
+[2026-05-12T11:54:33.658Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_FvaM9p\bench.R"
+[2026-05-12T11:54:38.501Z]   [R exit] error=undefined signal=undefined duration=4842ms
+[2026-05-12T11:54:38.502Z]   [R stderr] BENCH_EXEC_ERROR: Barcode file missing. Expecting barcodes.tsv.gz 
+
+[2026-05-12T11:54:38.503Z]   [R stdout] (empty)
+[2026-05-12T11:54:38.504Z]   [pbmc_06] pass@1=0.000  (0/1 passed)
+[2026-05-12T11:55:26.646Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_XZXhb2\bench.R
+[2026-05-12T11:55:26.649Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_XZXhb2\bench.R"
+[2026-05-12T11:55:35.593Z]   [R exit] error=undefined signal=undefined duration=8939ms
+[2026-05-12T11:55:35.596Z]   [R stderr] BENCH_EXEC_ERROR: cannot open the connection 
+
+[2026-05-12T11:55:35.601Z]   [R stdout] (empty)
+[2026-05-12T11:55:35.603Z]   [pbmc_07] pass@1=0.000  (0/1 passed)
+[2026-05-12T11:55:35.606Z]   avg Pass@1 = 0.000
+[2026-05-12T11:55:35.609Z] 
+[CodeQuality] model=rolv

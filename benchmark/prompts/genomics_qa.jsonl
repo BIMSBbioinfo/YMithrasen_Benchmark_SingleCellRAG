@@ -1,0 +1,20 @@
+{"id":"qa_01","question":"What marker genes are used to identify CD4 T cells in PBMCs?","answer":"IL7R CCR7 CD4"}
+{"id":"qa_02","question":"What is the purpose of the PercentageFeatureSet function in Seurat?","answer":"calculate percentage of reads mapping to a feature set such as mitochondrial genes"}
+{"id":"qa_03","question":"What does a high mitochondrial gene percentage indicate in scRNA-seq QC?","answer":"cell stress or dying cells low quality cells"}
+{"id":"qa_04","question":"Which Seurat function performs graph-based clustering?","answer":"FindClusters"}
+{"id":"qa_05","question":"What marker genes identify B cells in PBMCs?","answer":"MS4A1 CD79A"}
+{"id":"qa_06","question":"What is the difference between NormalizeData and SCTransform in Seurat?","answer":"NormalizeData uses log normalization SCTransform uses regularized negative binomial regression and removes technical variation"}
+{"id":"qa_07","question":"What does the FindVariableFeatures function select for?","answer":"highly variable genes features that show high cell to cell variation"}
+{"id":"qa_08","question":"Which marker genes identify NK cells?","answer":"GNLY NKG7 NCAM1"}
+{"id":"qa_09","question":"What is the purpose of RunHarmony in single-cell analysis?","answer":"batch correction integration of multiple samples datasets"}
+{"id":"qa_10","question":"What does ARI measure in clustering evaluation?","answer":"adjusted rand index similarity between predicted clusters and ground truth labels"}
+{"id":"qa_11","question":"What marker genes identify CD14 monocytes in PBMCs?","answer":"CD14 LYZ"}
+{"id":"qa_12","question":"What is kBET used for in single-cell analysis?","answer":"batch effect testing measuring how well cells from different batches mix"}
+{"id":"qa_13","question":"What does the ElbowPlot help determine in Seurat?","answer":"number of principal components to use number of PCs dimensionality"}
+{"id":"qa_14","question":"Which gene is a canonical marker for CD8 T cells?","answer":"CD8A CD8B"}
+{"id":"qa_15","question":"What does UMAP stand for?","answer":"uniform manifold approximation and projection"}
+{"id":"qa_16","question":"What Seurat function finds differentially expressed genes between clusters?","answer":"FindMarkers FindAllMarkers"}
+{"id":"qa_17","question":"What is the Leiden algorithm used for in scRNA-seq?","answer":"graph based clustering community detection"}
+{"id":"qa_18","question":"What does LISI measure in batch correction evaluation?","answer":"local inverse simpsons index mixing of batches or cell types in embedding"}
+{"id":"qa_19","question":"What is a key advantage of SCTransform over log normalization?","answer":"corrects for sequencing depth without requiring separate scaling step regresses out technical variation"}
+{"id":"qa_20","question":"What marker genes identify dendritic cells in PBMCs?","answer":"FCER1A CST3 ITGAX"}

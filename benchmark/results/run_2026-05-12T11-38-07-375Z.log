@@ -1,0 +1,36 @@
+[2026-05-12T11:38:07.377Z] ════════════════════════════════════════════════════════════
+ROLV Benchmark  run_id=2026-05-12T11-38-07-375Z
+k=1  suite=internal
+════════════════════════════════════════════════════════════
+[2026-05-12T11:38:07.387Z] 
+══ Internal Suite: rolv ══
+[2026-05-12T11:38:07.388Z] 
+[Pass@k] model=rolv  k=1  prompts=7
+[2026-05-12T11:38:44.684Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_DJ0dCq\bench.R
+[2026-05-12T11:38:44.686Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_DJ0dCq\bench.R"
+[2026-05-12T11:38:51.447Z]   [R exit] error=undefined signal=undefined duration=6760ms
+[2026-05-12T11:38:51.448Z]   [R stderr] BENCH_EXEC_ERROR: Barcode file missing. Expecting barcodes.tsv.gz 
+
+[2026-05-12T11:38:51.449Z]   [R stdout] (empty)
+[2026-05-12T11:38:51.450Z]   [pbmc_01] pass@1=0.000  (0/1 passed)
+[2026-05-12T11:39:27.024Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_szU699\bench.R
+[2026-05-12T11:39:27.026Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_szU699\bench.R"
+[2026-05-12T11:39:31.121Z]   [R exit] error=undefined signal=undefined duration=4094ms
+[2026-05-12T11:39:31.121Z]   [R stderr] BENCH_EXEC_ERROR: Barcode file missing. Expecting barcodes.tsv.gz 
+
+[2026-05-12T11:39:31.122Z]   [R stdout] (empty)
+[2026-05-12T11:39:31.122Z]   [pbmc_02] pass@1=0.000  (0/1 passed)
+[2026-05-12T11:40:07.258Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_Mwksz0\bench.R
+[2026-05-12T11:40:07.259Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_Mwksz0\bench.R"
+[2026-05-12T11:40:11.211Z]   [R exit] error=undefined signal=undefined duration=3950ms
+[2026-05-12T11:40:11.212Z]   [R stderr] BENCH_EXEC_ERROR: Barcode file missing. Expecting barcodes.tsv.gz 
+
+[2026-05-12T11:40:11.213Z]   [R stdout] (empty)
+[2026-05-12T11:40:11.214Z]   [pbmc_03] pass@1=0.000  (0/1 passed)
+[2026-05-12T11:40:51.942Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_Ih0y82\bench.R
+[2026-05-12T11:40:51.944Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_Ih0y82\bench.R"
+[2026-05-12T11:40:56.802Z]   [R exit] error=undefined signal=undefined duration=4850ms
+[2026-05-12T11:40:56.803Z]   [R stderr] BENCH_EXEC_ERROR: Barcode file missing. Expecting barcodes.tsv.gz 
+
+[2026-05-12T11:40:56.804Z]   [R stdout] (empty)
+[2026-05-12T11:40:56.805Z]   [pbmc_04] pass@1=0.000  (0/1 passed)

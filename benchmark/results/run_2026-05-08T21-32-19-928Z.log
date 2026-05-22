@@ -1,0 +1,32 @@
+[2026-05-08T21:32:19.932Z] ════════════════════════════════════════════════════════════
+ROLV Benchmark  run_id=2026-05-08T21-32-19-928Z
+k=1  suite=internal
+════════════════════════════════════════════════════════════
+[2026-05-08T21:32:19.960Z] 
+══ Internal Suite: rolv ══
+[2026-05-08T21:32:19.966Z] 
+[Pass@k] model=rolv  k=1  prompts=7
+[2026-05-08T21:33:01.555Z]   [R stderr] '"Rscript"' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2026-05-08T21:33:01.563Z]   [pbmc_01] pass@1=0.000  (0/1 passed)
+[2026-05-08T21:33:38.071Z]   [R stderr] '"Rscript"' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2026-05-08T21:33:38.077Z]   [pbmc_02] pass@1=0.000  (0/1 passed)
+[2026-05-08T21:34:22.730Z]   [R stderr] '"Rscript"' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2026-05-08T21:34:22.737Z]   [pbmc_03] pass@1=0.000  (0/1 passed)
+[2026-05-08T21:35:00.868Z]   [R stderr] '"Rscript"' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2026-05-08T21:35:00.874Z]   [pbmc_04] pass@1=0.000  (0/1 passed)
+[2026-05-08T21:35:38.439Z]   [R stderr] '"Rscript"' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2026-05-08T21:35:38.445Z]   [pbmc_05] pass@1=0.000  (0/1 passed)
+[2026-05-08T21:36:20.752Z]   [R stderr] '"Rscript"' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2026-05-08T21:36:20.761Z]   [pbmc_06] pass@1=0.000  (0/1 passed)

@@ -1,0 +1,12 @@
+[2026-05-08T16:13:56.456Z] ════════════════════════════════════════════════════════════
+ROLV Benchmark  run_id=2026-05-08T16-13-56-455Z
+k=3  suite=qa
+════════════════════════════════════════════════════════════
+[2026-05-08T16:13:56.468Z] 
+[GenomicsQA] model=rolv  pairs=20
+[2026-05-08T16:14:41.824Z] [FATAL] TypeError: (s || "").toLowerCase is not a function
+    at norm (file:///C:/MDC_internship/rolvdesktop/rolvdesktop_electron/benchmark/benchmark_runner.js:412:31)
+    at normStringMatch (file:///C:/MDC_internship/rolvdesktop/rolvdesktop_electron/benchmark/benchmark_runner.js:413:13)
+    at runGenomicsQA (file:///C:/MDC_internship/rolvdesktop/rolvdesktop_electron/benchmark/benchmark_runner.js:425:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async main (file:///C:/MDC_internship/rolvdesktop/rolvdesktop_electron/benchmark/benchmark_runner.js:520:31)

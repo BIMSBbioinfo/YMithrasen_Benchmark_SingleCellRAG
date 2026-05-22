@@ -1,0 +1,4 @@
+model,metric,value
+rolv,gene_turing_score,0.8506
+gpt4o,gene_turing_score,0.0000
+gemini,gene_turing_score,0.0000

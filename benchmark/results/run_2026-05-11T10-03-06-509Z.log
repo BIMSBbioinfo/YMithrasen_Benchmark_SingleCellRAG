@@ -1,0 +1,130 @@
+[2026-05-11T10:03:06.510Z] ════════════════════════════════════════════════════════════
+ROLV Benchmark  run_id=2026-05-11T10-03-06-509Z
+k=1  suite=internal
+════════════════════════════════════════════════════════════
+[2026-05-11T10:03:06.520Z] 
+══ Internal Suite: rolv ══
+[2026-05-11T10:03:06.521Z] 
+[Pass@k] model=rolv  k=1  prompts=7
+[2026-05-11T10:03:43.274Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_ierHSf\bench.R
+[2026-05-11T10:03:43.276Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_ierHSf\bench.R"
+[2026-05-11T10:03:51.834Z]   [pbmc_01] pass@1=1.000  (1/1 passed)
+[2026-05-11T10:04:25.356Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_cCOvTH\bench.R
+[2026-05-11T10:04:25.357Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_cCOvTH\bench.R"
+[2026-05-11T10:04:25.653Z]   [R exit] error=undefined signal=undefined duration=293ms
+[2026-05-11T10:04:25.655Z]   [R stderr] BENCH_EXEC_ERROR: could not find function "NormalizeData" 
+
+[2026-05-11T10:04:25.660Z]   [R stdout] (empty)
+[2026-05-11T10:04:25.661Z]   [pbmc_02] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:05:03.536Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_7QHgnG\bench.R
+[2026-05-11T10:05:03.537Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_7QHgnG\bench.R"
+[2026-05-11T10:05:07.360Z]   [R exit] error=undefined signal=undefined duration=3822ms
+[2026-05-11T10:05:07.361Z]   [R stderr] BENCH_EXEC_ERROR: object 'pbmc' not found 
+
+[2026-05-11T10:05:07.362Z]   [R stdout] (empty)
+[2026-05-11T10:05:07.363Z]   [pbmc_03] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:05:44.568Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_4Cn17Z\bench.R
+[2026-05-11T10:05:44.569Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_4Cn17Z\bench.R"
+[2026-05-11T10:05:49.024Z]   [R exit] error=undefined signal=undefined duration=4453ms
+[2026-05-11T10:05:49.024Z]   [R stderr] BENCH_EXEC_ERROR: cannot open the connection 
+
+[2026-05-11T10:05:49.026Z]   [R stdout] (empty)
+[2026-05-11T10:05:49.026Z]   [pbmc_04] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:06:27.324Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_3eM0oQ\bench.R
+[2026-05-11T10:06:27.325Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_3eM0oQ\bench.R"
+[2026-05-11T10:07:09.790Z]   [pbmc_05] pass@1=1.000  (1/1 passed)
+[2026-05-11T10:07:45.942Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_51tzHk\bench.R
+[2026-05-11T10:31:42.405Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_51tzHk\bench.R"
+[2026-05-11T10:31:46.386Z]   [R exit] error=undefined signal=undefined duration=3973ms
+[2026-05-11T10:31:46.387Z]   [R stderr] BENCH_EXEC_ERROR: object 'pbmc_sample1' not found 
+
+[2026-05-11T10:31:46.388Z]   [R stdout] (empty)
+[2026-05-11T10:31:46.389Z]   [pbmc_06] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:32:30.375Z]   [R script] C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_4jkIBD\bench.R
+[2026-05-11T10:32:30.376Z]   [R exec] "C:/Program Files/R/R-4.5.1/bin/Rscript.exe" "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\rexec_4jkIBD\bench.R"
+[2026-05-11T10:32:33.957Z]   [R exit] error=undefined signal=undefined duration=3579ms
+[2026-05-11T10:32:33.958Z]   [R stderr] BENCH_EXEC_ERROR: object 'pbmc_clustered' not found 
+
+[2026-05-11T10:32:33.959Z]   [R stdout] (empty)
+[2026-05-11T10:32:33.960Z]   [pbmc_07] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:32:33.961Z]   avg Pass@1 = 0.286
+[2026-05-11T10:32:33.961Z] 
+[CodeQuality] model=rolv
+[2026-05-11T10:37:14.305Z]   avg workflow success rate: 0.371
+[2026-05-11T10:37:14.306Z]   avg grounding rate:        0.756
+[2026-05-11T10:37:14.308Z] 
+══ Internal Suite: gpt4o ══
+[2026-05-11T10:37:14.309Z] 
+[Pass@k] model=gpt4o  k=1  prompts=7
+[2026-05-11T10:37:19.316Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSB0aHJlZSBmaWxlczogYmFyY29kZXMudHN2LCBnZW5lcy
+[2026-05-11T10:37:19.318Z]   [pbmc_01] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:37:22.818Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWMgbG9hZG
+[2026-05-11T10:37:22.819Z]   [pbmc_02] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:37:26.149Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWMgdGhhdC
+[2026-05-11T10:37:26.152Z]   [pbmc_03] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:37:30.285Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFBCTUMgU2V1cmF0IG9iamVjdCB3aXRoIFVNQVAgYW
+[2026-05-11T10:37:33.303Z]   [pbmc_04] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:37:35.878Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldyaXRlIGEgY29tcGxldGUgZW5kLXRvLWVuZCBSIHNjcmlwdCB1c2
+[2026-05-11T10:37:35.880Z]   [pbmc_05] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:37:38.671Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSB0d28gUEJNQyBzYW1wbGVzLCBwYm1jX3NhbXBsZTEgYW
+[2026-05-11T10:37:38.673Z]   [pbmc_06] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:37:42.100Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWNfY2x1c3
+[2026-05-11T10:37:42.101Z]   [pbmc_07] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:37:42.103Z]   avg Pass@1 = 0.000
+[2026-05-11T10:37:42.104Z] 
+[CodeQuality] model=gpt4o
+[2026-05-11T10:37:44.972Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSB0aHJlZSBmaWxlczogYmFyY29kZXMudHN2LCBnZW5lcy
+[2026-05-11T10:37:47.600Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWMgbG9hZG
+[2026-05-11T10:37:50.298Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWMgdGhhdC
+[2026-05-11T10:37:52.904Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFBCTUMgU2V1cmF0IG9iamVjdCB3aXRoIFVNQVAgYW
+[2026-05-11T10:37:58.363Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldyaXRlIGEgY29tcGxldGUgZW5kLXRvLWVuZCBSIHNjcmlwdCB1c2
+[2026-05-11T10:38:02.420Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSB0d28gUEJNQyBzYW1wbGVzLCBwYm1jX3NhbXBsZTEgYW
+[2026-05-11T10:38:05.315Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWNfY2x1c3
+[2026-05-11T10:38:05.316Z]   avg workflow success rate: 0.000
+[2026-05-11T10:38:05.319Z]   avg grounding rate:        0.000
+[2026-05-11T10:38:05.321Z] 
+══ Internal Suite: gemini ══
+[2026-05-11T10:38:05.323Z] 
+[Pass@k] model=gemini  k=1  prompts=7
+[2026-05-11T10:38:06.281Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIHRocmVlIGZpbGVzOiBiYXJjb2Rlcy50c3
+[2026-05-11T10:38:06.283Z]   [pbmc_01] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:38:07.126Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-11T10:38:07.127Z]   [pbmc_02] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:38:08.029Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-11T10:38:08.031Z]   [pbmc_03] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:38:08.899Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgUEJNQyBTZXVyYXQgb2JqZWN0IHdpdG
+[2026-05-11T10:38:08.900Z]   [pbmc_04] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:38:09.705Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV3JpdGUgYSBjb21wbGV0ZSBlbmQtdG8tZW5kIFIgc2
+[2026-05-11T10:38:09.706Z]   [pbmc_05] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:38:10.559Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIHR3byBQQk1DIHNhbXBsZXMsIHBibWNfc2
+[2026-05-11T10:38:10.562Z]   [pbmc_06] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:38:12.343Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-11T10:38:12.345Z]   [pbmc_07] pass@1=0.000  (0/1 passed)
+[2026-05-11T10:38:12.347Z]   avg Pass@1 = 0.000
+[2026-05-11T10:38:12.348Z] 
+[CodeQuality] model=gemini
+[2026-05-11T10:38:13.184Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIHRocmVlIGZpbGVzOiBiYXJjb2Rlcy50c3
+[2026-05-11T10:38:14.096Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-11T10:38:15.032Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-11T10:38:15.863Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgUEJNQyBTZXVyYXQgb2JqZWN0IHdpdG
+[2026-05-11T10:38:16.678Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV3JpdGUgYSBjb21wbGV0ZSBlbmQtdG8tZW5kIFIgc2
+[2026-05-11T10:38:17.563Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIHR3byBQQk1DIHNhbXBsZXMsIHBibWNfc2
+[2026-05-11T10:38:18.410Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-11T10:38:18.411Z]   avg workflow success rate: 0.000
+[2026-05-11T10:38:18.413Z]   avg grounding rate:        0.000
+[2026-05-11T10:38:18.414Z] 
+────────────────────────────────────────────────────────────────────
+BENCHMARK SUMMARY
+────────────────────────────────────────────────────────────────────
+[2026-05-11T10:38:18.415Z] 
+INTERNAL METRICS
+[2026-05-11T10:38:18.416Z] Model      Pass@k     Workflow    Grounding  
+[2026-05-11T10:38:18.417Z] ────────────────────────────────────────────
+[2026-05-11T10:38:18.417Z] rolv       28.6%      37.1%       75.6%      
+[2026-05-11T10:38:18.418Z] gpt4o      0.0%       0.0%        0.0%       
+[2026-05-11T10:38:18.420Z] gemini     0.0%       0.0%        0.0%       
+[2026-05-11T10:38:18.420Z] ────────────────────────────────────────────────────────────────────
+[2026-05-11T10:38:18.422Z] Results saved → C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\results_2026-05-11T10-03-06-509Z.json
+[2026-05-11T10:38:18.427Z] CSV → C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\results_2026-05-11T10-03-06-509Z_summary.csv
+[2026-05-11T10:38:18.466Z] 
+✅ Done.

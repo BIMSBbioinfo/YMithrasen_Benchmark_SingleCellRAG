@@ -1,0 +1,124 @@
+[2026-05-08T19:53:02.264Z] ════════════════════════════════════════════════════════════
+ROLV Benchmark  run_id=2026-05-08T19-53-02-263Z
+k=3  suite=internal
+════════════════════════════════════════════════════════════
+[2026-05-08T19:53:02.273Z] 
+══ Internal Suite: rolv ══
+[2026-05-08T19:53:02.274Z] 
+[Pass@k] model=rolv  k=3  prompts=7
+[2026-05-08T19:54:50.215Z]   [pbmc_01] pass@3=0.000  (0/3 passed)
+[2026-05-08T19:56:43.156Z]   [pbmc_02] pass@3=0.000  (0/3 passed)
+[2026-05-08T19:58:43.374Z]   [pbmc_03] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:00:45.116Z]   [pbmc_04] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:02:47.250Z]   [pbmc_05] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:04:46.529Z]   [pbmc_06] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:07:08.581Z]   [pbmc_07] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:07:08.583Z]   avg Pass@3 = 0.000
+[2026-05-08T20:07:08.591Z] 
+[CodeQuality] model=rolv
+[2026-05-08T20:11:39.524Z]   avg workflow success rate: 0.357
+[2026-05-08T20:11:39.527Z]   avg grounding rate:        0.734
+[2026-05-08T20:11:39.536Z] 
+══ Internal Suite: gpt4o ══
+[2026-05-08T20:11:39.539Z] 
+[Pass@k] model=gpt4o  k=3  prompts=7
+[2026-05-08T20:11:43.859Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSB0aHJlZSBmaWxlczogYmFyY29kZXMudHN2LCBnZW5lcy
+[2026-05-08T20:11:46.825Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSB0aHJlZSBmaWxlczogYmFyY29kZXMudHN2LCBnZW5lcy
+[2026-05-08T20:11:50.104Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSB0aHJlZSBmaWxlczogYmFyY29kZXMudHN2LCBnZW5lcy
+[2026-05-08T20:11:50.105Z]   [pbmc_01] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:11:53.071Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWMgbG9hZG
+[2026-05-08T20:11:56.004Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWMgbG9hZG
+[2026-05-08T20:11:58.889Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWMgbG9hZG
+[2026-05-08T20:11:58.890Z]   [pbmc_02] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:12:03.623Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWMgdGhhdC
+[2026-05-08T20:12:07.629Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWMgdGhhdC
+[2026-05-08T20:12:10.513Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWMgdGhhdC
+[2026-05-08T20:12:10.516Z]   [pbmc_03] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:12:13.373Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFBCTUMgU2V1cmF0IG9iamVjdCB3aXRoIFVNQVAgYW
+[2026-05-08T20:12:16.439Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFBCTUMgU2V1cmF0IG9iamVjdCB3aXRoIFVNQVAgYW
+[2026-05-08T20:12:19.691Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFBCTUMgU2V1cmF0IG9iamVjdCB3aXRoIFVNQVAgYW
+[2026-05-08T20:12:19.693Z]   [pbmc_04] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:12:22.604Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldyaXRlIGEgY29tcGxldGUgZW5kLXRvLWVuZCBSIHNjcmlwdCB1c2
+[2026-05-08T20:12:25.643Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldyaXRlIGEgY29tcGxldGUgZW5kLXRvLWVuZCBSIHNjcmlwdCB1c2
+[2026-05-08T20:12:28.488Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldyaXRlIGEgY29tcGxldGUgZW5kLXRvLWVuZCBSIHNjcmlwdCB1c2
+[2026-05-08T20:12:28.491Z]   [pbmc_05] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:12:31.358Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSB0d28gUEJNQyBzYW1wbGVzLCBwYm1jX3NhbXBsZTEgYW
+[2026-05-08T20:12:34.307Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSB0d28gUEJNQyBzYW1wbGVzLCBwYm1jX3NhbXBsZTEgYW
+[2026-05-08T20:12:37.224Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSB0d28gUEJNQyBzYW1wbGVzLCBwYm1jX3NhbXBsZTEgYW
+[2026-05-08T20:12:37.225Z]   [pbmc_06] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:12:40.026Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWNfY2x1c3
+[2026-05-08T20:12:42.711Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWNfY2x1c3
+[2026-05-08T20:12:49.223Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWNfY2x1c3
+[2026-05-08T20:12:49.224Z]   [pbmc_07] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:12:49.228Z]   avg Pass@3 = 0.000
+[2026-05-08T20:12:49.230Z] 
+[CodeQuality] model=gpt4o
+[2026-05-08T20:12:52.692Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSB0aHJlZSBmaWxlczogYmFyY29kZXMudHN2LCBnZW5lcy
+[2026-05-08T20:12:55.451Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWMgbG9hZG
+[2026-05-08T20:12:58.181Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWMgdGhhdC
+[2026-05-08T20:13:00.914Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFBCTUMgU2V1cmF0IG9iamVjdCB3aXRoIFVNQVAgYW
+[2026-05-08T20:13:04.455Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IldyaXRlIGEgY29tcGxldGUgZW5kLXRvLWVuZCBSIHNjcmlwdCB1c2
+[2026-05-08T20:13:07.054Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSB0d28gUEJNQyBzYW1wbGVzLCBwYm1jX3NhbXBsZTEgYW
+[2026-05-08T20:13:09.786Z] [baseline:gpt-4o] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdwdC00byIsInByb21wdCI6IkkgaGF2ZSBhIFNldXJhdCBvYmplY3QgY2FsbGVkIHBibWNfY2x1c3
+[2026-05-08T20:13:09.787Z]   avg workflow success rate: 0.000
+[2026-05-08T20:13:09.789Z]   avg grounding rate:        0.000
+[2026-05-08T20:13:09.790Z] 
+══ Internal Suite: gemini ══
+[2026-05-08T20:13:09.791Z] 
+[Pass@k] model=gemini  k=3  prompts=7
+[2026-05-08T20:13:11.055Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIHRocmVlIGZpbGVzOiBiYXJjb2Rlcy50c3
+[2026-05-08T20:13:12.162Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIHRocmVlIGZpbGVzOiBiYXJjb2Rlcy50c3
+[2026-05-08T20:13:13.739Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIHRocmVlIGZpbGVzOiBiYXJjb2Rlcy50c3
+[2026-05-08T20:13:13.740Z]   [pbmc_01] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:13:14.768Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-08T20:13:15.921Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-08T20:13:17.031Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-08T20:13:17.032Z]   [pbmc_02] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:13:18.134Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-08T20:13:19.263Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-08T20:13:20.309Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-08T20:13:20.310Z]   [pbmc_03] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:13:21.402Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgUEJNQyBTZXVyYXQgb2JqZWN0IHdpdG
+[2026-05-08T20:13:22.570Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgUEJNQyBTZXVyYXQgb2JqZWN0IHdpdG
+[2026-05-08T20:13:23.699Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgUEJNQyBTZXVyYXQgb2JqZWN0IHdpdG
+[2026-05-08T20:13:23.700Z]   [pbmc_04] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:13:24.793Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV3JpdGUgYSBjb21wbGV0ZSBlbmQtdG8tZW5kIFIgc2
+[2026-05-08T20:13:26.191Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV3JpdGUgYSBjb21wbGV0ZSBlbmQtdG8tZW5kIFIgc2
+[2026-05-08T20:13:27.251Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV3JpdGUgYSBjb21wbGV0ZSBlbmQtdG8tZW5kIFIgc2
+[2026-05-08T20:13:27.251Z]   [pbmc_05] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:13:28.456Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIHR3byBQQk1DIHNhbXBsZXMsIHBibWNfc2
+[2026-05-08T20:13:29.754Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIHR3byBQQk1DIHNhbXBsZXMsIHBibWNfc2
+[2026-05-08T20:13:30.806Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIHR3byBQQk1DIHNhbXBsZXMsIHBibWNfc2
+[2026-05-08T20:13:30.807Z]   [pbmc_06] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:13:31.880Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-08T20:13:32.906Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-08T20:13:34.011Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-08T20:13:34.012Z]   [pbmc_07] pass@3=0.000  (0/3 passed)
+[2026-05-08T20:13:34.014Z]   avg Pass@3 = 0.000
+[2026-05-08T20:13:34.014Z] 
+[CodeQuality] model=gemini
+[2026-05-08T20:13:35.204Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIHRocmVlIGZpbGVzOiBiYXJjb2Rlcy50c3
+[2026-05-08T20:13:36.373Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-08T20:13:37.429Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-08T20:13:38.517Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgUEJNQyBTZXVyYXQgb2JqZWN0IHdpdG
+[2026-05-08T20:13:39.659Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiV3JpdGUgYSBjb21wbGV0ZSBlbmQtdG8tZW5kIFIgc2
+[2026-05-08T20:13:40.743Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIHR3byBQQk1DIHNhbXBsZXMsIHBibWNfc2
+[2026-05-08T20:13:41.806Z] [baseline:gemini-1.5-pro] error: Command failed: node "C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\scripts\baseline_shim.js" "eyJtb2RlbCI6ImdlbWluaS0xLjUtcHJvIiwicHJvbXB0IjoiSSBoYXZlIGEgU2V1cmF0IG9iamVjdCBjYWxsZWQgcG
+[2026-05-08T20:13:41.807Z]   avg workflow success rate: 0.000
+[2026-05-08T20:13:41.808Z]   avg grounding rate:        0.000
+[2026-05-08T20:13:41.809Z] 
+────────────────────────────────────────────────────────────────────
+BENCHMARK SUMMARY
+────────────────────────────────────────────────────────────────────
+[2026-05-08T20:13:41.809Z] 
+INTERNAL METRICS
+[2026-05-08T20:13:41.810Z] Model      Pass@k     Workflow    Grounding  
+[2026-05-08T20:13:41.810Z] ────────────────────────────────────────────
+[2026-05-08T20:13:41.810Z] rolv       0.0%       35.7%       73.4%      
+[2026-05-08T20:13:41.811Z] gpt4o      0.0%       0.0%        0.0%       
+[2026-05-08T20:13:41.811Z] gemini     0.0%       0.0%        0.0%       
+[2026-05-08T20:13:41.811Z] ────────────────────────────────────────────────────────────────────
+[2026-05-08T20:13:41.813Z] Results saved → C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\results_2026-05-08T19-53-02-263Z.json
+[2026-05-08T20:13:41.816Z] CSV → C:\MDC_internship\rolvdesktop\rolvdesktop_electron\benchmark\results\results_2026-05-08T19-53-02-263Z_summary.csv
+[2026-05-08T20:13:41.817Z] 
+✅ Done.
