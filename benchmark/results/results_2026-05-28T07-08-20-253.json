@@ -1,0 +1,358 @@
+{
+  "run_id": "2026-05-28T07-08-20-253",
+  "config": {
+    "k": 1,
+    "suite": "internal",
+    "agent": "all",
+    "r_exec": "C:/Program Files/R/R-4.5.1/bin/Rscript.exe",
+    "dataset_dir": "C:/MDC_internship/YMithrasen_Benchmark_SingleCellRAG/benchmark/datasets/filtered_gene_bc_matrices/hg19",
+    "recipe_path": "C:/MDC_internship/YMithrasen_Benchmark_SingleCellRAG/recipes/scrna-seurat-pbmc/recipe.md",
+    "results_dir": "C:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\benchmark\\results",
+    "timeout_ms": 120000,
+    "prompts_file": "C:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\benchmark\\prompts\\benchmark_prompts.jsonl",
+    "routing_file": "C:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\benchmark\\prompts\\routing_queries.jsonl",
+    "qa_file": "C:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\benchmark\\prompts\\genomics_qa.jsonl"
+  },
+  "results": {
+    "rolv": {
+      "passK": {
+        "avg": 1,
+        "results": [
+          {
+            "id": "pbmc_01",
+            "score": 1,
+            "attempts": [
+              {
+                "passed": true,
+                "code": "# Load required library\nlibrary(Seurat)\n\n# Read 10X data from current directory\npbmc.data <- Read10X(data.dir = \".\")\n\n# Create Seurat object with quality filters\npbmc <- CreateSeuratObject(\n  counts = pbmc.data,\n  project = \"PBMC2700\",\n  min.cells = 3,      # Include genes detected in at least 3 cells\n  min.features = 200  # Include cells with at least 200 detected genes\n)\n\n# View object summary\npbmc\n\n# Check metadata\nhead(pbmc@meta.data)"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_02",
+            "score": 1,
+            "attempts": [
+              {
+                "passed": true,
+                "code": "library(dplyr)\nlibrary(Seurat)\nlibrary(patchwork)\n\n# Load the PBMC dataset\npbmc.data <- Read10X(data.dir = \".\")\n\n# Create Seurat object\npbmc <- CreateSeuratObject(counts = pbmc.data, project = \"pbmc2700\", min.cells = 3, min.features = 200)\n\n# Calculate mitochondrial percentage\npbmc[[\"percent.mt\"]] <- PercentageFeatureSet(pbmc, pattern = \"^MT-\")\n\n# Visualize QC metrics before filtering\nVlnPlot(pbmc, features = c(\"nFeature_RNA\", \"nCount_RNA\", \"percent.mt\"), ncol = 3)\n\nplot1 <- FeatureScatter(pbmc, feature1 = \"nCount_RNA\", feature2 = \"percent.mt\")\nplot2 <- FeatureScatter(pbmc, feature1 = \"nCount_RNA\", feature2 = \"nFeature_RNA\")\nplot1 + plot2\n\n# Filter cells based on QC metrics\npbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\n# Visualize QC metrics after filtering\nVlnPlot(pbmc, features = c(\"nFeature_RNA\", \"nCount_RNA\", \"percent.mt\"), ncol = 3)\n\npbmc"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_03",
+            "score": 1,
+            "attempts": [
+              {
+                "passed": true,
+                "code": "library(Seurat)\nlibrary(dplyr)\nlibrary(ggplot2)\n\n# Read 10X data from current directory\npbmc.data <- Read10X(data.dir = \".\")\n\n# Create Seurat object with filtering\npbmc <- CreateSeuratObject(counts = pbmc.data, project = \"pbmc2700\", min.cells = 3, min.features = 200)\n\n# Normalize data\npbmc <- NormalizeData(pbmc, normalization.method = \"LogNormalize\", scale.factor = 10000)\n\n# Find variable features\npbmc <- FindVariableFeatures(pbmc, selection.method = \"vst\", nfeatures = 2000)\n\n# Scale data\npbmc <- ScaleData(pbmc, features = rownames(pbmc))\n\n# Run PCA\npbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc))\n\n# Find neighbors\npbmc <- FindNeighbors(pbmc, dims = 1:10)\n\n# Find clusters\npbmc <- FindClusters(pbmc, resolution = 0.5)\n\n# Run UMAP\npbmc <- RunUMAP(pbmc, dims = 1:10)\n\n# Visualize clusters\nDimPlot(pbmc, reduction = \"umap\", label = TRUE)"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_04",
+            "score": 1,
+            "attempts": [
+              {
+                "passed": true,
+                "code": "library(dplyr)\nlibrary(Seurat)\nlibrary(patchwork)\n\n# Load the PBMC dataset\nsc.data <- Read10X(data.dir = \".\")\n\n# Create Seurat object\nsc <- CreateSeuratObject(counts = sc.data, project = \"pbmc3k\", min.cells = 3, min.features = 200)\n\n# Add mitochondrial percentage\nsc[[\"percent.mt\"]] <- PercentageFeatureSet(sc, pattern = \"^MT-\")\n\n# QC filtering\nsc <- subset(sc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\n# Normalize data\nsc <- NormalizeData(sc, normalization.method = \"LogNormalize\", scale.factor = 10000)\n\n# Find variable features\nsc <- FindVariableFeatures(sc, selection.method = \"vst\", nfeatures = 2000)\n\n# Scale data\nsc <- ScaleData(sc, vars.to.regress = \"percent.mt\")\n\n# Run PCA\nsc <- RunPCA(sc, features = VariableFeatures(object = sc))\n\n# Find neighbors and clusters\nsc <- FindNeighbors(sc, dims = 1:10)\nset.seed(42)\nsc <- FindClusters(sc, resolution = 0.5)\n\n# Run UMAP\nsc <- RunUMAP(sc, dims = 1:10)\n\n# Find all markers\nsc.markers <- FindAllMarkers(sc, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)\n\n# Select top 5 markers per cluster\ntop5 <- sc.markers %>%\n  group_by(cluster) %>%\n  top_n(n = 5, wt = avg_log2FC)\n\n# Create heatmap\nDoHeatmap(sc, features = top5$gene) + NoLegend()"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_05",
+            "score": 1,
+            "attempts": [
+              {
+                "passed": true,
+                "code": "library(dplyr)\nlibrary(Seurat)\nlibrary(patchwork)\n\n# Load the PBMC dataset\npbmc.data <- Read10X(data.dir = \".\")\n\n# Initialize the Seurat object with the raw (non-normalized data)\npbmc <- CreateSeuratObject(counts = pbmc.data, project = \"pbmc3k\", min.cells = 3, min.features = 200)\n\n# Calculate mitochondrial percentage\npbmc[[\"percent.mt\"]] <- PercentageFeatureSet(pbmc, pattern = \"^MT-\")\n\n# Filter cells based on QC metrics\npbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\n# Normalize the data\npbmc <- NormalizeData(pbmc, normalization.method = \"LogNormalize\", scale.factor = 10000)\n\n# Find variable features\npbmc <- FindVariableFeatures(pbmc, selection.method = \"vst\", nfeatures = 2000)\n\n# Scale the data\npbmc <- ScaleData(pbmc)\n\n# Run PCA\npbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc))\n\n# Find neighbors and clusters\npbmc <- FindNeighbors(pbmc, dims = 1:10)\npbmc <- FindClusters(pbmc, resolution = 0.5)\n\n# Run UMAP\npbmc <- RunUMAP(pbmc, dims = 1:10)\n\n# Save the final Seurat object\nsaveRDS(pbmc, file = \"pbmc_final.rds\")"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_06",
+            "score": 1,
+            "attempts": [
+              {
+                "passed": true,
+                "code": "library(dplyr)\nlibrary(Seurat)\nlibrary(patchwork)\nlibrary(ggplot2)\n\n# Load the PBMC dataset\npbmc.data <- Read10X(data.dir = \".\")\n\n# Create Seurat object\npbmc <- CreateSeuratObject(counts = pbmc.data, project = \"pbmc3k\", min.cells = 3, min.features = 200)\n\n# Calculate mitochondrial percentage\npbmc[[\"percent.mt\"]] <- PercentageFeatureSet(pbmc, pattern = \"^MT-\")\n\n# QC visualization\nVlnPlot(pbmc, features = c(\"nFeature_RNA\", \"nCount_RNA\", \"percent.mt\"), ncol = 3)\n\nplot1 <- FeatureScatter(pbmc, feature1 = \"nCount_RNA\", feature2 = \"percent.mt\")\nplot2 <- FeatureScatter(pbmc, feature1 = \"nCount_RNA\", feature2 = \"nFeature_RNA\")\nplot1 + plot2\n\n# Filter cells\npbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\n# Normalize data\npbmc <- NormalizeData(pbmc, normalization.method = \"LogNormalize\", scale.factor = 10000)\n\n# Find variable features\npbmc <- FindVariableFeatures(pbmc, selection.method = \"vst\", nfeatures = 2000)\n\n# Visualize top 10 variable features\ntop10 <- head(VariableFeatures(pbmc), 10)\nplot1 <- VariableFeaturePlot(pbmc)\nplot2 <- LabelPoints(plot = plot1, points = top10, repel = TRUE)\nplot1\nplot2\n\n# Scale data\npbmc <- ScaleData(pbmc, features = rownames(pbmc))\n\n# Run PCA\npbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc))\n\n# Visualize PCA\nDimPlot(pbmc, reduction = \"pca\")\n\n# Determine dimensionality\nElbowPlot(pbmc)\n\n# Clustering\npbmc <- FindNeighbors(pbmc, dims = 1:10)\npbmc <- FindClusters(pbmc, resolution = 0.5)\n\n# Run UMAP\npbmc <- RunUMAP(pbmc, dims = 1:10)\n\n# Visualize UMAP\nDimPlot(pbmc, reduction = \"umap\", label = TRUE)\n\n# Find all markers\npbmc.markers <- FindAllMarkers(pbmc, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)\n\n# Visualize canonical markers\nFeaturePlot(pbmc, features = c(\"IL7R\", \"CCR7\", \"CD14\", \"LYZ\", \"MS4A1\", \"CD8A\", \"GNLY\", \"NKG7\"))\n\nVlnPlot(pbmc, features = c(\"IL7R\", \"CCR7\", \"CD14\", \"LYZ\", \"MS4A1\", \"CD8A\", \"GNLY\", \"NKG7\"))\n\n# Assign cell type identities based on canonical markers\nnew.cluster.ids <- c(\"Naive CD4 T\", \"CD14+ Mono\", \"Memory CD4 T\", \"B\", \"CD8 T\", \"FCGR3A+ Mono\", \"NK\", \"DC\", \"Platelet\")\nnames(new.cluster.ids) <- levels(pbmc)\npbmc <- RenameIdents(pbmc, new.cluster.ids)\n\n# Visualize final UMAP with cell type labels\nDimPlot(pbmc, reduction = \"umap\", label = TRUE, pt.size = 0.5) + \n  xlab(\"UMAP 1\") + \n  ylab(\"UMAP 2\") + \n  ggtitle(\"PBMC Cell Types\")"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_07",
+            "score": 1,
+            "attempts": [
+              {
+                "passed": true,
+                "code": "library(Seurat)\nlibrary(ggplot2)\nlibrary(dplyr)\n\n# Load 10X data\npbmc.data <- Read10X(data.dir = \".\")\n\n# Create Seurat object\npbmc <- CreateSeuratObject(counts = pbmc.data, project = \"pbmc2700\", min.cells = 3, min.features = 200)\n\n# Normalize data\npbmc <- NormalizeData(pbmc)\n\n# Find variable features\npbmc <- FindVariableFeatures(pbmc, selection.method = \"vst\", nfeatures = 2000)\n\n# Scale data\npbmc <- ScaleData(pbmc)\n\n# Run PCA\npbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc))\n\n# Find neighbors\npbmc <- FindNeighbors(pbmc, dims = 1:10)\n\n# Find clusters with resolution 0.5\npbmc <- FindClusters(pbmc, resolution = 0.5)\n\n# Run UMAP\npbmc <- RunUMAP(pbmc, dims = 1:10)\n\n# Differential expression between cluster 0 and cluster 3\ncluster0_vs_3.markers <- FindMarkers(pbmc, ident.1 = 0, ident.2 = 3)\n\n# Prepare data for volcano plot\ncluster0_vs_3.markers$gene <- rownames(cluster0_vs_3.markers)\ncluster0_vs_3.markers$significant <- ifelse(\n  abs(cluster0_vs_3.markers$avg_log2FC) > 1 & cluster0_vs_3.markers$p_val_adj < 0.05,\n  \"Significant\",\n  \"Not Significant\"\n)\n\n# Create volcano plot\nvolcano_plot <- ggplot(cluster0_vs_3.markers, aes(x = avg_log2FC, y = -log10(p_val_adj), color = significant)) +\n  geom_point(alpha = 0.6, size = 1.5) +\n  scale_color_manual(values = c(\"Not Significant\" = \"grey\", \"Significant\" = \"red\")) +\n  geom_vline(xintercept = c(-1, 1), linetype = \"dashed\", color = \"black\") +\n  geom_hline(yintercept = -log10(0.05), linetype = \"dashed\", color = \"black\") +\n  labs(\n    title = \"Volcano Plot: Cluster 0 vs Cluster 3\",\n    x = \"Log2 Fold Change\",\n    y = \"-Log10 Adjusted P-value\"\n  ) +\n  theme_minimal() +\n  theme(\n    plot.title = element_text(hjust = 0.5, size = 14, face = \"bold\"),\n    legend.position = \"top\"\n  )\n\nprint(volcano_plot)"
+              }
+            ]
+          }
+        ]
+      },
+      "quality": {
+        "avgWorkflow": 0.7714285714285715,
+        "avgGrounding": 0.8604162613662066,
+        "scores": [
+          {
+            "id": "pbmc_01",
+            "workflow": 0.2,
+            "grounding": 1
+          },
+          {
+            "id": "pbmc_02",
+            "workflow": 0.3,
+            "grounding": 0.9090909090909091
+          },
+          {
+            "id": "pbmc_03",
+            "workflow": 0.9,
+            "grounding": 0.8
+          },
+          {
+            "id": "pbmc_04",
+            "workflow": 1,
+            "grounding": 0.9047619047619048
+          },
+          {
+            "id": "pbmc_05",
+            "workflow": 1,
+            "grounding": 0.8823529411764706
+          },
+          {
+            "id": "pbmc_06",
+            "workflow": 1,
+            "grounding": 0.8695652173913043
+          },
+          {
+            "id": "pbmc_07",
+            "workflow": 1,
+            "grounding": 0.6571428571428571
+          }
+        ]
+      }
+    },
+    "rolv-raw": {
+      "passK": {
+        "avg": 0,
+        "results": [
+          {
+            "id": "pbmc_01",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_02",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_03",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_04",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_05",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_06",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_07",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          }
+        ]
+      },
+      "quality": {
+        "avgWorkflow": 0.17142857142857143,
+        "avgGrounding": 0.2359307359307359,
+        "scores": [
+          {
+            "id": "pbmc_01",
+            "workflow": 0.2,
+            "grounding": 1
+          },
+          {
+            "id": "pbmc_02",
+            "workflow": 0,
+            "grounding": 0
+          },
+          {
+            "id": "pbmc_03",
+            "workflow": 0,
+            "grounding": 0
+          },
+          {
+            "id": "pbmc_04",
+            "workflow": 1,
+            "grounding": 0.6515151515151515
+          },
+          {
+            "id": "pbmc_05",
+            "workflow": 0,
+            "grounding": 0
+          },
+          {
+            "id": "pbmc_06",
+            "workflow": 0,
+            "grounding": 0
+          },
+          {
+            "id": "pbmc_07",
+            "workflow": 0,
+            "grounding": 0
+          }
+        ]
+      }
+    },
+    "groq": {
+      "passK": {
+        "avg": 0,
+        "results": [
+          {
+            "id": "pbmc_01",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_02",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_03",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_04",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_05",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_06",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_07",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          }
+        ]
+      },
+      "quality": {
+        "avgWorkflow": 0.7,
+        "avgGrounding": 0.5624149536964663,
+        "scores": [
+          {
+            "id": "pbmc_01",
+            "workflow": 0.2,
+            "grounding": 0.375
+          },
+          {
+            "id": "pbmc_02",
+            "workflow": 0.3,
+            "grounding": 0.5714285714285714
+          },
+          {
+            "id": "pbmc_03",
+            "workflow": 0.9,
+            "grounding": 0.6470588235294118
+          },
+          {
+            "id": "pbmc_04",
+            "workflow": 0.9,
+            "grounding": 0.6818181818181818
+          },
+          {
+            "id": "pbmc_05",
+            "workflow": 0.9,
+            "grounding": 0.6666666666666666
+          },
+          {
+            "id": "pbmc_06",
+            "workflow": 0.9,
+            "grounding": 0.43243243243243246
+          },
+          {
+            "id": "pbmc_07",
+            "workflow": 0.8,
+            "grounding": 0.5625
+          }
+        ]
+      }
+    }
+  }
+}

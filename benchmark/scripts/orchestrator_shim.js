@@ -29,7 +29,7 @@ global.agentConfig = {
 };
 
 //  2. Import orchestrator
-import { orchestrator } from "../../lib/core/orchestrator.js";
+import { orchestrator } from "file:///C:/MDC_internship/rolvdesktop/rolvdesktop_electron/lib/core/orchestrator.js";
 
 //  3. Parse payload
 const raw    = process.argv[2];
