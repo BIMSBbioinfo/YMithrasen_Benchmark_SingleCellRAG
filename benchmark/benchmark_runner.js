@@ -36,7 +36,7 @@ const CONFIG = {
   ).replace(/\\/g, "/"),
   recipe_path:  path.join(__dirname, "../recipes/scrna-seurat-pbmc/recipe.md").replace(/\\/g, "/"),
   results_dir:  path.join(__dirname, "results"),
-  timeout_ms:   120000,
+  timeout_ms:   600000, // 10 min for complex pipelines with FindAllMarkers
   prompts_file: path.join(__dirname, "prompts/benchmark_prompts.jsonl"),
   routing_file: path.join(__dirname, "prompts/routing_queries.jsonl"),
   qa_file:      path.join(__dirname, "prompts/genomics_qa.jsonl"),
@@ -81,11 +81,33 @@ function callBaseline(model, prompt) {
   });
 }
 
+// ── Call QA shim (raw text, no R extraction) ─────────────────────────────────
+
+function callQA(model, prompt) {
+  return new Promise((resolve) => {
+    const shimPath = path.join(__dirname, "scripts/qa_shim.js");
+    const payload  = Buffer.from(JSON.stringify({ model, prompt })).toString("base64");
+    exec(
+      `node "${shimPath}" "${payload}"`,
+      { timeout: 60000 },
+      (error, stdout) => {
+        try {
+          const line   = (stdout || "").trim().split("\n").filter(l => l.startsWith("{")).pop() || "{}";
+          const parsed = JSON.parse(line);
+          resolve({ result: parsed.result || null, error: parsed.error || error?.message || null });
+        } catch {
+          resolve({ result: null, error: error?.message || "parse error" });
+        }
+      }
+    );
+  });
+}
+
 // ── Call ROLV orchestrator shim ───────────────────────────────────────────────
 
-function callRolv(prompt) {
+function callRolv(prompt, shimFile = "orchestrator_shim.js") {
   return new Promise((resolve) => {
-    const shimPath = path.join(__dirname, "scripts/orchestrator_shim.js");
+    const shimPath = path.join(__dirname, "scripts", shimFile);
     const payload  = Buffer.from(JSON.stringify({ prompt })).toString("base64");
     exec(
       `node "${shimPath}" "${payload}"`,
@@ -347,11 +369,23 @@ async function runQA(modelName, callerFn, qaPairs) {
   log(`\n[QA / Gene-Turing] model=${modelName}  questions=${qaPairs.length}`);
   const scores = [];
 
+  // All QA calls go through qa_shim.js which returns raw text — no R code extraction.
+  // baseline_shim.js strips non-R content so can't be used for factual QA.
+  // rolv/rolv-nopreexec use "claude" model key; groq uses "groq" model key.
+  const qaModel = modelName === "groq" ? "groq" : "claude";
+
   for (const qa of qaPairs) {
-    const res    = await callerFn(qa.question);
-    const answer = res.result || "";
-    const score  = wordOverlap(answer, qa.answer);
-    scores.push({ question: qa.question, score });
+    const res = await callQA(qaModel, qa.question);
+
+    // Extract text — handle both { result: "..." } and plain string responses
+    let answer = "";
+    if (typeof res === "string") answer = res;
+    else if (res && typeof res.result === "string") answer = res.result;
+    else if (res && typeof res === "object") answer = JSON.stringify(res);
+
+    const score = wordOverlap(answer, qa.answer);
+    scores.push({ id: qa.id, question: qa.question, expected: qa.answer, got: answer.slice(0, 150), score });
+    log(`  [${qa.id}] score=${score.toFixed(2)}  expected="${qa.answer}"  got="${answer.slice(0, 80)}"`);
   }
 
   const avg = scores.reduce((s, r) => s + r.score, 0) / scores.length;
@@ -395,7 +429,8 @@ const prompts = loadJSONL(CONFIG.prompts_file);
 const qaPairs = CONFIG.suite === "qa" ? loadJSONL(CONFIG.qa_file) : [];
 
 const API_MODELS = {
-  rolv:       (p) => callRolv(p),            // orchestrator shim — full RAG + pre-exec planner
+  rolv:           (p) => callRolv(p),                          // full RAG + pre-exec planner
+  "rolv-nopreexec": (p) => callRolv(p, "orchestrator_shim_nopreexec.js"), // RAG only, no pre-exec
   "rolv-raw": (p) => callBaseline("rolv-raw", p), // direct API — vanilla Claude via @out-of-domain
   groq:       (p) => callBaseline("groq", p),
   // gemini: excluded — free tier quota exhausted

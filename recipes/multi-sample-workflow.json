@@ -1,0 +1,137 @@
+{
+  "id": "scrna-seurat-multi-sample",
+  "nodes": [
+    {
+      "id": "reproducibility",
+      "name": "Set seed and session info",
+      "description": "Set random seed and record session information for reproducibility",
+      "kind": "script",
+      "path": "code/01_reproducibility.R",
+      "input_type": "none",
+      "output_type": "seed_set"
+    },
+    {
+      "id": "load_multisample",
+      "name": "Load multiple samples",
+      "description": "Load multiple RDS, MTX, or HDF5 files with metadata into a named list of Seurat objects",
+      "kind": "script",
+      "path": "code/16_load_multisample.R",
+      "input_type": "multi_sample_files",
+      "output_type": "sample_list"
+    },
+    {
+      "id": "qc_metrics",
+      "name": "Compute QC metrics per sample",
+      "description": "Compute mitochondrial percentage and plot QC metrics for each sample",
+      "kind": "script",
+      "path": "code/03_qc_metrics.R",
+      "input_type": "sample_list",
+      "output_type": "sample_list_qc"
+    },
+    {
+      "id": "filter_cells",
+      "name": "Filter low-quality cells per sample",
+      "description": "Apply QC filters to each sample individually",
+      "kind": "script",
+      "path": "code/04_filter_cells.R",
+      "input_type": "sample_list_qc",
+      "output_type": "sample_list_filtered"
+    },
+    {
+      "id": "cell_cycle",
+      "name": "Cell cycle scoring",
+      "description": "Score cell cycle phases per sample and optionally regress effects",
+      "kind": "script",
+      "path": "code/06_cell_cycle.R",
+      "input_type": "sample_list_filtered",
+      "output_type": "sample_list_cc_scored"
+    },
+    {
+      "id": "integration",
+      "name": "Integrate and batch-correct samples",
+      "description": "Merge samples and correct batch effects using Seurat CCA, RPCA, or Harmony",
+      "kind": "script",
+      "path": "code/17_integration.R",
+      "input_type": "sample_list_filtered",
+      "output_type": "seurat_object_integrated"
+    },
+    {
+      "id": "clustering",
+      "name": "Cluster integrated data",
+      "description": "Build neighbour graph and assign clusters on the integrated object",
+      "kind": "script",
+      "path": "code/13_clustering.R",
+      "input_type": "seurat_object_integrated",
+      "output_type": "seurat_object_clustered"
+    },
+    {
+      "id": "marker_genes",
+      "name": "Find marker genes",
+      "description": "Find differentially expressed markers per cluster",
+      "kind": "script",
+      "path": "code/14_marker_genes.R",
+      "input_type": "seurat_object_clustered",
+      "output_type": "marker_table_and_plots"
+    },
+    {
+      "id": "cell_annotation",
+      "name": "Annotate cell types",
+      "description": "Assign cell type labels manually or using SingleR",
+      "kind": "script",
+      "path": "code/15_cell_annotation.R",
+      "input_type": "seurat_object_clustered",
+      "output_type": "seurat_object_annotated"
+    },
+    {
+      "id": "pseudobulk_de",
+      "name": "Pseudobulk differential expression",
+      "description": "Aggregate counts to sample level and run DESeq2 for condition comparison",
+      "kind": "script",
+      "path": "code/18_pseudobulk_de.R",
+      "input_type": "seurat_object_annotated",
+      "output_type": "de_results_table"
+    },
+    {
+      "id": "trajectory",
+      "name": "Trajectory inference",
+      "description": "Infer developmental trajectories and compute pseudotime using Monocle3",
+      "kind": "script",
+      "path": "code/19_trajectory.R",
+      "input_type": "seurat_object_annotated",
+      "output_type": "trajectory_plot"
+    },
+    {
+      "id": "cellchat",
+      "name": "Cell-cell communication",
+      "description": "Infer and visualise cell-cell communication networks using CellChat",
+      "kind": "script",
+      "path": "code/20_cellchat.R",
+      "input_type": "seurat_object_annotated",
+      "output_type": "cellchat_networks"
+    },
+    {
+      "id": "pathway_enrichment",
+      "name": "Pathway enrichment analysis",
+      "description": "Run enrichR across GO, KEGG, MSigDB, and other databases on DE genes",
+      "kind": "script",
+      "path": "code/21_pathway_enrichment.R",
+      "input_type": "de_results_table",
+      "output_type": "pathway_enrichment_results"
+    }
+  ],
+  "edges": [
+    { "from": "reproducibility",  "to": "load_multisample" },
+    { "from": "load_multisample", "to": "qc_metrics" },
+    { "from": "qc_metrics",       "to": "filter_cells" },
+    { "from": "filter_cells",     "to": "cell_cycle" },
+    { "from": "filter_cells",     "to": "integration" },
+    { "from": "cell_cycle",       "to": "integration" },
+    { "from": "integration",      "to": "clustering" },
+    { "from": "clustering",       "to": "marker_genes" },
+    { "from": "marker_genes",     "to": "cell_annotation" },
+    { "from": "cell_annotation",  "to": "pseudobulk_de" },
+    { "from": "cell_annotation",  "to": "trajectory" },
+    { "from": "cell_annotation",  "to": "cellchat" },
+    { "from": "pseudobulk_de",    "to": "pathway_enrichment" }
+  ]
+}

@@ -68,14 +68,14 @@ async function callGemini(prompt) {
 }
 
 async function callGroq(prompt) {
-  // Groq uses OpenAI-compatible API — free at console.groq.com/keys
+  // Groq — OpenAI GPT-OSS 20B (free at console.groq.com/keys)
   const { default: OpenAI } = await import("openai");
   const client = new OpenAI({
     apiKey:  process.env.GROQ_API_KEY,
     baseURL: "https://api.groq.com/openai/v1"
   });
   const response = await client.chat.completions.create({
-    model: "llama-3.3-70b-versatile",   // GPT-OSS equivalent on Groq
+    model: "openai/gpt-oss-20b",
     temperature: 0,
     max_tokens: 2048,
     messages: [
@@ -132,7 +132,7 @@ async function callRolvRaw(prompt) {
     },
     body: JSON.stringify({
       model: "rolv",
-      max_tokens: 2048,
+      max_tokens: 4096,
       temperature: 0,
       messages: [
         { role: "system", content: SYSTEM_PROMPT },

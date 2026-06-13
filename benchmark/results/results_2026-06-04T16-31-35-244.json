@@ -1,0 +1,372 @@
+{
+  "run_id": "2026-06-04T16-31-35-244",
+  "config": {
+    "k": 1,
+    "suite": "internal",
+    "agent": "all",
+    "r_exec": "C:/Program Files/R/R-4.5.1/bin/Rscript.exe",
+    "dataset_dir": "C:/MDC_internship/YMithrasen_Benchmark_SingleCellRAG/benchmark/datasets/filtered_gene_bc_matrices/hg19",
+    "recipe_path": "C:/MDC_internship/YMithrasen_Benchmark_SingleCellRAG/recipes/scrna-seurat-pbmc/recipe.md",
+    "results_dir": "C:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\benchmark\\results",
+    "timeout_ms": 300000,
+    "prompts_file": "C:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\benchmark\\prompts\\benchmark_prompts.jsonl",
+    "routing_file": "C:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\benchmark\\prompts\\routing_queries.jsonl",
+    "qa_file": "C:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\benchmark\\prompts\\genomics_qa.jsonl"
+  },
+  "results": {
+    "rolv": {
+      "passK": {
+        "avg": 1,
+        "results": [
+          {
+            "id": "pbmc_01",
+            "score": 1,
+            "attempts": [
+              {
+                "passed": true,
+                "code": "# Load required library\nlibrary(Seurat)\n\n# Read 10X Genomics data from current directory\n# This reads barcodes.tsv, genes.tsv, and matrix.mtx\npbmc.data <- Read10X(data.dir = \".\")\n\n# Create Seurat object\n# Filter: keep genes expressed in >= 3 cells, keep cells with >= 200 genes\npbmc <- CreateSeuratObject(counts = pbmc.data, \n                           project = \"PBMC2700\", \n                           min.cells = 3, \n                           min.features = 200)\n\n# View basic information about the Seurat object\npbmc"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_02",
+            "score": 1,
+            "attempts": [
+              {
+                "passed": true,
+                "code": "library(dplyr)\nlibrary(Seurat)\nlibrary(patchwork)\n\n# Load the PBMC dataset\npbmc.data <- Read10X(data.dir = \".\")\n\n# Initialize the Seurat object\npbmc <- CreateSeuratObject(counts = pbmc.data, project = \"pbmc2700\", min.cells = 3, min.features = 200)\n\n# Calculate mitochondrial percentage\npbmc[[\"percent.mt\"]] <- PercentageFeatureSet(pbmc, pattern = \"^MT-\")\n\n# Visualize QC metrics\nVlnPlot(pbmc, features = c(\"nFeature_RNA\", \"nCount_RNA\", \"percent.mt\"), ncol = 3)\n\n# Feature scatter plots\nplot1 <- FeatureScatter(pbmc, feature1 = \"nCount_RNA\", feature2 = \"percent.mt\")\nplot2 <- FeatureScatter(pbmc, feature1 = \"nCount_RNA\", feature2 = \"nFeature_RNA\")\nplot1 + plot2\n\n# Filter cells based on QC metrics\npbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\n# Display filtered object\npbmc"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_03",
+            "score": 1,
+            "attempts": [
+              {
+                "passed": true,
+                "code": "library(Seurat)\nlibrary(dplyr)\nlibrary(ggplot2)\n\n# Load the PBMC dataset\npbmc.data <- Read10X(data.dir = \".\")\n\n# Create Seurat object\npbmc <- CreateSeuratObject(counts = pbmc.data, project = \"pbmc2700\", min.cells = 3, min.features = 200)\n\n# Normalize the data\npbmc <- NormalizeData(pbmc, normalization.method = \"LogNormalize\", scale.factor = 10000)\n\n# Identify highly variable features\npbmc <- FindVariableFeatures(pbmc, selection.method = \"vst\", nfeatures = 2000)\n\n# Scale the data\npbmc <- ScaleData(pbmc, features = rownames(pbmc))\n\n# Run PCA\npbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc))\n\n# Find neighbors (required before clustering and UMAP)\npbmc <- FindNeighbors(pbmc, dims = 1:10)\n\n# Perform clustering\npbmc <- FindClusters(pbmc, resolution = 0.5)\n\n# Run UMAP\npbmc <- RunUMAP(pbmc, dims = 1:10)\n\n# Visualize clusters\nDimPlot(pbmc, reduction = \"umap\", label = TRUE)"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_04",
+            "score": 1,
+            "attempts": [
+              {
+                "passed": true,
+                "code": "library(dplyr)\nlibrary(Seurat)\nlibrary(patchwork)\n\n# Load the PBMC dataset\nsc.data <- Read10X(data.dir = \".\")\n\n# Create Seurat object\nsc <- CreateSeuratObject(counts = sc.data, project = \"pbmc2700\", min.cells = 3, min.features = 200)\n\n# Add mitochondrial percentage\nsc[[\"percent.mt\"]] <- PercentageFeatureSet(sc, pattern = \"^MT-\")\n\n# QC filtering\nsc <- subset(sc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\n# Normalization\nsc <- NormalizeData(sc, normalization.method = \"LogNormalize\", scale.factor = 10000)\n\n# Find variable features\nsc <- FindVariableFeatures(sc, selection.method = \"vst\", nfeatures = 2000)\n\n# Scale data\nsc <- ScaleData(sc, features = rownames(sc))\n\n# Run PCA\nsc <- RunPCA(sc, features = VariableFeatures(object = sc))\n\n# Find neighbors and run UMAP\nsc <- FindNeighbors(sc, dims = 1:10)\nsc <- RunUMAP(sc, dims = 1:10)\n\n# Find clusters\nsc <- FindClusters(sc, resolution = 0.5)\n\n# Find all markers\nall_markers <- FindAllMarkers(sc, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)\n\n# Get top 5 markers per cluster\ntop5_markers <- all_markers %>%\n  group_by(cluster) %>%\n  top_n(n = 5, wt = avg_log2FC)\n\n# Create heatmap\nDoHeatmap(sc, features = top5_markers$gene) + NoLegend()"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_05",
+            "score": 1,
+            "attempts": [
+              {
+                "passed": true,
+                "code": "# Load required library\nlibrary(Seurat)\n\n# Read 10X data from current directory\n# gene.column=2 uses HGNC symbols instead of Ensembl IDs\npbmc.data <- Read10X(data.dir = \".\", gene.column = 2)\n\n# Create Seurat object with initial filtering\n# min.cells = 3: include genes detected in at least 3 cells\n# min.features = 200: include cells with at least 200 detected genes\npbmc <- CreateSeuratObject(counts = pbmc.data, project = \"pbmc2700\", min.cells = 3, min.features = 200)\n\n# Calculate mitochondrial QC metrics\n# pattern \"^MT-\" matches human mitochondrial genes\npbmc[[\"percent.mt\"]] <- PercentageFeatureSet(pbmc, pattern = \"^MT-\")\n\n# Filter cells based on QC metrics\n# Keep cells with 200-2500 genes and <5% mitochondrial content\npbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\n# Normalize data using log-normalization\npbmc <- NormalizeData(pbmc, normalization.method = \"LogNormalize\", scale.factor = 10000)\n\n# Identify highly variable features\npbmc <- FindVariableFeatures(pbmc, selection.method = \"vst\", nfeatures = 2000)\n\n# Scale data on variable features\npbmc <- ScaleData(pbmc, features = rownames(pbmc))\n\n# Run PCA\npbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc))\n\n# Find neighbors and clusters\npbmc <- FindNeighbors(pbmc, dims = 1:10)\npbmc <- FindClusters(pbmc, resolution = 0.5)\n\n# Run UMAP\npbmc <- RunUMAP(pbmc, dims = 1:10)\n\n# Save final Seurat object\nsaveRDS(pbmc, file = \"pbmc_final.rds\")"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_06",
+            "score": 1,
+            "attempts": [
+              {
+                "passed": true,
+                "code": "library(dplyr)\nlibrary(Seurat)\nlibrary(patchwork)\n\n# Load the PBMC dataset\nsc.data <- Read10X(data.dir = \".\")\n\n# Create Seurat object\nsc <- CreateSeuratObject(counts = sc.data, project = \"pbmc3k\", min.cells = 3, min.features = 200)\n\n# Calculate mitochondrial percentage\nsc[[\"percent.mt\"]] <- PercentageFeatureSet(sc, pattern = \"^MT-\")\n\n# QC filtering\nsc <- subset(sc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\n# Normalization\nsc <- NormalizeData(sc)\n\n# Find variable features\nsc <- FindVariableFeatures(sc, selection.method = \"vst\", nfeatures = 2000)\n\n# Scale data\nsc <- ScaleData(sc)\n\n# Run PCA\nsc <- RunPCA(sc, features = VariableFeatures(object = sc))\n\n# Find neighbors and clusters\nsc <- FindNeighbors(sc, dims = 1:10)\nsc <- FindClusters(sc, resolution = 0.5)\n\n# Run UMAP\nsc <- RunUMAP(sc, dims = 1:10)\n\n# Visualize marker genes\nFeaturePlot(sc, features = c(\"IL7R\", \"CCR7\", \"CD14\", \"LYZ\", \"MS4A1\", \"CD8A\", \"GNLY\", \"NKG7\"))\n\n# Find all markers\nsc.markers <- FindAllMarkers(sc, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)\n\n# Assign cell type identities based on marker expression\nnew.cluster.ids <- c(\"Naive CD4 T\", \"CD14+ Mono\", \"Memory CD4 T\", \"B\", \"CD8 T\", \n                     \"FCGR3A+ Mono\", \"NK\", \"DC\", \"Platelet\")\nnames(new.cluster.ids) <- levels(sc)\nsc <- RenameIdents(sc, new.cluster.ids)\n\n# Visualize UMAP with cell type labels\nDimPlot(sc, reduction = \"umap\", label = TRUE, pt.size = 0.5) + NoLegend()"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_07",
+            "score": 1,
+            "attempts": [
+              {
+                "passed": true,
+                "code": "library(Seurat)\nlibrary(ggplot2)\nlibrary(dplyr)\n\n# Load 10X data\npbmc_data <- Read10X(data.dir = \".\")\n\n# Create Seurat object\npbmc <- CreateSeuratObject(counts = pbmc_data, project = \"PBMC\", min.cells = 3, min.features = 200)\n\n# Calculate mitochondrial percentage\npbmc[[\"percent.mt\"]] <- PercentageFeatureSet(pbmc, pattern = \"^MT-\")\n\n# QC filtering\npbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\n# Normalization\npbmc <- NormalizeData(pbmc, normalization.method = \"LogNormalize\", scale.factor = 10000)\n\n# Find variable features\npbmc <- FindVariableFeatures(pbmc, selection.method = \"vst\", nfeatures = 2000)\n\n# Scale data\npbmc <- ScaleData(pbmc, features = rownames(pbmc))\n\n# PCA\npbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc))\n\n# Clustering\npbmc <- FindNeighbors(pbmc, dims = 1:10)\npbmc <- FindClusters(pbmc, resolution = 0.5)\n\n# UMAP\npbmc <- RunUMAP(pbmc, dims = 1:10)\n\n# Differential expression analysis between cluster 0 and cluster 3\ncluster0_vs_3_markers <- FindMarkers(pbmc, ident.1 = 0, ident.2 = 3, only.pos = FALSE)\n\n# Prepare data for volcano plot\nvolcano_data <- cluster0_vs_3_markers\nvolcano_data$gene <- rownames(volcano_data)\nvolcano_data$significant <- ifelse(abs(volcano_data$avg_log2FC) > 1 & volcano_data$p_val_adj < 0.05, \"Significant\", \"Not Significant\")\n\n# Create volcano plot\nggplot(volcano_data, aes(x = avg_log2FC, y = -log10(p_val_adj), color = significant)) +\n  geom_point(alpha = 0.6, size = 1.5) +\n  scale_color_manual(values = c(\"Significant\" = \"red\", \"Not Significant\" = \"grey\")) +\n  geom_vline(xintercept = c(-1, 1), linetype = \"dashed\", color = \"black\") +\n  geom_hline(yintercept = -log10(0.05), linetype = \"dashed\", color = \"black\") +\n  labs(x = \"Log2 Fold Change\", \n       y = \"-Log10 Adjusted P-value\",\n       title = \"Volcano Plot: Cluster 0 vs Cluster 3\",\n       color = \"Significance\") +\n  theme_minimal() +\n  theme(legend.position = \"right\")"
+              }
+            ]
+          }
+        ]
+      },
+      "quality": {
+        "avgWorkflow": 0.7714285714285715,
+        "avgGrounding": 0.8204479700508079,
+        "scores": [
+          {
+            "id": "pbmc_01",
+            "workflow": 0.2,
+            "grounding": 0.6666666666666666
+          },
+          {
+            "id": "pbmc_02",
+            "workflow": 0.3,
+            "grounding": 0.9090909090909091
+          },
+          {
+            "id": "pbmc_03",
+            "workflow": 0.9,
+            "grounding": 0.9285714285714286
+          },
+          {
+            "id": "pbmc_04",
+            "workflow": 1,
+            "grounding": 0.9210526315789473
+          },
+          {
+            "id": "pbmc_05",
+            "workflow": 1,
+            "grounding": 0.9375
+          },
+          {
+            "id": "pbmc_06",
+            "workflow": 1,
+            "grounding": 0.7741935483870968
+          },
+          {
+            "id": "pbmc_07",
+            "workflow": 1,
+            "grounding": 0.6060606060606061
+          }
+        ]
+      }
+    },
+    "rolv-raw": {
+      "passK": {
+        "avg": 0.2857142857142857,
+        "results": [
+          {
+            "id": "pbmc_01",
+            "score": 1,
+            "attempts": [
+              {
+                "passed": true,
+                "code": "library(Seurat)\n\n# Read the data\npbmc.data <- Read10X(data.dir = \"path/to/your/directory/\")\n\n# Create Seurat object\npbmc <- CreateSeuratObject(counts = pbmc.data, \n                          project = \"PBMC2700\", \n                          min.cells = 3,      # Filter genes detected in < 3 cells\n                          min.features = 200) # Filter cells with < 200 genes\n\n# View the object\npbmc"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_02",
+            "score": 1,
+            "attempts": [
+              {
+                "passed": true,
+                "code": "# Load required libraries\nlibrary(Matrix)\nlibrary(ggplot2)\nlibrary(dplyr)\n\n# Set working directory (adjust as needed)\n# setwd(\"path/to/your/data\")\n\n# ===== 1. Load the data =====\ncat(\"Loading data...\\n\")\n\n# Read the sparse matrix\nmatrix_data <- readMM(\"matrix.mtx\")\n\n# Read barcodes (cell IDs)\nbarcodes <- read.table(\"barcodes.tsv\", header = FALSE, stringsAsFactors = FALSE)\ncolnames(barcodes) <- \"barcode\"\n\n# Read genes\ngenes <- read.table(\"genes.tsv\", header = FALSE, stringsAsFactors = FALSE, sep = \"\\t\")\ncolnames(genes) <- c(\"gene_id\", \"gene_symbol\")\n\n# Assign row and column names to the matrix\nrownames(matrix_data) <- genes$gene_symbol\ncolnames(matrix_data) <- barcodes$barcode\n\ncat(\"Data loaded successfully!\\n\")\ncat(\"Dimensions:\", nrow(matrix_data), \"genes x\", ncol(matrix_data), \"cells\\n\\n\")\n\n# ===== 2. Calculate QC metrics =====\ncat(\"Calculating QC metrics...\\n\")\n\n# Number of UMIs (counts) per cell\numi_per_cell <- Matrix::colSums(matrix_data)\n\n# Number of detected genes per cell (genes with count > 0)\ngenes_per_cell <- Matrix::colSums(matrix_data > 0)\n\n# Identify mitochondrial genes (genes starting with \"MT-\" or \"mt-\")\nmito_genes <- grep(\"^MT-|^mt-\", rownames(matrix_data), value = TRUE, ignore.case = TRUE)\ncat(\"Found\", length(mito_genes), \"mitochondrial genes\\n\")\n\n# Calculate percentage of mitochondrial gene expression per cell\nif (length(mito_genes) > 0) {\n  mito_counts <- Matrix::colSums(matrix_data[mito_genes, , drop = FALSE])\n  percent_mito <- (mito_counts / umi_per_cell) * 100\n} else {\n  percent_mito <- rep(0, ncol(matrix_data))\n  cat(\"Warning: No mitochondrial genes found!\\n\")\n}\n\n# Create QC dataframe\nqc_metrics <- data.frame(\n  barcode = barcodes$barcode,\n  n_umi = umi_per_cell,\n  n_genes = genes_per_cell,\n  percent_mito = percent_mito\n)\n\n# ===== 3. Visualize QC metrics (before filtering) =====\ncat(\"\\nGenerating QC plots...\\n\")\n\n# Plot 1: UMI counts per cell\np1 <- ggplot(qc_metrics, aes(x = n_umi)) +\n  geom_histogram(bins = 100, fill = \"steelblue\", color = \"black\") +\n  geom_vline(xintercept = 500, color = \"red\", linetype = \"dashed\", size = 1) +\n  labs(title = \"UMI Counts per Cell\", x = \"Total UMI counts\", y = \"Number of cells\") +\n  theme_minimal()\n\n# Plot 2: Genes detected per cell\np2 <- ggplot(qc_metrics, aes(x = n_genes)) +\n  geom_histogram(bins = 100, fill = \"darkgreen\", color = \"black\") +\n  geom_vline(xintercept = 200, color = \"red\", linetype = \"dashed\", size = 1) +\n  labs(title = \"Genes Detected per Cell\", x = \"Number of genes\", y = \"Number of cells\") +\n  theme_minimal()\n\n# Plot 3: Mitochondrial percentage\np3 <- ggplot(qc_metrics, aes(x = percent_mito)) +\n  geom_histogram(bins = 100, fill = \"coral\", color = \"black\") +\n  geom_vline(xintercept = 10, color = \"red\", linetype = \"dashed\", size = 1) +\n  labs(title = \"Mitochondrial Gene Percentage\", x = \"% Mitochondrial genes\", y = \"Number of cells\") +\n  theme_minimal()\n\n# Plot 4: Scatter plot - genes vs UMIs\np4 <- ggplot(qc_metrics, aes(x = n_umi, y = n_genes, color = percent_mito)) +\n  geom_point(alpha = 0.5, size = 1) +\n  scale_color_gradient(low = \"blue\", high = \"red\") +\n  labs(title = \"Genes vs UMIs\", x = \"Total UMI counts\", y = \"Number of genes detected\",\n       color = \"% Mito\") +\n  theme_minimal()\n\n# Save plots\nggsave(\"qc_umi_distribution.png\", p1, width = 8, height = 6)\nggsave(\"qc_genes_distribution.png\", p2, width = 8, height = 6)\nggsave(\"qc_mito_distribution.png\", p3, width = 8, height = 6)\nggsave(\"qc_genes_vs_umi.png\", p4, width = 8, height = 6)\n\n# ===== 4. Print summary statistics =====\ncat(\"\\n===== QC Summary Statistics (Before Filtering) =====\\n\")\ncat(\"Total cells:\", nrow(qc_metrics), \"\\n\")\ncat(\"\\nUMI counts per cell:\\n\")\nprint(summary(qc_metrics$n_umi))\ncat(\"\\nGenes detected per cell:\\n\")\nprint(summary(qc_metrics$n_genes))\ncat(\"\\nMitochondrial percentage:\\n\")\nprint(summary(qc_metrics$percent_mito))\n\n# ===== 5. Define filtering thresholds =====\ncat(\"\\n===== Applying Quality Control Filters =====\\n\")\n\n# Standard filtering thresholds (adjust based on your data)\nmin_genes <- 200        # Minimum genes detected per cell\nmax_genes <- 5000       # Maximum genes (to remove potential doublets)\nmin_umi <- 500          # Minimum UMI counts per cell\nmax_mito <- 10          # Maximum mitochondrial percentage\n\ncat(\"Filtering criteria:\\n\")\ncat(\"  - Minimum genes per cell:\", min_genes, \"\\n\")\ncat(\"  - Maximum genes per cell:\", max_genes, \"\\n\")\ncat(\"  - Minimum UMI counts:\", min_umi, \"\\n\")\ncat(\"  - Maximum mitochondrial %:\", max_mito, \"\\n\\n\")\n\n# ===== 6. Filter cells =====\ncells_to_keep <- qc_metrics$n_genes >= min_genes &\n                 qc_metrics$n_genes <= max_genes &\n                 qc_metrics$n_umi >= min_umi &\n                 qc_metrics$percent_mito <= max_mito\n\ncat(\"Cells before filtering:\", sum(!cells_to_keep) + sum(cells_to_keep), \"\\n\")\ncat(\"Cells passing QC:\", sum(cells_to_keep), \"\\n\")\ncat(\"Cells removed:\", sum(!cells_to_keep), \"\\n\")\ncat(\"Percentage retained:\", round(100 * sum(cells_to_keep) / length(cells_to_keep), 2), \"%\\n\\n\")\n\n# Filter the matrix and QC metrics\nfiltered_matrix <- matrix_data[, cells_to_keep]\nfiltered_qc <- qc_metrics[cells_to_keep, ]\n\n# ===== 7. Filter genes (optional: remove genes not expressed in any cell) =====\ngenes_to_keep <- Matrix::rowSums(filtered_matrix) > 0\nfiltered_matrix <- filtered_matrix[genes_to_keep, ]\n\ncat(\"Genes before filtering:\", nrow(matrix_data), \"\\n\")\ncat(\"Genes after filtering:\", nrow(filtered_matrix), \"\\n\")\ncat(\"Genes removed:\", sum(!genes_to_keep), \"\\n\\n\")\n\n# ===== 8. Save filtered data =====\ncat(\"Saving filtered data...\\n\")\n\n# Save filtered matrix\nwriteMM(filtered_matrix, \"filtered_matrix.mtx\")\n\n# Save filtered barcodes\nwrite.table(filtered_qc$barcode, \"filtered_barcodes.tsv\", \n            quote = FALSE, row.names = FALSE, col.names = FALSE)\n\n# Save filtered genes\nfiltered_genes <- genes[genes_to_keep, ]\nwrite.table(filtered_genes, \"filtered_genes.tsv\", \n            quote = FALSE, row.names = FALSE, col.names = FALSE, sep = \"\\t\")\n\n# Save QC metrics\nwrite.csv(qc_metrics, \"qc_metrics_all_cells.csv\", row.names = FALSE)\nwrite.csv(filtered_qc, \"qc_metrics_filtered_cells.csv\", row.names = FALSE)\n\ncat(\"\\n===== Quality Control Complete! =====\\n\")\ncat(\"Filtered data saved to:\\n\")\ncat(\"  - filtered_matrix.mtx\\n\")\ncat(\"  - filtered_barcodes.tsv\\n\")\ncat(\"  - filtered_genes.tsv\\n\")\ncat(\"  - qc_metrics_all_cells.csv\\n\")\ncat(\"  - qc_metrics_filtered_cells.csv\\n\")\ncat(\"  - QC plots (PNG files)\\n\")\n\n# ===== 9. Return results =====\nresults <- list(\n  original_matrix = matrix_data,\n  filtered_matrix = filtered_matrix,\n  qc_metrics = qc_metrics,\n  filtered_qc = filtered_qc,\n  filtering_summary = data.frame(\n    metric = c(\"Total cells\", \"Cells passing QC\", \"Cells removed\", \"Retention rate\"),\n    value = c(ncol(matrix_data), ncol(filtered_matrix), \n              ncol(matrix_data) - ncol(filtered_matrix),\n              paste0(round(100 * ncol(filtered_matrix) / ncol(matrix_data), 2), \"%\"))\n  )\n)\n\nprint(results$filtering_summary)"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_03",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false,
+                "code": "# Single-cell RNA-seq Analysis Pipeline for 2,700 PBMCs\n# Required package: Seurat\n\n# Install Seurat if not already installed\nif (!require(\"Seurat\", quietly = TRUE)) {\n  install.packages(\"Seurat\")\n}\n\nlibrary(Seurat)\n\n# ============================================================================\n# 1. LOAD DATA\n# ============================================================================\n\n# Read the Matrix Market format data\n# Assumes files are in current working directory\npbmc_data <- ReadMtx(\n  mtx = \"matrix.mtx\",\n  cells = \"barcodes.tsv\",\n  features = \"genes.tsv\",\n  feature.column = 2  # Use HGNC symbols (column 2) as feature names\n)\n\n# Create Seurat object\npbmc <- CreateSeuratObject(\n  counts = pbmc_data,\n  project = \"PBMC2700\",\n  min.cells = 3,      # Include features detected in at least 3 cells\n  min.features = 200  # Include cells with at least 200 detected features\n)\n\ncat(\"Loaded data dimensions:\", dim(pbmc), \"\\n\")\n\n# ============================================================================\n# 2. QUALITY CONTROL (Optional but recommended)\n# ============================================================================\n\n# Calculate mitochondrial QC metrics\npbmc[[\"percent.mt\"]] <- PercentageFeatureSet(pbmc, pattern = \"^MT-\")\n\n# Visualize QC metrics\nVlnPlot(pbmc, features = c(\"nFeature_RNA\", \"nCount_RNA\", \"percent.mt\"), ncol = 3)\n\n# Filter cells based on QC metrics\npbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\ncat(\"After QC filtering:\", dim(pbmc), \"\\n\")\n\n# ============================================================================\n# 3. NORMALIZATION\n# ============================================================================\n\n# Log-normalize the data\npbmc <- NormalizeData(\n  pbmc,\n  normalization.method = \"LogNormalize\",\n  scale.factor = 10000\n)\n\ncat(\"✓ Data normalized\\n\")\n\n# ============================================================================\n# 4. IDENTIFY HIGHLY VARIABLE FEATURES\n# ============================================================================\n\n# Find top 2000 highly variable genes\npbmc <- FindVariableFeatures(\n  pbmc,\n  selection.method = \"vst\",\n  nfeatures = 2000\n)\n\n# Identify the 10 most highly variable genes\ntop10 <- head(VariableFeatures(pbmc), 10)\ncat(\"Top 10 variable features:\", paste(top10, collapse = \", \"), \"\\n\")\n\n# Plot variable features\nplot1 <- VariableFeaturePlot(pbmc)\nplot2 <- LabelPoints(plot = plot1, points = top10, repel = TRUE)\nprint(plot2)\n\n# ============================================================================\n# 5. SCALE THE DATA\n# ============================================================================\n\n# Scale all genes\nall_genes <- rownames(pbmc)\npbmc <- ScaleData(pbmc, features = all_genes)\n\ncat(\"✓ Data scaled\\n\")\n\n# ============================================================================\n# 6. RUN PCA\n# ============================================================================\n\n# Perform linear dimensional reduction\npbmc <- RunPCA(\n  pbmc,\n  features = VariableFeatures(object = pbmc),\n  npcs = 50\n)\n\n# Visualize PCA results\nprint(pbmc[[\"pca\"]], dims = 1:5, nfeatures = 5)\nVizDimLoadings(pbmc, dims = 1:2, reduction = \"pca\")\nDimPlot(pbmc, reduction = \"pca\")\n\n# Elbow plot to determine dimensionality\nElbowPlot(pbmc, ndims = 50)\n\ncat(\"✓ PCA completed\\n\")\n\n# ============================================================================\n# 7. CLUSTERING\n# ============================================================================\n\n# Determine the dimensionality (using first 20 PCs based on typical PBMC data)\ndims_use <- 1:20\n\n# Find neighbors\npbmc <- FindNeighbors(pbmc, dims = dims_use)\n\n# Find clusters (resolution 0.5 is good for ~3K cells)\npbmc <- FindClusters(pbmc, resolution = 0.5)\n\n# Check number of clusters\ncat(\"Number of clusters identified:\", length(levels(pbmc@active.ident)), \"\\n\")\ncat(\"Cluster sizes:\\n\")\nprint(table(Idents(pbmc)))\n\n# ============================================================================\n# 8. RUN UMAP\n# ============================================================================\n\n# Run UMAP for visualization\npbmc <- RunUMAP(pbmc, dims = dims_use)\n\ncat(\"✓ UMAP completed\\n\")\n\n# ============================================================================\n# 9. VISUALIZE CLUSTERS\n# ============================================================================\n\n# UMAP plot colored by cluster\np1 <- DimPlot(pbmc, reduction = \"umap\", label = TRUE, label.size = 6) +\n  ggtitle(\"PBMC Clusters (UMAP)\")\nprint(p1)\n\n# UMAP plot with cluster labels\np2 <- DimPlot(pbmc, reduction = \"umap\", label = TRUE, label.size = 4, repel = TRUE) +\n  NoLegend() +\n  ggtitle(\"PBMC Clusters with Labels\")\nprint(p2)\n\n# PCA plot colored by cluster\np3 <- DimPlot(pbmc, reduction = \"pca\", label = TRUE) +\n  ggtitle(\"PBMC Clusters (PCA)\")\nprint(p3)\n\n# ============================================================================\n# 10. FIND CLUSTER MARKERS (Optional)\n# ============================================================================\n\n# Find markers for all clusters\npbmc_markers <- FindAllMarkers(\n  pbmc,\n  only.pos = TRUE,\n  min.pct = 0.25,\n  logfc.threshold = 0.25\n)\n\n# Display top markers per cluster\ntop5_markers <- pbmc_markers %>%\n  group_by(cluster) %>%\n  top_n(n = 5, wt = avg_log2FC)\n\nprint(top5_markers)\n\n# Visualize top marker genes\ntop_genes <- top5_markers$gene[1:9]  # Top 9 genes for visualization\nFeaturePlot(pbmc, features = top_genes, ncol = 3)\n\n# Heatmap of top markers\ntop10_markers <- pbmc_markers %>%\n  group_by(cluster) %>%\n  top_n(n = 10, wt = avg_log2FC)\n\nDoHeatmap(pbmc, features = top10_markers$gene) + NoLegend()\n\n# ============================================================================\n# 11. SAVE RESULTS\n# ============================================================================\n\n# Save the Seurat object\nsaveRDS(pbmc, file = \"pbmc_analysis.rds\")\n\n# Save cluster assignments\nwrite.csv(\n  data.frame(\n    barcode = colnames(pbmc),\n    cluster = Idents(pbmc)\n  ),\n  file = \"cluster_assignments.csv\",\n  row.names = FALSE\n)\n\n# Save marker genes\nwrite.csv(pbmc_markers, file = \"cluster_markers.csv\", row.names = FALSE)\n\ncat(\"\\n✓ Analysis complete! Results saved.\\n\")\ncat(\"Seurat object: pbmc_analysis.rds\\n\")\ncat(\"Cluster assignments: cluster_assignments.csv\\n\")\ncat(\"Marker genes: cluster_markers.csv\\n\")\n\n# ============================================================================\n# SUMMARY STATISTICS\n# ============================================================================\n\ncat(\"\\n=== ANALYSIS SUMMARY ===\\n\")\ncat(\"Total cells analyzed:\", ncol(pbmc), \"\\n\")\ncat(\"Total genes:\", nrow(pbmc), \"\\n\")\ncat(\"Number of clusters:\", length(levels(Idents(pbmc))), \"\\n\")\ncat(\"PCs used for clustering:\", paste(dims_use, collapse = \", \"), \"\\n\")\ncat(\"Clustering resolution:\", 0.5, \"\\n\")"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_04",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false,
+                "code": "# Load required libraries\nlibrary(Seurat)\nlibrary(Matrix)\nlibrary(ggplot2)\nlibrary(dplyr)\n\n# ============================================================================\n# 1. Load the 10X-style data files\n# ============================================================================\n\n# Read the sparse matrix (Matrix Market format)\nmatrix <- readMM(\"matrix.mtx\")\n\n# Read barcodes (cell identifiers)\nbarcodes <- read.table(\"barcodes.tsv\", header = FALSE, stringsAsFactors = FALSE)\ncolnames(barcodes) <- \"barcode\"\n\n# Read genes (gene IDs and symbols)\ngenes <- read.table(\"genes.tsv\", header = FALSE, stringsAsFactors = FALSE)\ncolnames(genes) <- c(\"gene_id\", \"gene_symbol\")\n\n# Assign row and column names to the matrix\nrownames(matrix) <- genes$gene_symbol\ncolnames(matrix) <- barcodes$barcode\n\n# ============================================================================\n# 2. Create Seurat object\n# ============================================================================\n\npbmc <- CreateSeuratObject(\n  counts = matrix,\n  project = \"PBMC2700\",\n  min.cells = 3,      # Keep genes expressed in at least 3 cells\n  min.features = 200  # Keep cells with at least 200 genes\n)\n\n# ============================================================================\n# 3. Quality Control (QC) filtering\n# ============================================================================\n\n# Calculate mitochondrial percentage\npbmc[[\"percent.mt\"]] <- PercentageFeatureSet(pbmc, pattern = \"^MT-\")\n\n# Visualize QC metrics\nVlnPlot(pbmc, features = c(\"nFeature_RNA\", \"nCount_RNA\", \"percent.mt\"), ncol = 3)\n\n# Filter cells based on QC metrics\npbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\ncat(\"Cells after QC filtering:\", ncol(pbmc), \"\\n\")\n\n# ============================================================================\n# 4. Normalization\n# ============================================================================\n\npbmc <- NormalizeData(pbmc, normalization.method = \"LogNormalize\", scale.factor = 10000)\n\n# ============================================================================\n# 5. Identify highly variable features\n# ============================================================================\n\npbmc <- FindVariableFeatures(pbmc, selection.method = \"vst\", nfeatures = 2000)\n\n# Identify the 10 most highly variable genes\ntop10 <- head(VariableFeatures(pbmc), 10)\ncat(\"Top 10 variable genes:\", paste(top10, collapse = \", \"), \"\\n\")\n\n# ============================================================================\n# 6. Scaling the data\n# ============================================================================\n\nall.genes <- rownames(pbmc)\npbmc <- ScaleData(pbmc, features = all.genes)\n\n# ============================================================================\n# 7. Perform linear dimensional reduction (PCA)\n# ============================================================================\n\npbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc), npcs = 50)\n\n# Visualize PCA results\nprint(pbmc[[\"pca\"]], dims = 1:5, nfeatures = 5)\nDimPlot(pbmc, reduction = \"pca\")\n\n# Determine dimensionality of the dataset\nElbowPlot(pbmc, ndims = 50)\n\n# ============================================================================\n# 8. Clustering\n# ============================================================================\n\n# Find neighbors\npbmc <- FindNeighbors(pbmc, dims = 1:10)\n\n# Find clusters\npbmc <- FindClusters(pbmc, resolution = 0.5)\n\ncat(\"Number of clusters:\", length(unique(Idents(pbmc))), \"\\n\")\n\n# ============================================================================\n# 9. Run UMAP for visualization\n# ============================================================================\n\npbmc <- RunUMAP(pbmc, dims = 1:10)\n\n# Visualize UMAP\nDimPlot(pbmc, reduction = \"umap\", label = TRUE, pt.size = 0.5) + \n  ggtitle(\"PBMC 2700 - UMAP Clustering\")\n\n# ============================================================================\n# 10. Find marker genes for every cluster\n# ============================================================================\n\n# Find markers for all clusters\npbmc.markers <- FindAllMarkers(\n  pbmc, \n  only.pos = TRUE,           # Only positive markers\n  min.pct = 0.25,            # Expressed in at least 25% of cells\n  logfc.threshold = 0.25     # Log fold-change threshold\n)\n\n# View top markers\ncat(\"\\nTop markers per cluster:\\n\")\nprint(pbmc.markers %>% group_by(cluster) %>% top_n(n = 5, wt = avg_log2FC))\n\n# ============================================================================\n# 11. Visualize top 5 markers per cluster as a heatmap\n# ============================================================================\n\n# Get top 5 markers per cluster\ntop5_markers <- pbmc.markers %>%\n  group_by(cluster) %>%\n  top_n(n = 5, wt = avg_log2FC) %>%\n  arrange(cluster, desc(avg_log2FC))\n\n# Create heatmap\nDoHeatmap(\n  pbmc, \n  features = top5_markers$gene,\n  size = 3,\n  angle = 90\n) + \n  ggtitle(\"Top 5 Marker Genes per Cluster\") +\n  theme(axis.text.y = element_text(size = 6))\n\n# ============================================================================\n# 12. Save results\n# ============================================================================\n\n# Save marker genes to CSV\nwrite.csv(pbmc.markers, \"pbmc_all_markers.csv\", row.names = FALSE)\nwrite.csv(top5_markers, \"pbmc_top5_markers_per_cluster.csv\", row.names = FALSE)\n\n# Save Seurat object\nsaveRDS(pbmc, file = \"pbmc_seurat_object.rds\")\n\ncat(\"\\nAnalysis complete! Results saved.\\n\")\ncat(\"- Marker genes: pbmc_all_markers.csv\\n\")\ncat(\"- Top 5 markers: pbmc_top5_markers_per_cluster.csv\\n\")\ncat(\"- Seurat object: pbmc_seurat_object.rds\\n\")"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_05",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false,
+                "code": "# Complete Single-Cell RNA-seq Analysis Pipeline for PBMC Data\n# This script performs end-to-end analysis of 2,700 PBMCs using Seurat\n\n# Load required libraries\nlibrary(Seurat)\nlibrary(Matrix)\nlibrary(dplyr)\n\n# Set working directory (adjust as needed)\n# setwd(\"path/to/your/data\")\n\n# ============================================================================\n# STEP 1: Load Data\n# ============================================================================\ncat(\"Loading data...\\n\")\n\n# Read the Matrix Market format sparse matrix\nmatrix <- readMM(\"matrix.mtx\")\n\n# Read barcodes (cell identifiers)\nbarcodes <- read.table(\"barcodes.tsv\", header = FALSE, stringsAsFactors = FALSE)\ncolnames(barcodes) <- \"barcode\"\n\n# Read genes (gene identifiers and symbols)\ngenes <- read.table(\"genes.tsv\", header = FALSE, stringsAsFactors = FALSE)\ncolnames(genes) <- c(\"gene_id\", \"gene_symbol\")\n\n# Assign row and column names to the matrix\nrownames(matrix) <- genes$gene_symbol\ncolnames(matrix) <- barcodes$barcode\n\ncat(\"Data loaded successfully!\\n\")\ncat(sprintf(\"Matrix dimensions: %d genes x %d cells\\n\", nrow(matrix), ncol(matrix)))\n\n# ============================================================================\n# STEP 2: Create Seurat Object\n# ============================================================================\ncat(\"\\nCreating Seurat object...\\n\")\n\npbmc <- CreateSeuratObject(\n  counts = matrix,\n  project = \"PBMC2700\",\n  min.cells = 3,      # Keep genes detected in at least 3 cells\n  min.features = 200  # Keep cells with at least 200 detected genes\n)\n\ncat(sprintf(\"Seurat object created with %d cells\\n\", ncol(pbmc)))\n\n# ============================================================================\n# STEP 3: Quality Control Metrics\n# ============================================================================\ncat(\"\\nCalculating QC metrics...\\n\")\n\n# Calculate percentage of mitochondrial genes\n# Mitochondrial genes start with \"MT-\" in human data\npbmc[[\"percent.mt\"]] <- PercentageFeatureSet(pbmc, pattern = \"^MT-\")\n\n# Visualize QC metrics before filtering\ncat(\"\\nQC metrics before filtering:\\n\")\ncat(sprintf(\"Median genes per cell: %.0f\\n\", median(pbmc$nFeature_RNA)))\ncat(sprintf(\"Median UMIs per cell: %.0f\\n\", median(pbmc$nCount_RNA)))\ncat(sprintf(\"Median percent MT: %.2f%%\\n\", median(pbmc$percent.mt)))\n\n# ============================================================================\n# STEP 4: Filter Low-Quality Cells\n# ============================================================================\ncat(\"\\nFiltering low-quality cells...\\n\")\ncat(\"Criteria: 200-2500 genes detected, <5% mitochondrial reads\\n\")\n\n# Apply quality control filters\npbmc <- subset(\n  pbmc,\n  subset = nFeature_RNA > 200 & \n           nFeature_RNA < 2500 & \n           percent.mt < 5\n)\n\ncat(sprintf(\"Cells remaining after filtering: %d\\n\", ncol(pbmc)))\n\n# ============================================================================\n# STEP 5: Normalization\n# ============================================================================\ncat(\"\\nNormalizing data...\\n\")\n\npbmc <- NormalizeData(\n  pbmc,\n  normalization.method = \"LogNormalize\",\n  scale.factor = 10000\n)\n\ncat(\"Normalization complete!\\n\")\n\n# ============================================================================\n# STEP 6: Find Variable Features\n# ============================================================================\ncat(\"\\nIdentifying highly variable features...\\n\")\n\npbmc <- FindVariableFeatures(\n  pbmc,\n  selection.method = \"vst\",\n  nfeatures = 2000\n)\n\ncat(sprintf(\"Identified %d variable features\\n\", length(VariableFeatures(pbmc))))\n\n# ============================================================================\n# STEP 7: Scale Data\n# ============================================================================\ncat(\"\\nScaling data...\\n\")\n\n# Get all genes for scaling\nall.genes <- rownames(pbmc)\n\npbmc <- ScaleData(\n  pbmc,\n  features = all.genes\n)\n\ncat(\"Data scaling complete!\\n\")\n\n# ============================================================================\n# STEP 8: Principal Component Analysis (PCA)\n# ============================================================================\ncat(\"\\nRunning PCA...\\n\")\n\npbmc <- RunPCA(\n  pbmc,\n  features = VariableFeatures(object = pbmc),\n  npcs = 50,\n  verbose = FALSE\n)\n\ncat(\"PCA complete!\\n\")\ncat(sprintf(\"Computed %d principal components\\n\", ncol(pbmc@reductions$pca)))\n\n# ============================================================================\n# STEP 9: Clustering\n# ============================================================================\ncat(\"\\nPerforming clustering...\\n\")\n\n# Find neighbors using first 10 PCs\npbmc <- FindNeighbors(\n  pbmc,\n  dims = 1:10\n)\n\n# Find clusters with resolution 0.5\npbmc <- FindClusters(\n  pbmc,\n  resolution = 0.5,\n  verbose = FALSE\n)\n\ncat(sprintf(\"Identified %d clusters\\n\", length(unique(Idents(pbmc)))))\ncat(\"Cluster sizes:\\n\")\nprint(table(Idents(pbmc)))\n\n# ============================================================================\n# STEP 10: UMAP Dimensionality Reduction\n# ============================================================================\ncat(\"\\nComputing UMAP...\\n\")\n\npbmc <- RunUMAP(\n  pbmc,\n  dims = 1:10,\n  verbose = FALSE\n)\n\ncat(\"UMAP complete!\\n\")\n\n# ============================================================================\n# STEP 11: Save Final Object\n# ============================================================================\ncat(\"\\nSaving final Seurat object...\\n\")\n\nsaveRDS(pbmc, file = \"pbmc_final.rds\")\n\ncat(\"Analysis complete! Seurat object saved as 'pbmc_final.rds'\\n\")\n\n# ============================================================================\n# SUMMARY STATISTICS\n# ============================================================================\ncat(\"\\n\", rep(\"=\", 70), \"\\n\", sep = \"\")\ncat(\"ANALYSIS SUMMARY\\n\")\ncat(rep(\"=\", 70), \"\\n\", sep = \"\")\ncat(sprintf(\"Final number of cells: %d\\n\", ncol(pbmc)))\ncat(sprintf(\"Final number of genes: %d\\n\", nrow(pbmc)))\ncat(sprintf(\"Number of clusters: %d\\n\", length(unique(Idents(pbmc)))))\ncat(sprintf(\"Variable features: %d\\n\", length(VariableFeatures(pbmc))))\ncat(sprintf(\"PCA dimensions: %d\\n\", ncol(pbmc@reductions$pca)))\ncat(\"\\nCluster distribution:\\n\")\nprint(table(Idents(pbmc)))\ncat(rep(\"=\", 70), \"\\n\", sep = \"\")\n\n# Optional: Quick visualization (uncomment to generate plots)\n# pdf(\"pbmc_analysis_plots.pdf\", width = 10, height = 8)\n# VlnPlot(pbmc, features = c(\"nFeature_RNA\", \"nCount_RNA\", \"percent.mt\"), ncol = 3)\n# DimPlot(pbmc, reduction = \"umap\", label = TRUE, pt.size = 0.5)\n# dev.off()\n\ncat(\"\\nTo load the object later, use: pbmc <- readRDS('pbmc_final.rds')\\n\")"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_06",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false,
+                "code": "# Load required libraries\nlibrary(Seurat)\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(Matrix)\n\n# Set working directory (adjust as needed)\n# setwd(\"path/to/your/data\")\n\n# ============================================================================\n# STEP 1: Load the data\n# ============================================================================\n\n# Read the Matrix Market format sparse matrix\nmatrix <- readMM(\"matrix.mtx\")\n\n# Read barcodes (cell IDs)\nbarcodes <- read.table(\"barcodes.tsv\", header = FALSE, stringsAsFactors = FALSE)\ncolnames(barcodes) <- \"barcode\"\n\n# Read genes (gene IDs and symbols)\ngenes <- read.table(\"genes.tsv\", header = FALSE, stringsAsFactors = FALSE)\ncolnames(genes) <- c(\"gene_id\", \"gene_symbol\")\n\n# Assign row and column names to the matrix\nrownames(matrix) <- genes$gene_symbol\ncolnames(matrix) <- barcodes$barcode\n\n# Create Seurat object\npbmc <- CreateSeuratObject(counts = matrix, \n                           project = \"PBMC2700\", \n                           min.cells = 3, \n                           min.features = 200)\n\ncat(\"Seurat object created with\", ncol(pbmc), \"cells and\", nrow(pbmc), \"genes\\n\")\n\n# ============================================================================\n# STEP 2: Quality Control\n# ============================================================================\n\n# Calculate mitochondrial percentage\npbmc[[\"percent.mt\"]] <- PercentageFeatureSet(pbmc, pattern = \"^MT-\")\n\n# Visualize QC metrics\nVlnPlot(pbmc, features = c(\"nFeature_RNA\", \"nCount_RNA\", \"percent.mt\"), ncol = 3)\n\n# Filter cells based on QC metrics\npbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\ncat(\"After QC filtering:\", ncol(pbmc), \"cells remaining\\n\")\n\n# ============================================================================\n# STEP 3: Normalization\n# ============================================================================\n\npbmc <- NormalizeData(pbmc, normalization.method = \"LogNormalize\", scale.factor = 10000)\n\n# ============================================================================\n# STEP 4: Feature Selection (Highly Variable Genes)\n# ============================================================================\n\npbmc <- FindVariableFeatures(pbmc, selection.method = \"vst\", nfeatures = 2000)\n\n# Identify the 10 most highly variable genes\ntop10 <- head(VariableFeatures(pbmc), 10)\ncat(\"Top 10 variable genes:\", paste(top10, collapse = \", \"), \"\\n\")\n\n# ============================================================================\n# STEP 5: Scaling\n# ============================================================================\n\nall.genes <- rownames(pbmc)\npbmc <- ScaleData(pbmc, features = all.genes)\n\n# ============================================================================\n# STEP 6: PCA\n# ============================================================================\n\npbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc))\n\n# Visualize PCA results\nprint(pbmc[[\"pca\"]], dims = 1:5, nfeatures = 5)\nDimPlot(pbmc, reduction = \"pca\")\n\n# Elbow plot to determine dimensionality\nElbowPlot(pbmc, ndims = 50)\n\n# ============================================================================\n# STEP 7: Clustering\n# ============================================================================\n\n# Find neighbors and clusters\npbmc <- FindNeighbors(pbmc, dims = 1:10)\npbmc <- FindClusters(pbmc, resolution = 0.5)\n\ncat(\"Number of clusters identified:\", length(unique(Idents(pbmc))), \"\\n\")\n\n# ============================================================================\n# STEP 8: UMAP\n# ============================================================================\n\npbmc <- RunUMAP(pbmc, dims = 1:10)\n\n# Visualize UMAP with cluster labels\nDimPlot(pbmc, reduction = \"umap\", label = TRUE, pt.size = 0.5) + \n  ggtitle(\"UMAP - Seurat Clusters\")\n\n# ============================================================================\n# STEP 9: Find Cluster Markers\n# ============================================================================\n\n# Find markers for all clusters\npbmc.markers <- FindAllMarkers(pbmc, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)\n\n# Top markers per cluster\ntop_markers <- pbmc.markers %>%\n  group_by(cluster) %>%\n  top_n(n = 5, wt = avg_log2FC)\n\nprint(top_markers)\n\n# ============================================================================\n# STEP 10: Cell Type Annotation Based on Canonical Markers\n# ============================================================================\n\n# Define canonical marker genes for PBMC cell types\ncanonical_markers <- list(\n  \"CD4 T cells\" = c(\"IL7R\", \"CCR7\"),\n  \"CD14 Monocytes\" = c(\"CD14\", \"LYZ\"),\n  \"B cells\" = c(\"MS4A1\"),\n  \"CD8 T cells\" = c(\"CD8A\"),\n  \"NK cells\" = c(\"GNLY\", \"NKG7\")\n)\n\n# Visualize canonical markers on UMAP\nfor (cell_type in names(canonical_markers)) {\n  markers <- canonical_markers[[cell_type]]\n  available_markers <- markers[markers %in% rownames(pbmc)]\n  \n  if (length(available_markers) > 0) {\n    print(FeaturePlot(pbmc, features = available_markers, ncol = length(available_markers)) + \n            plot_annotation(title = cell_type))\n  }\n}\n\n# Visualize all canonical markers together\nall_markers <- unlist(canonical_markers)\nall_markers <- all_markers[all_markers %in% rownames(pbmc)]\n\nDotPlot(pbmc, features = all_markers) + \n  RotatedAxis() + \n  ggtitle(\"Canonical Marker Expression by Cluster\")\n\n# ============================================================================\n# STEP 11: Manual Cell Type Assignment\n# ============================================================================\n\n# Calculate average expression of markers per cluster\ncluster_avg_exp <- AverageExpression(pbmc, features = all_markers, group.by = \"seurat_clusters\")\n\n# Manual annotation based on marker expression\n# You'll need to inspect the plots and adjust these assignments\nnew.cluster.ids <- c(\n  \"0\" = \"CD4 T cells\",\n  \"1\" = \"CD14 Monocytes\",\n  \"2\" = \"CD4 T cells\",\n  \"3\" = \"B cells\",\n  \"4\" = \"CD8 T cells\",\n  \"5\" = \"NK cells\",\n  \"6\" = \"CD14 Monocytes\",\n  \"7\" = \"CD4 T cells\",\n  \"8\" = \"B cells\"\n)\n\n# Apply cell type labels\ncurrent_clusters <- levels(Idents(pbmc))\npbmc$cell_type <- as.character(Idents(pbmc))\n\nfor (cluster in names(new.cluster.ids)) {\n  if (cluster %in% current_clusters) {\n    pbmc$cell_type[pbmc$cell_type == cluster] <- new.cluster.ids[cluster]\n  }\n}\n\n# Set cell type as active identity\nIdents(pbmc) <- pbmc$cell_type\n\n# ============================================================================\n# STEP 12: Final Visualization\n# ============================================================================\n\n# UMAP with cell type labels\np1 <- DimPlot(pbmc, reduction = \"umap\", label = TRUE, pt.size = 0.8, label.size = 5) + \n  ggtitle(\"PBMC Cell Types\") +\n  theme(plot.title = element_text(hjust = 0.5, face = \"bold\", size = 16))\n\nprint(p1)\n\n# Save the plot\nggsave(\"PBMC_UMAP_CellTypes.pdf\", plot = p1, width = 10, height = 8)\nggsave(\"PBMC_UMAP_CellTypes.png\", plot = p1, width = 10, height = 8, dpi = 300)\n\n# Cell type composition\ncell_type_counts <- table(pbmc$cell_type)\nprint(\"Cell type composition:\")\nprint(cell_type_counts)\n\n# Proportions\ncell_type_props <- prop.table(cell_type_counts) * 100\nprint(\"\\nCell type proportions (%):\")\nprint(round(cell_type_props, 2))\n\n# Bar plot of cell type composition\np2 <- ggplot(data.frame(cell_type = names(cell_type_counts), \n                        count = as.numeric(cell_type_counts)), \n             aes(x = reorder(cell_type, -count), y = count, fill = cell_type)) +\n  geom_bar(stat = \"identity\") +\n  theme_minimal() +\n  labs(title = \"PBMC Cell Type Composition\", x = \"Cell Type\", y = \"Number of Cells\") +\n  theme(axis.text.x = element_text(angle = 45, hjust = 1),\n        plot.title = element_text(hjust = 0.5, face = \"bold\"))\n\nprint(p2)\n\n# ============================================================================\n# STEP 13: Marker Heatmap\n# ============================================================================\n\n# Heatmap of canonical markers\nDoHeatmap(pbmc, features = all_markers, size = 4) + \n  ggtitle(\"Canonical Marker Expression Heatmap\")\n\n# ============================================================================\n# STEP 14: Save Results\n# ============================================================================\n\n# Save the Seurat object\nsaveRDS(pbmc, file = \"pbmc_seurat_annotated.rds\")\n\n# Save cell type annotations\nwrite.csv(data.frame(barcode = colnames(pbmc), \n                     cluster = pbmc$seurat_clusters,\n                     cell_type = pbmc$cell_type),\n          file = \"cell_type_annotations.csv\", \n          row.names = FALSE)\n\ncat(\"\\nAnalysis complete! Results saved.\\n\")"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_07",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false,
+                "code": "# Load required libraries\nlibrary(Seurat)\nlibrary(Matrix)\nlibrary(ggplot2)\nlibrary(dplyr)\n\n# Set working directory (adjust as needed)\n# setwd(\"path/to/your/data\")\n\n# ============================================================================\n# STEP 1: Load the data\n# ============================================================================\n\n# Read the Matrix Market format file\nmatrix <- readMM(\"matrix.mtx\")\n\n# Read barcodes (cell identifiers)\nbarcodes <- read.table(\"barcodes.tsv\", header = FALSE, stringsAsFactors = FALSE)\ncolnames(barcodes) <- \"barcode\"\n\n# Read genes (gene identifiers and symbols)\ngenes <- read.table(\"genes.tsv\", header = FALSE, stringsAsFactors = FALSE)\ncolnames(genes) <- c(\"gene_id\", \"gene_symbol\")\n\n# Assign row and column names to the matrix\nrownames(matrix) <- genes$gene_symbol\ncolnames(matrix) <- barcodes$barcode\n\n# Create Seurat object\npbmc <- CreateSeuratObject(counts = matrix, \n                           project = \"PBMC2700\", \n                           min.cells = 3, \n                           min.features = 200)\n\ncat(\"Seurat object created with\", ncol(pbmc), \"cells and\", nrow(pbmc), \"genes\\n\")\n\n# ============================================================================\n# STEP 2: Quality Control\n# ============================================================================\n\n# Calculate mitochondrial percentage\npbmc[[\"percent.mt\"]] <- PercentageFeatureSet(pbmc, pattern = \"^MT-\")\n\n# Visualize QC metrics\nVlnPlot(pbmc, features = c(\"nFeature_RNA\", \"nCount_RNA\", \"percent.mt\"), ncol = 3)\n\n# Filter cells based on QC metrics\npbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\ncat(\"After QC filtering:\", ncol(pbmc), \"cells remaining\\n\")\n\n# ============================================================================\n# STEP 3: Normalization\n# ============================================================================\n\npbmc <- NormalizeData(pbmc, normalization.method = \"LogNormalize\", scale.factor = 10000)\n\n# ============================================================================\n# STEP 4: Feature Selection\n# ============================================================================\n\npbmc <- FindVariableFeatures(pbmc, selection.method = \"vst\", nfeatures = 2000)\n\n# Identify the 10 most highly variable genes\ntop10 <- head(VariableFeatures(pbmc), 10)\ncat(\"Top 10 variable genes:\", paste(top10, collapse = \", \"), \"\\n\")\n\n# ============================================================================\n# STEP 5: Scaling\n# ============================================================================\n\nall.genes <- rownames(pbmc)\npbmc <- ScaleData(pbmc, features = all.genes)\n\n# ============================================================================\n# STEP 6: PCA\n# ============================================================================\n\npbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc))\n\n# Visualize PCA results\nprint(pbmc[[\"pca\"]], dims = 1:5, nfeatures = 5)\nDimPlot(pbmc, reduction = \"pca\")\n\n# Determine dimensionality\nElbowPlot(pbmc, ndims = 50)\n\n# ============================================================================\n# STEP 7: Clustering\n# ============================================================================\n\n# Find neighbors\npbmc <- FindNeighbors(pbmc, dims = 1:10)\n\n# Find clusters\npbmc <- FindClusters(pbmc, resolution = 0.5)\n\ncat(\"Number of clusters identified:\", length(unique(Idents(pbmc))), \"\\n\")\n\n# ============================================================================\n# STEP 8: UMAP\n# ============================================================================\n\npbmc <- RunUMAP(pbmc, dims = 1:10)\n\n# Visualize clusters\nDimPlot(pbmc, reduction = \"umap\", label = TRUE, pt.size = 0.5)\n\n# ============================================================================\n# STEP 9: Differential Expression Analysis (Cluster 0 vs Cluster 3)\n# ============================================================================\n\n# Check if clusters 0 and 3 exist\nif (!(\"0\" %in% levels(Idents(pbmc))) || !(\"3\" %in% levels(Idents(pbmc)))) {\n  stop(\"Clusters 0 or 3 not found. Available clusters: \", \n       paste(levels(Idents(pbmc)), collapse = \", \"))\n}\n\n# Perform differential expression\nde_results <- FindMarkers(pbmc, \n                          ident.1 = \"0\", \n                          ident.2 = \"3\", \n                          min.pct = 0.25,\n                          logfc.threshold = 0.25,\n                          test.use = \"wilcox\")\n\n# Add gene names as a column\nde_results$gene <- rownames(de_results)\n\n# Calculate -log10(adjusted p-value)\nde_results$neg_log10_padj <- -log10(de_results$p_val_adj)\n\n# Replace infinite values (from p_val_adj = 0) with a large number\nde_results$neg_log10_padj[is.infinite(de_results$neg_log10_padj)] <- \n  max(de_results$neg_log10_padj[!is.infinite(de_results$neg_log10_padj)]) + 10\n\n# Classify genes as significant or not\nde_results$significant <- ifelse(abs(de_results$avg_log2FC) > 1 & \n                                  de_results$p_val_adj < 0.05, \n                                  \"Significant\", \n                                  \"Not Significant\")\n\n# Count significant genes\nn_sig <- sum(de_results$significant == \"Significant\")\ncat(\"\\nNumber of significantly differentially expressed genes:\", n_sig, \"\\n\")\ncat(\"(|log2FC| > 1 and adjusted p-value < 0.05)\\n\")\n\n# Display top differentially expressed genes\ncat(\"\\nTop 10 upregulated genes in cluster 0:\\n\")\nprint(head(de_results[order(-de_results$avg_log2FC), ], 10))\n\ncat(\"\\nTop 10 downregulated genes in cluster 0:\\n\")\nprint(head(de_results[order(de_results$avg_log2FC), ], 10))\n\n# ============================================================================\n# STEP 10: Volcano Plot\n# ============================================================================\n\n# Create volcano plot\nvolcano_plot <- ggplot(de_results, aes(x = avg_log2FC, \n                                       y = neg_log10_padj, \n                                       color = significant)) +\n  geom_point(alpha = 0.6, size = 1.5) +\n  scale_color_manual(values = c(\"Not Significant\" = \"grey\", \n                                 \"Significant\" = \"red\")) +\n  geom_vline(xintercept = c(-1, 1), linetype = \"dashed\", color = \"black\") +\n  geom_hline(yintercept = -log10(0.05), linetype = \"dashed\", color = \"black\") +\n  labs(title = \"Differential Expression: Cluster 0 vs Cluster 3\",\n       x = \"Log2 Fold Change\",\n       y = \"-Log10 Adjusted P-value\",\n       color = \"Significance\") +\n  theme_minimal() +\n  theme(plot.title = element_text(hjust = 0.5, face = \"bold\", size = 14),\n        legend.position = \"right\",\n        panel.grid.major = element_line(color = \"grey90\"),\n        panel.grid.minor = element_blank())\n\n# Display the plot\nprint(volcano_plot)\n\n# Save the plot\nggsave(\"volcano_plot_cluster0_vs_cluster3.pdf\", \n       plot = volcano_plot, \n       width = 10, \n       height = 8)\n\nggsave(\"volcano_plot_cluster0_vs_cluster3.png\", \n       plot = volcano_plot, \n       width = 10, \n       height = 8, \n       dpi = 300)\n\n# ============================================================================\n# STEP 11: Save Results\n# ============================================================================\n\n# Save differential expression results\nwrite.csv(de_results, \n          \"DE_cluster0_vs_cluster3.csv\", \n          row.names = FALSE)\n\n# Save Seurat object\nsaveRDS(pbmc, file = \"pbmc_seurat_object.rds\")\n\ncat(\"\\nAnalysis complete!\\n\")\ncat(\"Results saved:\\n\")\ncat(\"  - Volcano plot: volcano_plot_cluster0_vs_cluster3.pdf/png\\n\")\ncat(\"  - DE results: DE_cluster0_vs_cluster3.csv\\n\")\ncat(\"  - Seurat object: pbmc_seurat_object.rds\\n\")"
+              }
+            ]
+          }
+        ]
+      },
+      "quality": {
+        "avgWorkflow": 0.7571428571428571,
+        "avgGrounding": 0.6508326073735133,
+        "scores": [
+          {
+            "id": "pbmc_01",
+            "workflow": 0.2,
+            "grounding": 1
+          },
+          {
+            "id": "pbmc_02",
+            "workflow": 0.1,
+            "grounding": 0.4864864864864865
+          },
+          {
+            "id": "pbmc_03",
+            "workflow": 1,
+            "grounding": 0.6122448979591837
+          },
+          {
+            "id": "pbmc_04",
+            "workflow": 1,
+            "grounding": 0.6438356164383562
+          },
+          {
+            "id": "pbmc_05",
+            "workflow": 1,
+            "grounding": 0.6724137931034483
+          },
+          {
+            "id": "pbmc_06",
+            "workflow": 1,
+            "grounding": 0.5508474576271186
+          },
+          {
+            "id": "pbmc_07",
+            "workflow": 1,
+            "grounding": 0.59
+          }
+        ]
+      }
+    },
+    "groq": {
+      "passK": {
+        "avg": 0,
+        "results": [
+          {
+            "id": "pbmc_01",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false,
+                "code": "library(Seurat)\nlibrary(Matrix)\n\n# Read in the matrix\nmatrix <- readMM(\"matrix.mtx\")\n\n# Read in the genes and barcodes\ngenes <- read.csv(\"genes.tsv\", sep = \"\\t\", header = FALSE, colClasses = c(\"character\", \"character\"))\nbarcodes <- read.csv(\"barcodes.tsv\", sep = \"\\t\", header = FALSE, colClasses = c(\"character\"))\n\n# Create a Seurat object\nseurat_object <- CreateSeuratObject(counts = matrix, \n                                    genes = genes[, 2], \n                                    cells = barcodes[, 1])"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_02",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false,
+                "code": "# Load necessary libraries\nlibrary(Seurat)\nlibrary(Matrix)\n\n# Load data\nbarcodes <- read.table(\"barcodes.tsv\", colClasses = \"character\")\ngenes <- read.table(\"genes.tsv\", colClasses = c(\"character\", \"character\"))\nmatrix <- readMM(\"matrix.mtx\")\n\n# Create a Seurat object\npbmc <- CreateSeuratObject(counts = matrix, rownames = genes$V2, colnames = barcodes$V1)\n\n# Calculate the number of detected genes per cell\npbmc <- CalculateFeatures(object = pbmc, features = rownames(pbmc))\n\n# Calculate the total UMI counts per cell\npbmc <- AddModuleScore(object = pbmc, features = rownames(pbmc), name = \"nUMI\")\n\n# Identify mitochondrial genes\nmito.genes <- genes[grep(\"^MT-\", genes$V2), ]$V2\n\n# Calculate the percentage of mitochondrial genes\npbmc <- AddModuleScore(object = pbmc, features = mito.genes, name = \"percent.mito\")\n\n# Filter out low-quality cells\npbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mito < 0.05 & nUMI > 1000 & nUMI < 20000)\n\n# Print the number of cells after filtering\nprint(paste(\"Number of cells after filtering: \", ncol(pbmc)))"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_03",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false,
+                "code": "# Load necessary libraries\nlibrary(Seurat)\nlibrary(ggplot2)\n\n# Load the data\nbarcodes <- read.table(\"barcodes.tsv\", colClasses = \"character\")\ngenes <- read.table(\"genes.tsv\", colClasses = c(\"character\", \"character\"))\nmatrix <- readMM(\"matrix.mtx\")\n\n# Create a Seurat object\npbmc <- CreateSeuratObject(counts = matrix, project = \"PBMC\", min.cells = 3, min.features = 200)\npbmc@colnames <- barcodes$V1\npbmc@rownames <- genes$V1\n\n# Normalize the data\npbmc <- NormalizeData(pbmc, normalization.method = \"LogNormalize\", scale.factor = 10000)\n\n# Identify highly variable features\npbmc <- FindVariableFeatures(pbmc, selection.method = \"vst\")\n\n# Scale the data\npbmc <- ScaleData(pbmc, features = rownames(pbmc))\n\n# Run PCA\npbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc))\n\n# Perform clustering\npbmc <- FindNeighbors(pbmc, dims = 1:10)\npbmc <- FindClusters(pbmc, resolution = 0.5)\n\n# Compute UMAP\npbmc <- RunUMAP(pbmc, dims = 1:10)\n\n# Visualize the clusters\nDimPlot(pbmc, reduction = \"umap\")"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_04",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false,
+                "code": "# Load necessary libraries\nlibrary(Seurat)\nlibrary(Matrix)\nlibrary(ggplot2)\n\n# Load data\nbarcodes <- read.table(\"barcodes.tsv\", colClasses = \"character\")\ngenes <- read.table(\"genes.tsv\", colClasses = c(\"character\", \"character\"))\nmatrix <- readMM(\"matrix.mtx\")\n\n# Create Seurat object\npbmc <- CreateSeuratObject(counts = matrix, rownames = genes$V2, colnames = barcodes$V1)\n\n# QC filtering\npbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\n# Normalisation\npbmc <- NormalizeData(pbmc, normalization.method = \"LogNormalize\", scale.factor = 10000)\n\n# Variable features\npbmc <- FindVariableFeatures(pbmc, selection.method = \"vst\")\n\n# Scaling\npbmc <- ScaleData(pbmc, features = VariableFeatures(object = pbmc))\n\n# PCA\npbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc))\n\n# Clustering\npbmc <- FindNeighbors(pbmc, dims = 1:10)\npbmc <- FindClusters(pbmc, resolution = 0.5)\n\n# UMAP\npbmc <- RunUMAP(pbmc, dims = 1:10)\n\n# Find marker genes\nmarkers <- FindAllMarkers(pbmc, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)\n\n# Visualise top 5 markers per cluster as a heatmap\ntop_markers <- markers %>% \n  group_by(cluster) %>% \n  slice_max(avg_logFC, n = 5) %>% \n  ungroup()\n\nDoHeatmap(pbmc, features = top_markers$gene, group.by = \"seurat_clusters\")"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_05",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false,
+                "code": "# Load necessary libraries\nlibrary(Seurat)\nlibrary(Matrix)\n\n# Load data\nbarcodes <- read.table(\"barcodes.tsv\", colClasses = \"character\")\ngenes <- read.table(\"genes.tsv\", colClasses = c(\"character\", \"character\"))\nmatrix <- readMM(\"matrix.mtx\")\n\n# Create Seurat object\npbmc <- CreateSeuratObject(counts = matrix, rownames = genes$V2, colnames = barcodes$V1)\n\n# Filter low-quality cells\npbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\n# Normalize data\npbmc <- NormalizeData(pbmc, normalization.method = \"LogNormalize\", scale.factor = 10000)\n\n# Find variable features\npbmc <- FindVariableFeatures(pbmc, selection.method = \"vst\")\n\n# Scale data\npbmc <- ScaleData(pbmc, features = VariableFeatures(object = pbmc))\n\n# Run PCA\npbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc))\n\n# Cluster cells\npbmc <- FindNeighbors(object = pbmc, dims = 1:10)\npbmc <- FindClusters(object = pbmc, resolution = 0.5)\n\n# Compute UMAP\npbmc <- RunUMAP(object = pbmc, dims = 1:10)\n\n# Save Seurat object to disk\nsaveRDS(pbmc, file = \"pbmc_final.rds\")"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_06",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false,
+                "code": "# Load necessary libraries\nlibrary(Seurat)\nlibrary(Matrix)\n\n# Load data\nbarcodes <- read.table(\"barcodes.tsv\", colClasses = \"character\")\ngenes <- read.table(\"genes.tsv\", colClasses = c(\"character\", \"character\"))\nmatrix <- readMM(\"matrix.mtx\")\n\n# Create Seurat object\npbmc <- CreateSeuratObject(counts = matrix, rownames = genes[, 2], colnames = barcodes[, 1])\n\n# Filter cells and genes\npbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\n# Normalize data\npbmc <- NormalizeData(pbmc, normalization.method = \"LogNormalize\", scale.factor = 10000)\n\n# Find variable features\npbmc <- FindVariableFeatures(pbmc, selection.method = \"vst\")\n\n# Scale data\npbmc <- ScaleData(pbmc, features = VariableFeatures(object = pbmc))\n\n# Run PCA\npbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc))\n\n# Determine significant PCs\npbmc <- JackStraw(pbmc, num.replicate = 100)\npbmc <- ScoreJackStraw(pbmc, dims = 1:20)\n\n# Run UMAP\npbmc <- RunUMAP(pbmc, dims = 1:10)\n\n# Run clustering\npbmc <- FindNeighbors(pbmc, dims = 1:10)\npbmc <- FindClusters(pbmc, resolution = 0.5)\n\n# Define marker genes for each cell type\nmarker_genes <- list(\n  \"CD4 T cells\" = c(\"IL7R\", \"CCR7\"),\n  \"CD14 Monocytes\" = c(\"CD14\", \"LYZ\"),\n  \"B cells\" = c(\"MS4A1\"),\n  \"CD8 T cells\" = c(\"CD8A\"),\n  \"NK cells\" = c(\"GNLY\", \"NKG7\")\n)\n\n# Annotate clusters with cell type labels\ncell_types <- rep(NA, nrow(pbmc@meta.data))\nfor (i in 1:ncol(pbmc@meta.data)) {\n  cluster <- colnames(pbmc@meta.data)[i]\n  for (cell_type in names(marker_genes)) {\n    markers <- marker_genes[[cell_type]]\n    avg_expr <- rowMeans(pbmc@assays$RNA@data[markers, pbmc@meta.data$seurat_clusters == i])\n    if (mean(avg_expr) > 0.5) {\n      cell_types[pbmc@meta.data$seurat_clusters == i] <- cell_type\n    }\n  }\n}\n\n# Add cell type labels to Seurat object\npbmc@meta.data$cell_type <- cell_types\n\n# Visualize UMAP with cell type labels\nDimPlot(pbmc, reduction = \"umap\", group.by = \"cell_type\")"
+              }
+            ]
+          },
+          {
+            "id": "pbmc_07",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false,
+                "code": "# Load necessary libraries\nlibrary(Seurat)\nlibrary(ggplot2)\nlibrary(Matrix)\n\n# Load data\nbarcodes <- read.table(\"barcodes.tsv\", colClasses = \"character\")\ngenes <- read.table(\"genes.tsv\", colClasses = c(\"character\", \"character\"))\nmatrix <- readMM(\"matrix.mtx\")\n\n# Create Seurat object\npbmc <- CreateSeuratObject(counts = matrix, project = \"PBMC\", genes = genes[, 2], cells = barcodes[, 1])\n\n# Filter cells and genes\npbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)\n\n# Normalize data\npbmc <- NormalizeData(pbmc, normalization.method = \"LogNormalize\", scale.factor = 10000)\n\n# Scale data\npbmc <- ScaleData(pbmc, features = rownames(pbmc))\n\n# Perform PCA\npbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc))\n\n# Determine significant PCs\nelbow <- InflectionPoint(pbmc@reductions$pca@stddev)\npbmc <- RunUMAP(pbmc, dims = 1:elbow)\n\n# Cluster cells\npbmc <- FindNeighbors(pbmc, dims = 1:elbow)\npbmc <- FindClusters(pbmc, resolution = 0.5)\n\n# Perform differential expression analysis\ncluster0 <- subset(pbmc, idents = \"0\")\ncluster3 <- subset(pbmc, idents = \"3\")\ndiff <- FindMarkers(cluster0, cluster3, only.pos = FALSE)\n\n# Create volcano plot\nvolcano_data <- data.frame(log2FC = diff$avg_logFC, p_val_adj = diff$p_val_adj)\nvolcano_data$significant <- ifelse(abs(volcano_data$log2FC) > 1 & volcano_data$p_val_adj < 0.05, \"yes\", \"no\")\n\nggplot(volcano_data, aes(x = log2FC, y = -log10(p_val_adj), color = significant)) +\n  geom_point() +\n  scale_color_manual(values = c(\"black\", \"red\")) +\n  theme_classic() +\n  labs(x = \"log2 Fold Change\", y = \"-log10 Adjusted p-value\")"
+              }
+            ]
+          }
+        ]
+      },
+      "quality": {
+        "avgWorkflow": 0.7,
+        "avgGrounding": 0.569756538979228,
+        "scores": [
+          {
+            "id": "pbmc_01",
+            "workflow": 0.2,
+            "grounding": 0.375
+          },
+          {
+            "id": "pbmc_02",
+            "workflow": 0.3,
+            "grounding": 0.5714285714285714
+          },
+          {
+            "id": "pbmc_03",
+            "workflow": 0.9,
+            "grounding": 0.7058823529411765
+          },
+          {
+            "id": "pbmc_04",
+            "workflow": 0.9,
+            "grounding": 0.6818181818181818
+          },
+          {
+            "id": "pbmc_05",
+            "workflow": 0.9,
+            "grounding": 0.6666666666666666
+          },
+          {
+            "id": "pbmc_06",
+            "workflow": 0.9,
+            "grounding": 0.425
+          },
+          {
+            "id": "pbmc_07",
+            "workflow": 0.8,
+            "grounding": 0.5625
+          }
+        ]
+      }
+    }
+  }
+}

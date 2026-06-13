@@ -1,0 +1,54 @@
+# R package dependencies for scrna-seurat recipe
+# Install before running the pipeline
+
+# Core
+# install.packages(c("Seurat", "dplyr", "patchwork", "ggplot2", "tibble", "Matrix", "remotes"))
+
+Seurat        # >= 4.0, single-cell analysis framework
+dplyr         # data manipulation
+patchwork     # combining ggplot2 panels
+ggplot2       # visualisation
+tibble        # data frame utilities
+Matrix        # sparse matrix support
+
+# Doublet detection
+# remotes::install_github("chris-mcginnis-ucsf/DoubletFinder")
+DoubletFinder
+
+# Normalisation
+# SCTransform is included in Seurat >= 4.0
+
+# Automated cell annotation (Bioconductor)
+# BiocManager::install(c("SingleR", "celldex"))
+SingleR
+celldex
+
+# Multi-sample integration
+# install.packages("harmony")
+harmony
+
+# Pseudobulk DE
+# BiocManager::install("DESeq2")
+DESeq2
+
+# Trajectory inference
+# remotes::install_github("cole-trapnell-lab/monocle3")
+# remotes::install_github("satijalab/seurat-wrappers")
+monocle3
+SeuratWrappers
+
+# Cell-cell communication
+# remotes::install_github("jinworks/CellChat")
+CellChat
+
+# Pathway enrichment
+# install.packages("enrichR")
+enrichR
+
+# ExperimentHub / SCE loading (Bioconductor)
+# BiocManager::install(c("ExperimentHub", "SingleCellExperiment"))
+ExperimentHub
+SingleCellExperiment
+
+# Optional: spatstat (required by some older versions of DoubletFinder)
+# install.packages("spatstat.core")

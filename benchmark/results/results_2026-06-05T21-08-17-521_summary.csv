@@ -1,0 +1,5 @@
+model,pass_k,workflow,grounding
+rolv,0.9333,0.7467,0.8490
+rolv-nopreexec,0.8667,0.7567,0.8272
+rolv-raw,0.1333,0.7033,0.6298
+groq,0.2333,0.6867,0.7003

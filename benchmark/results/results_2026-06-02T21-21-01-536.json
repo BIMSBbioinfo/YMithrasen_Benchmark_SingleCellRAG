@@ -1,0 +1,351 @@
+{
+  "run_id": "2026-06-02T21-21-01-536",
+  "config": {
+    "k": 1,
+    "suite": "internal",
+    "agent": "all",
+    "r_exec": "C:/Program Files/R/R-4.5.1/bin/Rscript.exe",
+    "dataset_dir": "C:/MDC_internship/YMithrasen_Benchmark_SingleCellRAG/benchmark/datasets/filtered_gene_bc_matrices/hg19",
+    "recipe_path": "C:/MDC_internship/YMithrasen_Benchmark_SingleCellRAG/recipes/scrna-seurat-pbmc/recipe.md",
+    "results_dir": "C:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\benchmark\\results",
+    "timeout_ms": 300000,
+    "prompts_file": "C:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\benchmark\\prompts\\benchmark_prompts.jsonl",
+    "routing_file": "C:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\benchmark\\prompts\\routing_queries.jsonl",
+    "qa_file": "C:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\benchmark\\prompts\\genomics_qa.jsonl"
+  },
+  "results": {
+    "rolv": {
+      "passK": {
+        "avg": 0,
+        "results": [
+          {
+            "id": "pbmc_01",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_02",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_03",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_04",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_05",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_06",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_07",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          }
+        ]
+      },
+      "quality": {
+        "avgWorkflow": 0,
+        "avgGrounding": 1,
+        "scores": [
+          {
+            "id": "pbmc_01",
+            "workflow": 0,
+            "grounding": 1
+          },
+          {
+            "id": "pbmc_02",
+            "workflow": 0,
+            "grounding": 1
+          },
+          {
+            "id": "pbmc_03",
+            "workflow": 0,
+            "grounding": 1
+          },
+          {
+            "id": "pbmc_04",
+            "workflow": 0,
+            "grounding": 1
+          },
+          {
+            "id": "pbmc_05",
+            "workflow": 0,
+            "grounding": 1
+          },
+          {
+            "id": "pbmc_06",
+            "workflow": 0,
+            "grounding": 1
+          },
+          {
+            "id": "pbmc_07",
+            "workflow": 0,
+            "grounding": 1
+          }
+        ]
+      }
+    },
+    "rolv-raw": {
+      "passK": {
+        "avg": 0,
+        "results": [
+          {
+            "id": "pbmc_01",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_02",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_03",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_04",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_05",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_06",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_07",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          }
+        ]
+      },
+      "quality": {
+        "avgWorkflow": 0,
+        "avgGrounding": 0,
+        "scores": [
+          {
+            "id": "pbmc_01",
+            "workflow": 0,
+            "grounding": 0
+          },
+          {
+            "id": "pbmc_02",
+            "workflow": 0,
+            "grounding": 0
+          },
+          {
+            "id": "pbmc_03",
+            "workflow": 0,
+            "grounding": 0
+          },
+          {
+            "id": "pbmc_04",
+            "workflow": 0,
+            "grounding": 0
+          },
+          {
+            "id": "pbmc_05",
+            "workflow": 0,
+            "grounding": 0
+          },
+          {
+            "id": "pbmc_06",
+            "workflow": 0,
+            "grounding": 0
+          },
+          {
+            "id": "pbmc_07",
+            "workflow": 0,
+            "grounding": 0
+          }
+        ]
+      }
+    },
+    "groq": {
+      "passK": {
+        "avg": 0,
+        "results": [
+          {
+            "id": "pbmc_01",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_02",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_03",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_04",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_05",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_06",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          },
+          {
+            "id": "pbmc_07",
+            "score": 0,
+            "attempts": [
+              {
+                "passed": false
+              }
+            ]
+          }
+        ]
+      },
+      "quality": {
+        "avgWorkflow": 0,
+        "avgGrounding": 0,
+        "scores": [
+          {
+            "id": "pbmc_01",
+            "workflow": 0,
+            "grounding": 0
+          },
+          {
+            "id": "pbmc_02",
+            "workflow": 0,
+            "grounding": 0
+          },
+          {
+            "id": "pbmc_03",
+            "workflow": 0,
+            "grounding": 0
+          },
+          {
+            "id": "pbmc_04",
+            "workflow": 0,
+            "grounding": 0
+          },
+          {
+            "id": "pbmc_05",
+            "workflow": 0,
+            "grounding": 0
+          },
+          {
+            "id": "pbmc_06",
+            "workflow": 0,
+            "grounding": 0
+          },
+          {
+            "id": "pbmc_07",
+            "workflow": 0,
+            "grounding": 0
+          }
+        ]
+      }
+    }
+  }
+}

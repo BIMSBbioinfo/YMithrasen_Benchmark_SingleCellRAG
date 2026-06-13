@@ -1,0 +1,158 @@
+{
+  "id": "scrna-seurat-single-sample",
+  "nodes": [
+    {
+      "id": "reproducibility",
+      "name": "Set seed and session info",
+      "description": "Set random seed and record session information for reproducibility",
+      "kind": "script",
+      "path": "code/01_reproducibility.R",
+      "input_type": "none",
+      "output_type": "seed_set"
+    },
+    {
+      "id": "load_data",
+      "name": "Load count data",
+      "description": "Load 10X MTX, HDF5, RDS, SCE, or matrix file and create a Seurat object",
+      "kind": "script",
+      "path": "code/02_load_data.R",
+      "input_type": "raw_count_data",
+      "output_type": "seurat_object_raw"
+    },
+    {
+      "id": "qc_metrics",
+      "name": "Compute QC metrics",
+      "description": "Compute mitochondrial percentage, gene counts, and UMI counts per cell",
+      "kind": "script",
+      "path": "code/03_qc_metrics.R",
+      "input_type": "seurat_object_raw",
+      "output_type": "seurat_object_qc_annotated"
+    },
+    {
+      "id": "filter_cells",
+      "name": "Filter low-quality cells",
+      "description": "Remove cells below QC thresholds for gene count, UMI count, and mitochondrial percentage",
+      "kind": "script",
+      "path": "code/04_filter_cells.R",
+      "input_type": "seurat_object_qc_annotated",
+      "output_type": "seurat_object_filtered"
+    },
+    {
+      "id": "doublets",
+      "name": "Detect and remove doublets",
+      "description": "Identify doublets using DoubletFinder and subset to singlets",
+      "kind": "script",
+      "path": "code/05_doublets.R",
+      "input_type": "seurat_object_clustered",
+      "output_type": "seurat_object_singlets"
+    },
+    {
+      "id": "cell_cycle",
+      "name": "Cell cycle scoring",
+      "description": "Score cell cycle phases and optionally regress out cell cycle effects",
+      "kind": "script",
+      "path": "code/06_cell_cycle.R",
+      "input_type": "seurat_object_filtered",
+      "output_type": "seurat_object_cc_scored"
+    },
+    {
+      "id": "normalise",
+      "name": "Normalise counts",
+      "description": "Log-normalise counts or apply SCTransform",
+      "kind": "script",
+      "path": "code/07_normalise.R",
+      "input_type": "seurat_object_filtered",
+      "output_type": "seurat_object_normalised"
+    },
+    {
+      "id": "variable_genes",
+      "name": "Select highly variable genes",
+      "description": "Identify highly variable features using VST or mean-variance methods",
+      "kind": "script",
+      "path": "code/08_variable_genes.R",
+      "input_type": "seurat_object_normalised",
+      "output_type": "seurat_object_hvg"
+    },
+    {
+      "id": "scale_data",
+      "name": "Scale data",
+      "description": "Scale gene expression and optionally regress technical covariates",
+      "kind": "script",
+      "path": "code/09_scale_data.R",
+      "input_type": "seurat_object_hvg",
+      "output_type": "seurat_object_scaled"
+    },
+    {
+      "id": "pca",
+      "name": "PCA",
+      "description": "Run PCA and plot elbow plot to determine number of PCs",
+      "kind": "script",
+      "path": "code/10_pca.R",
+      "input_type": "seurat_object_scaled",
+      "output_type": "seurat_object_pca"
+    },
+    {
+      "id": "umap",
+      "name": "UMAP embedding",
+      "description": "Compute UMAP for non-linear 2D visualisation",
+      "kind": "script",
+      "path": "code/11_umap.R",
+      "input_type": "seurat_object_pca",
+      "output_type": "seurat_object_umap"
+    },
+    {
+      "id": "neighbours",
+      "name": "Build neighbour graph",
+      "description": "Construct kNN/SNN graph for clustering",
+      "kind": "script",
+      "path": "code/12_neighbours.R",
+      "input_type": "seurat_object_pca",
+      "output_type": "seurat_object_graph"
+    },
+    {
+      "id": "clustering",
+      "name": "Cluster cells",
+      "description": "Assign cluster identities using Louvain or Leiden algorithm",
+      "kind": "script",
+      "path": "code/13_clustering.R",
+      "input_type": "seurat_object_graph",
+      "output_type": "seurat_object_clustered"
+    },
+    {
+      "id": "marker_genes",
+      "name": "Find marker genes",
+      "description": "Find differentially expressed markers per cluster using Wilcoxon or MAST",
+      "kind": "script",
+      "path": "code/14_marker_genes.R",
+      "input_type": "seurat_object_clustered",
+      "output_type": "marker_table_and_plots"
+    },
+    {
+      "id": "cell_annotation",
+      "name": "Annotate cell types",
+      "description": "Assign cell type labels manually or using SingleR automated annotation",
+      "kind": "script",
+      "path": "code/15_cell_annotation.R",
+      "input_type": "seurat_object_clustered",
+      "output_type": "seurat_object_annotated"
+    }
+  ],
+  "edges": [
+    { "from": "reproducibility", "to": "load_data" },
+    { "from": "load_data",       "to": "qc_metrics" },
+    { "from": "qc_metrics",      "to": "filter_cells" },
+    { "from": "filter_cells",    "to": "cell_cycle" },
+    { "from": "filter_cells",    "to": "normalise" },
+    { "from": "cell_cycle",      "to": "normalise" },
+    { "from": "normalise",       "to": "variable_genes" },
+    { "from": "variable_genes",  "to": "scale_data" },
+    { "from": "scale_data",      "to": "pca" },
+    { "from": "pca",             "to": "umap" },
+    { "from": "pca",             "to": "neighbours" },
+    { "from": "neighbours",      "to": "clustering" },
+    { "from": "clustering",      "to": "doublets" },
+    { "from": "clustering",      "to": "marker_genes" },
+    { "from": "doublets",        "to": "marker_genes" },
+    { "from": "marker_genes",    "to": "cell_annotation" }
+  ]
+}
