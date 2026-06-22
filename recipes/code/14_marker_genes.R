@@ -1,9 +1,7 @@
 library(Seurat)
 library(dplyr)
 
-# =============================================================================
 # PARAMETERS
-# =============================================================================
 test_method     <- "wilcox"   # "wilcox" (default), "MAST", "DESeq2", "t", "LR"
 logfc_threshold <- 0.25        # minimum log2FC for FindAllMarkers
 min_pct         <- 0.25        # minimum fraction of cells expressing the gene
@@ -18,7 +16,7 @@ cluster_ident_2 <- NULL   # e.g. c(0, 3) — clusters to compare against (NULL =
 # Genes to visualise — replace with markers relevant to your dataset
 feature_genes <- c("MS4A1", "GNLY", "CD3E", "CD14", "FCER1A",
                    "FCGR3A", "LYZ", "PPBP", "CD8A")
-# =============================================================================
+
 
 # Optional: find markers for a specific cluster comparison
 if (!is.null(cluster_ident_1)) {

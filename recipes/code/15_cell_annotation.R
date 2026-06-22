@@ -1,11 +1,9 @@
 library(Seurat)
 
-# =============================================================================
 # PARAMETERS
-# =============================================================================
 annotation_method <- "manual"   # "manual" or "singler"
 
-# --- Manual annotation ---
+# Manual annotation
 # Map cluster numbers (as strings) to cell type labels
 # Replace with labels appropriate for your dataset
 manual_labels <- c(
@@ -15,11 +13,11 @@ manual_labels <- c(
   # add one entry per cluster
 )
 
-# --- SingleR automated annotation ---
+# SingleR automated annotation
 singler_species  <- "human"   # "human" or "mouse"
 singler_ref      <- "HPCA"    # reference dataset: "HPCA" (human), "ImmGen" (mouse),
                                # or "BlueprintEncode", "MouseRNAseqData", etc.
-# =============================================================================
+
 
 if (annotation_method == "manual") {
   names(manual_labels) <- levels(seu_filtered)

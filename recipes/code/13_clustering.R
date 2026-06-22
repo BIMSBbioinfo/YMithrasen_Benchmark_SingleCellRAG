@@ -1,8 +1,6 @@
 library(Seurat)
 
-# =============================================================================
 # PARAMETERS
-# =============================================================================
 resolution <- 0.5    # clustering resolution — higher = more clusters
 algorithm  <- 1      # 1 = Louvain (default), 2 = Louvain with multilevel refinement,
                      # 3 = SLM, 4 = Leiden (requires leidenalg Python package)
@@ -11,7 +9,7 @@ algorithm  <- 1      # 1 = Louvain (default), 2 = Louvain with multilevel refine
 #   resolution: 0.1–1.5 (start with 0.5, inspect UMAP, adjust to taste)
 #   Use lower values for fewer, broader clusters
 #   Use higher values for more granular clusters
-# =============================================================================
+
 
 seu_filtered <- FindClusters(
   seu_filtered,

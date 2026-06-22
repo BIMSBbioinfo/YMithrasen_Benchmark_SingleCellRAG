@@ -1,16 +1,14 @@
 library(Seurat)
 library(ggplot2)
 
-# =============================================================================
 # PARAMETERS
-# =============================================================================
 regress_cell_cycle <- FALSE   # set TRUE to regress out cell cycle effects
 cc_gene_source     <- "seurat" # "seurat" uses built-in cc.genes; or provide your own
 
 # Only used if cc_gene_source != "seurat":
 s_genes_path   <- "path/to/s_genes.txt"    # one gene per line
 g2m_genes_path <- "path/to/g2m_genes.txt"  # one gene per line
-# =============================================================================
+
 
 # Load cell cycle gene sets
 if (cc_gene_source == "seurat") {

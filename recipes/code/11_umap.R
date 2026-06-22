@@ -1,11 +1,9 @@
 library(Seurat)
 
-# =============================================================================
 # PARAMETERS
-# =============================================================================
 n_pcs      <- 20   # number of PCs — set based on elbow plot from 10_pca.R
 reduction  <- "pca" # "pca" for standard; "harmony" after integration
-# =============================================================================
+
 
 seu_filtered <- RunUMAP(
   seu_filtered,

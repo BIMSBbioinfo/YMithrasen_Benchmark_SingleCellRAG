@@ -1,8 +1,6 @@
 library(Seurat)
 
-# =============================================================================
 # PARAMETERS
-# =============================================================================
 scale_all_genes    <- FALSE          # TRUE scales all genes; FALSE scales only variable features
 vars_to_regress    <- NULL           # covariates to regress out, e.g. c("percent.mt", "nCount_RNA")
                                      # set NULL to skip regression
@@ -10,7 +8,7 @@ vars_to_regress    <- NULL           # covariates to regress out, e.g. c("percen
 #   vars_to_regress <- c("percent.mt")               # regress mitochondrial content
 #   vars_to_regress <- c("S.Score", "G2M.Score")     # regress cell cycle (if not done in 06)
 #   vars_to_regress <- c("percent.mt", "nCount_RNA")  # regress multiple covariates
-# =============================================================================
+
 
 features_to_scale <- if (scale_all_genes) rownames(seu_filtered) else VariableFeatures(seu_filtered)
 

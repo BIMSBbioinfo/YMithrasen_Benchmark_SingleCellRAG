@@ -1,11 +1,9 @@
 library(Seurat)
 
-# =============================================================================
 # PARAMETERS
-# =============================================================================
 norm_method  <- "lognorm"  # "lognorm" for log-normalisation, "sctransform" for SCTransform
 scale_factor <- 10000      # scale factor for log-normalisation (standard: 10000)
-# =============================================================================
+
 
 if (norm_method == "lognorm") {
   seu_filtered <- NormalizeData(

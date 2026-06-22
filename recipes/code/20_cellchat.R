@@ -1,18 +1,16 @@
 library(CellChat)
 library(Seurat)
 
-# =============================================================================
 # PARAMETERS
-# =============================================================================
 cell_label_col <- "manual_labels"   # metadata column with cell type labels
 condition_col  <- "orig.ident"      # metadata column to split by condition
 conditions     <- NULL              # conditions to compare, e.g. c("BMMC", "CD34")
                                     # set NULL to analyse all cells together
 species        <- "human"           # "human" or "mouse"
 min_cells_per_type <- 10           # warn if a cell type has fewer cells than this
-# =============================================================================
 
-# ── Step 1: Assay format check and conversion ─────────────────────────────────
+
+# Step 1: Assay format check and conversion
 # CellChat requires Seurat v3-format Assay objects.
 # Seurat v5 introduced Assay5 which is not compatible.
 # We detect and convert automatically, and report what was done.
@@ -34,7 +32,7 @@ if (inherits(integrated[["RNA"]], "Assay5")) {
   cat("Seurat v3 Assay detected. No conversion needed. Using assay: RNA\n")
 }
 
-# ── Step 2: Validate cell type labels ─────────────────────────────────────────
+# Step 2: Validate cell type labels
 cat("\n── Cell type label check ──\n")
 if (!cell_label_col %in% colnames(integrated@meta.data)) {
   stop(paste0(
@@ -58,7 +56,7 @@ if (length(small_types) > 0) {
   ))
 }
 
-# ── Step 3: Load CellChat database ────────────────────────────────────────────
+# Step 3: Load CellChat database
 cat("\n── Loading CellChat database ──\n")
 db <- if (species == "human") {
   cat("Using human CellChat database\n")
@@ -70,7 +68,7 @@ db <- if (species == "human") {
   stop("species must be 'human' or 'mouse'")
 }
 
-# ── Step 4: Helper — create and run CellChat object ───────────────────────────
+# Step 4: Helper — create and run CellChat object
 run_cellchat <- function(seu_sub, db, label_col, label = "") {
   cat("Building CellChat object", if (label != "") paste0("(", label, ")"), "...\n")
 
@@ -102,7 +100,7 @@ run_cellchat <- function(seu_sub, db, label_col, label = "") {
   return(cc)
 }
 
-# ── Step 5: Run CellChat ───────────────────────────────────────────────────────
+# Step 5: Run CellChat
 if (is.null(conditions)) {
   cat("\n── Running CellChat on all cells ──\n")
   cc_obj <- run_cellchat(integrated, db, cell_label_col)

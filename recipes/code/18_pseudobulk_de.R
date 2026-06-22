@@ -3,9 +3,7 @@ library(DESeq2)
 library(dplyr)
 library(tibble)
 
-# =============================================================================
 # PARAMETERS
-# =============================================================================
 cell_type_col  <- "cell"       # metadata column with cell type labels
 sample_col     <- "samples"    # metadata column with sample IDs
 condition_col  <- "condition"  # metadata column with condition labels
@@ -15,7 +13,7 @@ condition_ref  <- "Control"    # reference condition level
 condition_test <- "Stimulated" # condition to compare against reference
 min_counts     <- 10           # minimum total counts per gene to keep
 output_file    <- "pseudobulk_DE_results.csv"
-# =============================================================================
+
 
 # Create sample-level labels combining cell type and sample
 integrated$samples <- paste0(integrated[[condition_col, drop=TRUE]],

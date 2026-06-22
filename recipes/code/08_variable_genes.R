@@ -1,14 +1,12 @@
 library(Seurat)
 
-# =============================================================================
 # PARAMETERS
-# =============================================================================
 n_variable       <- 2000   # number of highly variable features to select
 selection_method <- "vst"  # "vst" (default), "mean.var.plot", or "dispersion"
 
 # Suggested ranges:
 #   n_variable: 1000–5000 (2000 is standard)
-# =============================================================================
+
 
 seu_filtered <- FindVariableFeatures(
   seu_filtered,

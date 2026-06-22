@@ -1,13 +1,11 @@
 library(Seurat)
 library(patchwork)
 
-# =============================================================================
 # PARAMETERS
-# =============================================================================
 mt_pattern   <- "^MT-"   # mitochondrial gene pattern: "^MT-" human, "^mt-" mouse
 ribo_pattern <- "^RP[SL]" # ribosomal gene pattern (optional)
 compute_ribo <- FALSE     # set TRUE to also compute ribosomal percentage
-# =============================================================================
+
 
 # Mitochondrial percentage
 seu[["percent.mt"]] <- PercentageFeatureSet(seu, pattern = mt_pattern)

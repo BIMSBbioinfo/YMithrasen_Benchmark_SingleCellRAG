@@ -2,9 +2,7 @@ library(Seurat)
 library(DoubletFinder)
 library(ggplot2)
 
-# =============================================================================
 # PARAMETERS
-# =============================================================================
 n_pcs        <- 20     # must match the value used in 10_pca.R
 doublet_rate <- 0.07   # expected proportion of doublets (0.05–0.10)
 pK_fixed     <- 0.01   # fixed pK value — see note below
@@ -14,7 +12,7 @@ run_pk_sweep <- FALSE  # set TRUE to run full pK parameter sweep (slower)
 # The column name DoubletFinder creates also encodes pK, so it changes too.
 # pK = 0.01 is a stable default. For publication results, set run_pk_sweep = TRUE,
 # inspect the BCmetric plot, and read the peak pK value from the plot.
-# =============================================================================
+
 
 # Optional pK sweep
 if (run_pk_sweep) {

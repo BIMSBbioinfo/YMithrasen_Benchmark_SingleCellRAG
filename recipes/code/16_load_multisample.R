@@ -1,9 +1,7 @@
 library(Seurat)
 library(dplyr)
 
-# =============================================================================
 # PARAMETERS
-# =============================================================================
 input_type <- "rds"   # "rds", "mtx", or "h5"
 data_dir   <- "path/to/samples"  # folder containing all sample files
 
@@ -22,7 +20,7 @@ sample_metadata <- data.frame(
 min_cells    <- 3
 min_features <- 200
 mt_pattern   <- "^MT-"   # "^MT-" human, "^mt-" mouse
-# =============================================================================
+
 
 # Load each sample, create Seurat object, add metadata, compute percent.mt
 load_sample <- function(i, sample_metadata, data_dir, input_type,

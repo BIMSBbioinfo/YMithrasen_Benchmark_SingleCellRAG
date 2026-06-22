@@ -1,8 +1,7 @@
 library(Seurat)
 
-# =============================================================================
+
 # PARAMETERS
-# =============================================================================
 input_type   <- "mtx"          # one of: "mtx", "h5", "rds", "sce", "matrix"
 data_path    <- "path/to/data" # for mtx: folder path; for others: file path
 project_name <- "my_project"   # label for the Seurat object
@@ -12,7 +11,7 @@ min_features <- 200            # include cells with at least this many genes
 # Suggested ranges:
 #   min_cells:    2–5
 #   min_features: 100–500
-# =============================================================================
+
 
 if (input_type == "mtx") {
   # 10X Cell Ranger MTX output — handles both v2 (genes.tsv) and v3 (features.tsv)

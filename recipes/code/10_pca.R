@@ -1,12 +1,10 @@
 library(Seurat)
 
-# =============================================================================
 # PARAMETERS
-# =============================================================================
 n_pcs_compute <- 50   # number of PCs to compute (compute more than you plan to use)
 n_pcs_print   <- 5    # number of PCs to print loadings for
 n_features_print <- 5 # number of top features to print per PC
-# =============================================================================
+
 
 seu_filtered <- RunPCA(
   seu_filtered,

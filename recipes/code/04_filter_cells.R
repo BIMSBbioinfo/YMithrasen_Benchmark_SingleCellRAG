@@ -1,8 +1,6 @@
 library(Seurat)
 
-# =============================================================================
 # PARAMETERS — set based on QC plots from 03_qc_metrics.R
-# =============================================================================
 min_feat      <- 200    # minimum genes per cell
 max_feat      <- 2500   # maximum genes per cell
 min_counts    <- 800    # minimum total UMI counts per cell (set 0 to skip)
@@ -17,7 +15,7 @@ singlet_label <- "singlet"     # value in multiplet_col that indicates a singlet
 #   max_feat:   2000–6000 (upper tail; complex tissues may need higher)
 #   max_mt:     5–25     (inspect violin; solid tissues often 10–25)
 #   min_counts: 500–1000
-# =============================================================================
+
 
 n_before <- ncol(seu)
 

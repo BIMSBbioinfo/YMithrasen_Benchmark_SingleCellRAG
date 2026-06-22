@@ -1,15 +1,13 @@
-# =============================================================================
 # PARAMETERS
-# =============================================================================
 assay_for_trajectory <- "integrated"  # assay to use: "integrated" or "RNA"
 use_partition        <- FALSE          # FALSE = single trajectory across all cells
 root_method          <- "auto"         # "auto" = most-connected node;
                                        # "manual" = set root_cell below
 root_cell            <- NULL           # cell barcode to use as root when root_method = "manual"
 min_cells_trajectory <- 200           # warn if fewer cells than this — trajectory may be unreliable
-# =============================================================================
 
-# ── Step 1: Dependency check ──────────────────────────────────────────────────
+
+# Step 1: Dependency check
 # Monocle3 and SeuratWrappers must both be installed.
 # SeuratWrappers provides as.cell_data_set() for Seurat → Monocle3 conversion.
 
@@ -32,7 +30,7 @@ library(monocle3)
 library(SeuratWrappers)
 library(Seurat)
 
-# ── Step 2: Cell count check ──────────────────────────────────────────────────
+# Step 2: Cell count check
 cat("\n── Dataset check ──\n")
 cat("Total cells:", ncol(integrated), "\n")
 cat("Assay for trajectory:", assay_for_trajectory, "\n")
@@ -53,7 +51,7 @@ if (ncol(integrated) < min_cells_trajectory) {
   ))
 }
 
-# ── Step 3: Convert Seurat → Monocle3 CDS ────────────────────────────────────
+# Step 3: Convert Seurat → Monocle3 CDS
 cat("\n── Converting Seurat object to Monocle3 CDS ──\n")
 cat("This uses as.cell_data_set() from SeuratWrappers.\n")
 cat("UMAP coordinates from Seurat will be transferred to the CDS.\n")
@@ -62,7 +60,7 @@ cds <- as.cell_data_set(integrated, assay = assay_for_trajectory)
 fData(cds)$gene_short_name <- rownames(fData(cds))
 cat("CDS created:", ncol(cds), "cells,", nrow(cds), "genes\n")
 
-# ── Step 4: Set partition ─────────────────────────────────────────────────────
+# Step 4: Set partition
 cat("\n── Setting partition ──\n")
 if (!use_partition) {
   cat("use_partition = FALSE: treating all cells as a single trajectory.\n")
@@ -74,12 +72,12 @@ if (!use_partition) {
   cat("use_partition = TRUE: using Monocle3 partitions.\n")
 }
 
-# ── Step 5: Learn trajectory graph ───────────────────────────────────────────
+# Step 5: Learn trajectory graph
 cat("\n── Learning trajectory graph ──\n")
 cds <- learn_graph(cds, use_partition = use_partition, verbose = FALSE)
 cat("Trajectory graph learned.\n")
 
-# ── Step 6: Order cells by pseudotime ────────────────────────────────────────
+# Step 6: Order cells by pseudotime
 cat("\n── Ordering cells by pseudotime ──\n")
 
 if (root_method == "auto") {
@@ -122,7 +120,7 @@ if (root_method == "auto") {
 cds <- order_cells(cds, root_pr_nodes = root_node)
 cat("Pseudotime computed.\n")
 
-# ── Step 7: Visualise ─────────────────────────────────────────────────────────
+# Step 7: Visualise
 cat("\n── Plotting trajectory ──\n")
 plot_cells(
   cds,

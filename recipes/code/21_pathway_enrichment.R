@@ -2,9 +2,7 @@ library(Seurat)
 library(enrichR)
 library(dplyr)
 
-# =============================================================================
 # PARAMETERS
-# =============================================================================
 condition_col  <- "orig.ident"   # metadata column with condition labels
 condition_1    <- "BMMC"         # first condition (ident.1)
 condition_2    <- "CD34"         # second condition (ident.2)
@@ -23,7 +21,7 @@ databases <- c(
   "MSigDB_Hallmark_2020"
 )
 # Check available databases with: enrichR::listEnrichrDbs()
-# =============================================================================
+
 
 # Set identities to condition
 Idents(integrated) <- integrated[[condition_col, drop = TRUE]]
