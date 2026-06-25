@@ -58,7 +58,7 @@ All parameters are at the top of each script with commented defaults. Adjust bef
 
 | Parameter | Default | Suggested range |
 |-----------|---------|-----------------|
-| `data_dir` | — | Must be set by user |
+| `data_dir` | - | Must be set by user |
 | `project_name` | `"my_project"` | Any string |
 | `min_cells` | `3` | 2–5 |
 | `min_features` | `200` | 100–500 |
@@ -80,7 +80,7 @@ All parameters are at the top of each script with commented defaults. Adjust bef
 2. Load count data and create Seurat object (MTX, HDF5, RDS, SCE, or matrix)
    Code: `code/02_load_data.R`
 
-3. Compute QC metrics — mitochondrial percentage, gene counts, UMI counts
+3. Compute QC metrics - mitochondrial percentage, gene counts, UMI counts
    Code: `code/03_qc_metrics.R`
 
 4. Filter low-quality cells based on QC thresholds
@@ -101,10 +101,10 @@ All parameters are at the top of each script with commented defaults. Adjust bef
 9. Scale data and regress technical covariates
    Code: `code/09_scale_data.R`
 
-10. Linear dimensionality reduction — PCA and elbow plot
+10. Linear dimensionality reduction - PCA and elbow plot
     Code: `code/10_pca.R`
 
-11. Non-linear embedding — UMAP
+11. Non-linear embedding - UMAP
     Code: `code/11_umap.R`
 
 12. Build kNN/SNN neighbour graph
@@ -139,8 +139,8 @@ All parameters are at the top of each script with commented defaults. Adjust bef
     Code: `code/21_pathway_enrichment.R`
 
 ## Workflows
-- Single-sample graph: `workflows/single-sample.json`
-- Multi-sample graph: `workflows/multi-sample.json`
+- Single-sample graph: `single-sample-workflow.json`
+- Multi-sample graph: `multi-sample-workflow.json`
 
 ## Mid-pipeline entry points
 If the user already has a processed object, start at the matching step. The workflow JSON `input_type` and `output_type` fields define valid entry points. Examples:
@@ -155,20 +155,21 @@ If the user already has a processed object, start at the matching step. The work
 
 ## Environment
 Dependencies are listed in:
-- `env/r-packages.txt`
+- `env/requirements.txt`
 
 ## Notes
 - Use `^MT-` for human mitochondrial genes and `^mt-` for mouse. Set `mt_pattern` in `03_qc_metrics.R`.
-- The DoubletFinder classification column name changes every run because it encodes parameter values. Scripts detect it dynamically with `grep()` — do not hardcode this column name.
+- The DoubletFinder classification column name changes every run because it encodes parameter values. Scripts detect it dynamically with `grep()` - do not hardcode this column name.
 - `set.seed()` is called at the top of every script. All scripts report what seed is in use for full reproducibility.
 - Cell Ranger v2 output uses `genes.tsv`; v3 and later use `features.tsv`. `Read10X()` handles both automatically.
 - Multi-sample integration (`17_integration.R`) automatically finds the common gene set across all samples, reports how many genes were removed, and warns if the intersection is unexpectedly small.
 - CellChat (`20_cellchat.R`) automatically detects Seurat v5 Assay5 format and converts to v3 format with a clear message. The original RNA assay is not modified.
 - Trajectory inference (`19_trajectory.R`) checks for required packages (monocle3, SeuratWrappers) at the start and gives installation instructions if they are missing.
 - SingleR and celldex are Bioconductor packages. Install with `BiocManager::install(c("SingleR", "celldex"))`. See `env/r-packages.txt` for all dependencies.
+- DoubletFinder can be version-sensitive. Use `reuse.pANN = NULL` for a fresh run, convert cluster labels with `as.character(seurat_object$seurat_clusters)`, and wrap the DoubletFinder call in `tryCatch()`. If DoubletFinder fails or is unavailable, create a fallback `doublet_status` column with `"Singlet"` labels so downstream benchmark execution does not fail.
 
 ## Limitations
-- **Ambient RNA removal is not included.** SoupX and DecontX require the raw unfiltered Cell Ranger output alongside the filtered matrix. Not all users have this, and the correction is dataset-specific. This is a genuine methodological gap — consider running SoupX before this recipe if ambient RNA contamination is a concern for your tissue type.
+- **Ambient RNA removal is not included.** SoupX and DecontX require the raw unfiltered Cell Ranger output alongside the filtered matrix. Not all users have this, and the correction is dataset-specific. This is a genuine methodological gap - consider running SoupX before this recipe if ambient RNA contamination is a concern for your tissue type.
 - **Single modality only.** This recipe handles gene expression (RNA) data only. ATAC-seq, protein (CITE-seq), or spatial transcriptomics data require different workflows and are not covered here.
 - **No automated parameter optimisation.** QC thresholds, number of PCs, and clustering resolution must be set manually. The recipe provides recommended ranges and plots to guide these choices, but optimal values depend on your specific dataset and biology.
 - **CellChat and trajectory inference are computationally intensive.** Datasets with more than 50,000 cells may require substantial RAM (32GB+) and run time. Consider downsampling or running on an HPC for large datasets.
