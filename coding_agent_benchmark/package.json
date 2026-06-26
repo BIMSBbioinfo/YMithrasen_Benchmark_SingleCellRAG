@@ -1,1 +1,1 @@
-{"name":"coding-agent-benchmark","version":"1.0.0","type":"module","dependencies":{"dotenv":"^16.0.0"}}
+{"name":"coding-agent-benchmark","version":"1.0.0","type":"module","dependencies":{"dotenv":"^16.0.0","openai":"^6.44.0"}}

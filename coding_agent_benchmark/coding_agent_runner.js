@@ -537,7 +537,6 @@ function shortestPath(workflow, startNodeId, targetNodeId) {
 function resolveRecipeNodes(promptText) {
   // Full pipeline shortcut — if the prompt matches a full pipeline pattern,
   // return all standard single-sample scripts immediately without keyword matching
-  const lowerText = promptText.toLowerCase();
   if (FULL_PIPELINE_KEYWORDS.some(kw => new RegExp(kw, "i").test(promptText))) {
     return {
       workflowKind : "single",
@@ -661,10 +660,108 @@ function buildWorkflowNodeContext(resolved) {
   }).join("\n");
 }
 
-function buildRecipeContextFromRecipeMd(recipe_content, resolved) {
-  const paramsTable = extractParamsTable(recipe_content);
-  const workflowNodeContext = buildWorkflowNodeContext(resolved);
-  const selectedNotes = extractNotesForSelectedNodes(recipe_content, resolved.nodes);
+// Pointer-style cards for each recipe script.
+// Each card tells the agent: what the script does, which function to use, and where to find it.
+// No prose summaries — the actual file is the source of truth.
+const RECIPE_POINTERS = {
+  "02_load_data.R": `## 02_load_data.R — Load raw count data
+File: ./recipes/code/02_load_data.R
+Use Read10X() for MTX folders, Read10X_h5() for H5 files, readRDS() for RDS.
+Creates a Seurat object with CreateSeuratObject(). Object named: seu`,
+
+  "03_qc_metrics.R": `## 03_qc_metrics.R — Compute QC metrics
+File: ./recipes/code/03_qc_metrics.R
+Use PercentageFeatureSet(seu, pattern="^MT-") for percent.mt.
+Adds nFeature_RNA, nCount_RNA, percent.mt to seu@meta.data.`,
+
+  "04_filter_cells.R": `## 04_filter_cells.R — Filter low-quality cells
+File: ./recipes/code/04_filter_cells.R
+Use subset() with nFeature_RNA, nCount_RNA, percent.mt thresholds.
+Output object named: seu_filtered`,
+
+  "05_doublets.R": `## 05_doublets.R — Doublet detection
+File: ./recipes/code/05_doublets.R
+Key function: run_doubletfinder_safe(seu, n_pcs, doublet_rate, pK, run_pk_sweep)
+Usage: source("./recipes/code/05_doublets.R") then call run_doubletfinder_safe()
+DO NOT call doubletFinder() directly — use run_doubletfinder_safe() only.
+Input: seu_filtered with clusters and UMAP already run.
+Output: seu_df with $doublet_status; subset to seu_singlets after.`,
+
+  "06_cell_cycle.R": `## 06_cell_cycle.R — Cell cycle scoring
+File: ./recipes/code/06_cell_cycle.R
+Use CellCycleScoring() with s.genes and g2m.genes from Seurat.
+Adds S.Score, G2M.Score, Phase to seu@meta.data.`,
+
+  "07_normalise.R": `## 07_normalise.R — Normalise data
+File: ./recipes/code/07_normalise.R
+Use NormalizeData(seu_filtered, normalization.method="LogNormalize", scale.factor=10000).
+Output object named: seu_filtered (updated in place).`,
+
+  "08_variable_genes.R": `## 08_variable_genes.R — Find highly variable genes
+File: ./recipes/code/08_variable_genes.R
+Use FindVariableFeatures(seu_filtered, selection.method="vst", nfeatures=2000).`,
+
+  "09_scale_data.R": `## 09_scale_data.R — Scale data
+File: ./recipes/code/09_scale_data.R
+Use ScaleData(seu_filtered, features=VariableFeatures(seu_filtered)).`,
+
+  "10_pca.R": `## 10_pca.R — PCA
+File: ./recipes/code/10_pca.R
+Use RunPCA(seu_filtered, features=VariableFeatures(seu_filtered), npcs=50).
+Use ElbowPlot() to choose n_pcs.`,
+
+  "11_umap.R": `## 11_umap.R — UMAP embedding
+File: ./recipes/code/11_umap.R
+Use RunUMAP(seu_filtered, dims=1:n_pcs).`,
+
+  "12_neighbours.R": `## 12_neighbours.R — Find neighbours
+File: ./recipes/code/12_neighbours.R
+Use FindNeighbors(seu_filtered, dims=1:n_pcs).`,
+
+  "13_clustering.R": `## 13_clustering.R — Cluster cells
+File: ./recipes/code/13_clustering.R
+Use FindClusters(seu_filtered, resolution=0.5).
+Cluster labels available as Idents(seu_filtered) or seu_filtered$seurat_clusters.`,
+
+  "14_marker_genes.R": `## 14_marker_genes.R — Find marker genes
+File: ./recipes/code/14_marker_genes.R
+Use FindAllMarkers(seu_filtered, only.pos=TRUE, min.pct=0.25, logfc.threshold=0.25).
+Requires clusters to exist first (FindClusters must have run).`,
+
+  "15_cell_annotation.R": `## 15_cell_annotation.R — Annotate cell types
+File: ./recipes/code/15_cell_annotation.R
+Prefer marker-based annotation using RenameIdents().
+Use SingleR/celldex only if explicitly requested and installed.`,
+
+  "16_load_multisample.R": `## 16_load_multisample.R — Load multiple samples
+File: ./recipes/code/16_load_multisample.R
+Read each sample with Read10X(), create Seurat objects, merge with merge().`,
+
+  "17_integration.R": `## 17_integration.R — Integrate samples
+File: ./recipes/code/17_integration.R
+Use IntegrateLayers() or Harmony. Requires merged object with batch info.`,
+
+  "18_pseudobulk_de.R": `## 18_pseudobulk_de.R — Pseudobulk differential expression
+File: ./recipes/code/18_pseudobulk_de.R
+Aggregate counts per sample/cluster, then use DESeq2.`,
+
+  "19_trajectory.R": `## 19_trajectory.R — Trajectory analysis
+File: ./recipes/code/19_trajectory.R
+Use Monocle3 only if explicitly requested and installed.`,
+};
+
+function buildPointerCards(selected_scripts, resolved) {
+  const paramsTable = (() => {
+    const recipe_content = fs.existsSync(CONFIG.recipe_file)
+      ? fs.readFileSync(CONFIG.recipe_file, "utf8") : "";
+    return extractParamsTable(recipe_content);
+  })();
+
+  const cards = selected_scripts
+    .map(name => RECIPE_POINTERS[name] || `## ${name}\nFile: ./recipes/code/${name}`)
+    .join("\n\n");
+
+  const selectedNotes = extractNotesForSelectedNodes("", resolved.nodes);
 
   return `RECIPE / SKILL ROUTING CONTEXT
 
@@ -683,10 +780,11 @@ Use task-specified values first. Otherwise choose reasonable values and define t
 ${paramsTable}
 
 SELECTED WORKFLOW PATH
-${workflowNodeContext}
+${selected_scripts.map((s, i) => `${i + 1}. ${s}`).join("\n")}
 
-TASK-SPECIFIC NOTES
-${selectedNotes || "No additional notes needed."}`;
+RECIPE CARDS — read the listed file before writing code for that step:
+${cards}
+${selectedNotes ? `\nTASK-SPECIFIC NOTES\n${selectedNotes}` : ""}`;
 }
 
 function buildPromptWithContext(prompt_obj) {
@@ -708,16 +806,12 @@ INSTRUCTIONS:
 - Just output the R code block and nothing else`;
   }
 
-  const recipe_content = fs.existsSync(CONFIG.recipe_file)
-    ? fs.readFileSync(CONFIG.recipe_file, "utf8")
-    : "";
-
   const resolved = resolveRecipeNodes(prompt_obj.prompt);
   const selected_scripts = resolved.scripts;
 
   const recipe_context = CONFIG.context_mode === "full"
     ? loadScriptContent(selected_scripts)
-    : buildRecipeContextFromRecipeMd(recipe_content, resolved);
+    : buildPointerCards(selected_scripts, resolved);
 
   log(`  [recipe] workflow=${resolved.workflowKind || "unknown"}`);
   log(`  [recipe] input=${resolved.inputType || "unknown"}`);
