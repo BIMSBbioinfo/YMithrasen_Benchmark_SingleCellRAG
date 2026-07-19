@@ -2,10 +2,17 @@
  * baseline_shim.js
  *
  * Calls various model providers and returns extracted R code.
- * Supports: gpt-4o, gemini-2.0-flash, groq (gpt-oss-20b), rolv-raw
+ * Supports: gpt-5.5, gemini-openrouter (via OpenRouter), groq (gpt-oss-20b), rolv-raw
  *
  * Usage: node baseline_shim.js <base64-encoded-json>
  * Input JSON: { model: string, prompt: string }
+ *
+ * Sampling note: temperature is set to 0.6 for providers that support it
+ * (Gemini, Groq, GPT-5.4-mini) to give genuine k-sample diversity for Pass@k.
+ * GPT-5.5 and Claude direct models do not accept temperature — they run at
+ * provider default. This asymmetry is a real, documented limitation: not all
+ * models received identical sampling controls. Diversity across k attempts
+ * is tracked separately (see unique_generations in benchmark_runner.js).
  * Output JSON: { result: string|null, error: string|null }
  */
 
@@ -40,12 +47,45 @@ function extractRCode(text) {
 
 // ── providers ─────────────────────────────────────────────────────────────────
 
-async function callGPT4o(prompt) {
+async function callGPT55(prompt) {
   const { default: OpenAI } = await import("openai");
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const response = await client.chat.completions.create({
-    model: "gpt-4o",
-    temperature: 0,
+    model: "gpt-5.5",
+    max_completion_tokens: 2048,
+    messages: [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user",   content: prompt }
+    ]
+  });
+  return response.choices[0].message.content;
+}
+
+async function callGPT54Mini(prompt) {
+  const { default: OpenAI } = await import("openai");
+  const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  const response = await client.chat.completions.create({
+    model: "gpt-5.4-mini",
+    temperature: 0.6,
+    max_completion_tokens: 2048,
+    messages: [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user",   content: prompt }
+    ]
+  });
+  return response.choices[0].message.content;
+}
+
+async function callGeminiOpenRouter(prompt) {
+  // Gemini 3.5 Flash via OpenRouter
+  const { default: OpenAI } = await import("openai");
+  const client = new OpenAI({
+    apiKey:  process.env.OPENROUTER_API_KEY,
+    baseURL: "https://openrouter.ai/api/v1"
+  });
+  const response = await client.chat.completions.create({
+    model: "google/gemini-3.5-flash",
+    temperature: 0.6,
     max_tokens: 2048,
     messages: [
       { role: "system", content: SYSTEM_PROMPT },
@@ -55,16 +95,37 @@ async function callGPT4o(prompt) {
   return response.choices[0].message.content;
 }
 
-async function callGemini(prompt) {
-  const { GoogleGenerativeAI } = await import("@google/generative-ai");
-  const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-  const model = genAI.getGenerativeModel({
-    model: "gemini-2.0-flash",
-    systemInstruction: SYSTEM_PROMPT,
-    generationConfig: { temperature: 0, maxOutputTokens: 2048 }
+async function callGeminiFlashLite(prompt) {
+  // Gemini 3.1 Flash-Lite via OpenRouter — cheapest Gemini, GA version
+  const { default: OpenAI } = await import("openai");
+  const client = new OpenAI({
+    apiKey:  process.env.OPENROUTER_API_KEY,
+    baseURL: "https://openrouter.ai/api/v1"
   });
-  const result = await model.generateContent(prompt);
-  return result.response.text();
+  const response = await client.chat.completions.create({
+    model: "google/gemini-3.1-flash-lite",
+    temperature: 0.6,
+    max_tokens: 2048,
+    messages: [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user",   content: prompt }
+    ]
+  });
+  return response.choices[0].message.content;
+}
+
+async function callAnthropicClaude(model, prompt) {
+  // Direct Anthropic API — bypasses ROLV entirely, uses ANTHROPIC_API_KEY
+  // Note: Sonnet 5, Opus 4.7, Opus 4.8 do NOT support temperature/top_p/top_k
+  const Anthropic = (await import("@anthropic-ai/sdk")).default;
+  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  const response = await client.messages.create({
+    model,
+    max_tokens: 2048,
+    system: SYSTEM_PROMPT,
+    messages: [{ role: "user", content: prompt }]
+  });
+  return response.content[0].text;
 }
 
 async function callGroq(prompt) {
@@ -76,7 +137,7 @@ async function callGroq(prompt) {
   });
   const response = await client.chat.completions.create({
     model: "openai/gpt-oss-20b",
-    temperature: 0,
+    temperature: 0.6,
     max_tokens: 2048,
     messages: [
       { role: "system", content: SYSTEM_PROMPT },
@@ -101,7 +162,7 @@ async function callRolv(prompt) {
     body: JSON.stringify({
       model: "rolv",
       max_tokens: 2048,
-      temperature: 0,
+      temperature: 0.6,
       messages: [
         { role: "user", content: prompt }
       ]
@@ -133,7 +194,7 @@ async function callRolvRaw(prompt) {
     body: JSON.stringify({
       model: "rolv",
       max_tokens: 4096,
-      temperature: 0,
+      temperature: 0.6,
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user",   content: `@out-of-domain ${prompt}` }
@@ -162,11 +223,16 @@ let error  = null;
 
 try {
   let raw;
-  if      (model === "rolv")             raw = await callRolv(prompt);
-  else if (model === "rolv-raw")         raw = await callRolvRaw(prompt);
-  else if (model === "gpt-4o")           raw = await callGPT4o(prompt);
-  else if (model === "gemini-2.0-flash") raw = await callGemini(prompt);
-  else if (model === "groq")             raw = await callGroq(prompt);
+  if      (model === "rolv")               raw = await callRolv(prompt);
+  else if (model === "rolv-raw")           raw = await callRolvRaw(prompt);
+  else if (model === "gpt-5.5")            raw = await callGPT55(prompt);
+  else if (model === "gpt-5.4-mini")       raw = await callGPT54Mini(prompt);
+  else if (model === "gemini-openrouter")   raw = await callGeminiOpenRouter(prompt);
+  else if (model === "gemini-flash-lite")   raw = await callGeminiFlashLite(prompt);
+  else if (model === "claude-opus-4-8")     raw = await callAnthropicClaude("claude-opus-4-8", prompt);
+  else if (model === "claude-sonnet-5")     raw = await callAnthropicClaude("claude-sonnet-5", prompt);
+  else if (model === "claude-haiku-4-5")    raw = await callAnthropicClaude("claude-haiku-4-5-20251001", prompt);
+  else if (model === "groq")                raw = await callGroq(prompt);
   else throw new Error(`Unknown model: ${model}`);
 
   result = extractRCode(raw);
@@ -177,4 +243,6 @@ try {
   process.stderr.write(`[baseline_shim:${model}] Error: ${error}\n`);
 }
 
-process.stdout.write(JSON.stringify({ result, error }) + "\n");
+// alreadyExtracted: true tells benchmark_runner.js this is clean R code with
+// fences already stripped — do not re-run extractRFromText's heuristics on it.
+process.stdout.write(JSON.stringify({ result, error, alreadyExtracted: true }) + "\n");
