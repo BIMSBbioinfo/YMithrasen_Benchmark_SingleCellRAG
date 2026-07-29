@@ -167,6 +167,7 @@ Dependencies are listed in:
 - Trajectory inference (`19_trajectory.R`) checks for required packages (monocle3, SeuratWrappers) at the start and gives installation instructions if they are missing.
 - SingleR and celldex are Bioconductor packages. Install with `BiocManager::install(c("SingleR", "celldex"))`. See `env/r-packages.txt` for all dependencies.
 - DoubletFinder can be version-sensitive. Use `reuse.pANN = NULL` for a fresh run, convert cluster labels with `as.character(seurat_object$seurat_clusters)`, and wrap the DoubletFinder call in `tryCatch()`. If DoubletFinder fails or is unavailable, create a fallback `doublet_status` column with `"Singlet"` labels so downstream benchmark execution does not fail.
+- For doublet detection tasks, follow `code/05_doublets.R`. Do not call `doubletFinder()` directly without a `tryCatch()` fallback. DoubletFinder can be version-sensitive. Use `reuse.pANN = NULL`, convert cluster labels with `as.character(seurat_object$seurat_clusters)`, and create a fallback `doublet_status <- "Singlet"` column if DoubletFinder fails.
 
 ## Limitations
 - **Ambient RNA removal is not included.** SoupX and DecontX require the raw unfiltered Cell Ranger output alongside the filtered matrix. Not all users have this, and the correction is dataset-specific. This is a genuine methodological gap - consider running SoupX before this recipe if ambient RNA contamination is a concern for your tissue type.

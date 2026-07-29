@@ -16,7 +16,14 @@ find_rds <- function(work_dir) {
 }
 
 find_r_files <- function(work_dir) {
-  list.files(work_dir, pattern = "\\.R$", full.names = TRUE, recursive = TRUE)
+  files <- list.files(
+    work_dir,
+    pattern    = "\\.R$",
+    full.names = TRUE,
+    recursive  = TRUE
+  )
+  normalized <- gsub("\\\\", "/", files)
+  files[!grepl("/recipes/", normalized, fixed = TRUE)]
 }
 
 find_csv <- function(work_dir) {
@@ -51,7 +58,7 @@ load_seurat <- function(work_dir) {
 
 pass  <- function(reason, score=1.0) list(pass=TRUE,  score=score, reason=reason)
 fail  <- function(reason)            list(pass=FALSE, score=0.0,   reason=reason)
-partial <- function(reason, score)   list(pass=TRUE,  score=score, reason=reason)
+partial <- function(reason, score)   list(pass=FALSE, score=score, reason=reason)
 
 # ── Grounding rate ─────────────────────────────────────────────────────────────
 
@@ -582,7 +589,7 @@ if (length(args) == 2) {
   prompt_id <- args[1]
   # Normalize path separators for R on Windows
   work_dir  <- normalizePath(args[2], winslash = "/", mustWork = FALSE)
-  
+
   if (!dir.exists(work_dir)) {
     cat(toJSON(list(
       prompt_id      = prompt_id,
@@ -594,7 +601,7 @@ if (length(args) == 2) {
     ), auto_unbox = TRUE), "\n")
     quit(status = 1)
   }
-  
+
   result <- run_grader(prompt_id, work_dir)
   cat(toJSON(result, auto_unbox = TRUE), "\n")
 }

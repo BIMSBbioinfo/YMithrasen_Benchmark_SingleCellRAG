@@ -44,11 +44,20 @@ const CONFIG = {
   r_exec       : process.env.R_EXEC || "C:/Program Files/R/R-4.5.1/bin/Rscript.exe",
 
   // Benchmark settings
-  k            : 1,          // attempts per prompt (set to 3 for Pass@k)
-  timeout_ms   : 600000,     // 10 minutes per agent call
-  r_timeout_ms : 600000,     // 10 minutes per R execution
-  no_recipe    : process.argv.includes("--no-recipe") || process.env.BENCH_NO_RECIPE === "1",
-  context_mode : process.env.BENCH_CONTEXT_MODE || "summary", // "summary" avoids context bloat; use "full" for full scripts
+  k                     : Number(process.env.BENCH_K || 1),
+  timeout_ms            : Number(process.env.BENCH_TIMEOUT_MS    || 600000),
+  r_timeout_ms          : Number(process.env.BENCH_R_TIMEOUT_MS  || 600000),
+  no_recipe             : process.argv.includes("--no-recipe") || process.env.BENCH_NO_RECIPE === "1",
+  context_mode          : process.env.BENCH_CONTEXT_MODE || "full",
+  // Context budgeting
+  recipe_warning_chars  : Number(process.env.BENCH_RECIPE_WARNING_CHARS    || 16000),
+  recipe_max_chars      : Number(process.env.BENCH_RECIPE_MAX_CHARS         || 20000),
+  skill_context_max_chars: Number(process.env.BENCH_SKILL_CONTEXT_MAX_CHARS || 50000),
+  context_window_tokens : Number(process.env.BENCH_CONTEXT_WINDOW_TOKENS   || 128000),
+  reserved_output_tokens: Number(process.env.BENCH_MAX_TOKENS               || 12000),
+  context_warning_ratio : Number(process.env.BENCH_CONTEXT_WARNING_RATIO   || 0.8),
+  temperature           : Number(process.env.BENCH_TEMPERATURE               || 0),
+  max_tokens            : Number(process.env.BENCH_MAX_TOKENS                || 12000),
 
   // Agent CLI commands (sandbox: recipes only + dataset read-only)
   agents: {
@@ -58,14 +67,34 @@ const CONFIG = {
       extract: extractRCode,
     },
     codex: {
-      cmd: (prompt, work_dir) =>
-        `powershell -NoProfile -Command "Get-Content -Raw final_prompt.txt | codex exec -s read-only --skip-git-repo-check --ephemeral --color never -"`,
+      cmd: () => {
+        const model = process.env.CODEX_MODEL || "gpt-5.6-terra";
+        return (
+          `powershell -NoProfile -Command ` +
+          `"Get-Content -Raw final_prompt.txt | ` +
+          `codex exec ` +
+          `-m ${model} ` +
+          `--sandbox read-only ` +
+          `--skip-git-repo-check ` +
+          `--ephemeral ` +
+          `--color never ` +
+          `-"`
+        );
+      },
       extract: extractRCode,
     },
     gemini: {
-      // --skip-trust + default mode = read-only (write_file blocked as we confirmed)
-      cmd: (prompt, work_dir) =>
-        `gemini -p "${escape(prompt)}" --skip-trust --output-format text`,
+      cmd: () => {
+        const model =
+          process.env.GEMINI_MODEL ||
+          "gemini-2.5-flash";
+
+        return (
+          `powershell -NoProfile -Command ` +
+          `"Get-Content -Raw final_prompt.txt | ` +
+          `gemini -m ${model} --output-format text"`
+        );
+      },
       extract: extractRCode,
     },
   },
@@ -82,6 +111,44 @@ function log(msg) {
 
 function escape(str) {
   return str.replace(/"/g, '\\"').replace(/\n/g, " ");
+}
+
+function compactMarkdown(text) {
+  return String(text || "")
+    .replace(/\r\n/g, "\n")
+    .replace(/[ \t]+$/gm, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function cleanPromptWhitespace(text) {
+  return String(text || "")
+    .replace(/\r\n/g, "\n")
+    .replace(/[ \t]+$/gm, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function compactCode(text) {
+  return String(text || "")
+    .replace(/\r\n/g, "\n")
+    .replace(/[ \t]+$/gm, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function estimateTokens(text) {
+  return Math.ceil(String(text || "").length / 3.5);
+}
+
+function textStats(text) {
+  const value = String(text || "");
+  return {
+    chars           : value.length,
+    bytes           : Buffer.byteLength(value, "utf8"),
+    estimated_tokens: estimateTokens(value),
+    lines           : value.length === 0 ? 0 : value.split(/\r?\n/).length,
+  };
 }
 
 function loadJSONL(filepath) {
@@ -183,9 +250,9 @@ const FULL_PIPELINE_KEYWORDS = [
 ];
 
 const FULL_PIPELINE_SCRIPTS = [
-  "02_load_data.R", "03_qc_metrics.R", "04_filter_cells.R", "05_doublets.R",
+  "02_load_data.R", "03_qc_metrics.R", "04_filter_cells.R",
   "07_normalise.R", "08_variable_genes.R", "09_scale_data.R", "10_pca.R",
-  "11_umap.R", "12_neighbours.R", "13_clustering.R", "14_marker_genes.R"
+  "11_umap.R", "12_neighbours.R", "13_clustering.R", "14_marker_genes.R",
 ];
 
 // Script dependencies (for context expansion if needed) — ensures all required scripts are included
@@ -236,16 +303,121 @@ function selectScripts(promptText) {
   return resolved.scripts.length > 0 ? resolved.scripts : ["02_load_data.R"];
 }
 
-function loadScriptContent(script_names) {
+function loadScriptContent(script_names, available_chars = Infinity) {
   const code_dir = path.join(CONFIG.recipes_dir, "code");
-  return script_names
-    .map(name => {
-      const fpath = path.join(code_dir, name);
-      if (!fs.existsSync(fpath)) return "";
-      return `# === ${name} ===\n${fs.readFileSync(fpath, "utf8")}`;
-    })
-    .filter(Boolean)
-    .join("\n\n");
+  const included = [];
+  const omitted  = [];
+  const chunks   = [];
+  let used_chars = 0;
+
+  for (const name of script_names) {
+    const fpath = path.join(code_dir, name);
+    if (!fs.existsSync(fpath)) {
+      omitted.push({ name, reason: "file_not_found" });
+      continue;
+    }
+    const raw     = fs.readFileSync(fpath, "utf8");
+    const compact = compactCode(raw);
+    const chunk   = `## Reference implementation: ${name}\n\`\`\`r\n${compact}\n\`\`\``;
+    const required = chunk.length + (chunks.length > 0 ? 2 : 0);
+
+    if (used_chars + required > available_chars) {
+      omitted.push({ name, reason: "context_budget", chars: chunk.length });
+      continue;
+    }
+    chunks.push(chunk);
+    included.push({ name, chars: chunk.length, estimated_tokens: estimateTokens(chunk) });
+    used_chars += required;
+  }
+
+  const joined = chunks.join("\n\n");
+  return {
+    content : joined,
+    included,
+    omitted,
+    stats   : { chars: used_chars, estimated_tokens: estimateTokens(joined) },
+  };
+}
+
+function loadRecipeDocument() {
+  if (!fs.existsSync(CONFIG.recipe_file)) {
+    throw new Error(`Recipe file not found: ${CONFIG.recipe_file}`);
+  }
+  const raw     = fs.readFileSync(CONFIG.recipe_file, "utf8");
+  const compact = compactMarkdown(raw);
+  const stats   = textStats(compact);
+
+  log(`  [recipe] recipe.md raw_chars=${raw.length} compact_chars=${stats.chars} estimated_tokens=${stats.estimated_tokens}`);
+
+  if (stats.chars > CONFIG.recipe_warning_chars) {
+    log(`  [recipe] WARNING: recipe.md is ${stats.chars} chars, above warning threshold ${CONFIG.recipe_warning_chars}`);
+  }
+  if (stats.chars > CONFIG.recipe_max_chars) {
+    throw new Error(`recipe.md is ${stats.chars} compacted chars, above BENCH_RECIPE_MAX_CHARS=${CONFIG.recipe_max_chars}. Shorten the recipe rather than silently truncating it.`);
+  }
+  return { raw, compact, stats };
+}
+
+function buildFullSkillContext(prompt_obj, resolved, selected_scripts) {
+  const recipe = loadRecipeDocument();
+
+  const routingHeader = compactMarkdown(`
+# SINGLE-CELL R RECIPE SKILL
+
+## Routing decision
+
+- Workflow: ${resolved.workflowKind || "unknown"}
+- Input type: ${resolved.inputType || "unknown"}
+- Target nodes: ${(resolved.targetNodes || []).join(", ") || "unknown"}
+- Selected scripts: ${selected_scripts.join(", ") || "none"}
+
+The complete recipe document below defines the workflow, parameters,
+supported inputs, limitations and execution rules.
+Use it as authoritative procedural guidance.
+The selected R reference implementations appear afterwards.
+Adapt them to the task — do not blindly concatenate them.
+`);
+
+  const recipeBlock = `${routingHeader}\n\n## Complete recipe document\n\n${recipe.compact}`;
+  const remainingChars = Math.max(0, CONFIG.skill_context_max_chars - recipeBlock.length - 200);
+  const scripts = loadScriptContent(selected_scripts, remainingChars);
+
+  const omissionNotice = scripts.omitted.length > 0
+    ? compactMarkdown(`
+## Context-budget notice
+
+The following selected reference files were not embedded because the configured context budget was reached:
+
+${scripts.omitted.map(item => `- ${item.name}: ${item.reason}`).join("\n")}
+
+The complete recipe overview above is still present.
+Do not assume details from omitted files that are not stated in the recipe document.
+`) : "";
+
+  const content = [
+    recipeBlock,
+    scripts.content ? `## Selected reference implementations\n\n${scripts.content}` : "",
+    omissionNotice,
+  ].filter(Boolean).join("\n\n");
+
+  const stats = textStats(content);
+
+  if (scripts.omitted.length > 0) {
+    log(`  [recipe] omitted ${scripts.omitted.length} script(s) due to context budget: ${scripts.omitted.map(o => o.name).join(", ")}`);
+  }
+
+  return {
+    content,
+    metadata: {
+      mode            : "full",
+      recipe          : recipe.stats,
+      selected_scripts,
+      included_scripts: scripts.included,
+      omitted_scripts : scripts.omitted,
+      script_context  : scripts.stats,
+      total_skill_context: stats,
+    },
+  };
 }
 
 function extractSection(content, startHeading, endHeadingRegex) {
@@ -788,30 +960,42 @@ ${selectedNotes ? `\nTASK-SPECIFIC NOTES\n${selectedNotes}` : ""}`;
 }
 
 function buildPromptWithContext(prompt_obj) {
+  // No-recipe condition: bare task with no guidance
   if (CONFIG.no_recipe) {
-    return `You are an expert bioinformatician working with single-cell RNA-seq data in R using Seurat.
+    const promptText = cleanPromptWhitespace(`
+You are an expert bioinformatician working with single-cell RNA-seq data in R using Seurat.
 
-DATASET PATH: ${CONFIG.dataset_dir}
+DATASET PATH:
+${CONFIG.dataset_dir}
 
-TASK: ${prompt_obj.prompt}
+TASK:
+${prompt_obj.prompt}
 
-INSTRUCTIONS:
-- Use appropriate Seurat functions for scRNA-seq analysis
-- Set seed = 42 for reproducibility
-- Save any output files to the current working directory
-- Write complete, executable R code
-- Output ONLY a single \`\`\`r code block containing all the R code
-- Do NOT ask for permission to write files
-- Do NOT use tools or execute anything
-- Just output the R code block and nothing else`;
+OUTPUT REQUIREMENTS:
+- Output ONLY one fenced R code block starting with \`\`\`r and ending with \`\`\`.
+- Do not include explanation before or after the code.
+- Do not ask for permission.
+- Do not install packages inside the generated code.
+- Use set.seed(42).
+- Save required outputs to the current working directory.
+- Generate the smallest complete executable script.
+`);
+    log(`  [recipe] mode=none`);
+    return {
+      promptText,
+      contextMetadata: {
+        mode                    : "no_recipe",
+        selected_scripts        : [],
+        final_prompt            : textStats(promptText),
+        configured_context_window_tokens: CONFIG.context_window_tokens,
+        reserved_output_tokens  : CONFIG.reserved_output_tokens,
+      },
+    };
   }
 
-  const resolved = resolveRecipeNodes(prompt_obj.prompt);
-  const selected_scripts = resolved.scripts;
-
-  const recipe_context = CONFIG.context_mode === "full"
-    ? loadScriptContent(selected_scripts)
-    : buildPointerCards(selected_scripts, resolved);
+  // With-recipe: resolve which scripts are relevant
+  const resolved        = resolveRecipeNodes(prompt_obj.prompt);
+  const selected_scripts = expandDependencies(resolved.scripts || []);
 
   log(`  [recipe] workflow=${resolved.workflowKind || "unknown"}`);
   log(`  [recipe] input=${resolved.inputType || "unknown"}`);
@@ -819,22 +1003,31 @@ INSTRUCTIONS:
   log(`  [recipe] selected: ${(selected_scripts || []).join(", ") || "none"}`);
   log(`  [recipe] mode=${CONFIG.context_mode}`);
 
-  return `You are an expert bioinformatician working with single-cell RNA-seq data in R using Seurat.
+  let skillResult;
+  if (CONFIG.context_mode === "full") {
+    skillResult = buildFullSkillContext(prompt_obj, resolved, selected_scripts);
+  } else {
+    const summaryContent = buildPointerCards(selected_scripts, resolved);
+    skillResult = {
+      content : compactMarkdown(summaryContent),
+      metadata: {
+        mode            : "summary",
+        selected_scripts,
+        total_skill_context: textStats(summaryContent),
+      },
+    };
+  }
 
-A recipe/skill package is available in the workspace at:
+  const recipe_context = skillResult.content;
 
-./recipes/
+  const promptText = cleanPromptWhitespace(`
+You are an expert bioinformatician working with single-cell RNA-seq data in R using Seurat.
 
-Before writing code:
-- Read ./recipes/recipe.md.
-- Use the selected workflow path below to identify the relevant recipe step(s).
-- For tasks matching a specific recipe step, inspect the corresponding file in ./recipes/code/ before writing code.
-- Use ./recipes/single-sample-workflow.json or ./recipes/multi-sample-workflow.json only if needed.
-- Treat recipe parameters as guidance, not hardcoded values.
-- Use task-specified values first.
-- Generate the smallest complete executable R script that satisfies the task.
+Relevant workflow and recipe guidance has been included below.
+Use the recipe as procedural guidance, but satisfy the benchmark task exactly.
+Task-specified requirements override recipe defaults.
 
-SELECTED SKILL CONTEXT:
+RECIPE SKILL CONTEXT:
 ${recipe_context}
 
 DATASET PATH:
@@ -849,69 +1042,178 @@ OUTPUT REQUIREMENTS:
 - Do not ask for permission.
 - Do not install packages inside the generated code.
 - Use set.seed(42).
-- Save required outputs to the current working directory.`;
+- Save required outputs to the current working directory.
+- Generate the smallest complete executable script.
+`);
+
+  const promptStats      = textStats(promptText);
+  const usableTokens     = Math.max(0, CONFIG.context_window_tokens - CONFIG.reserved_output_tokens);
+  const contextRatio     = usableTokens > 0 ? promptStats.estimated_tokens / usableTokens : 1;
+
+  log(`  [context] estimated_tokens=${promptStats.estimated_tokens} budget=${usableTokens} ratio=${(contextRatio * 100).toFixed(1)}%`);
+
+  if (contextRatio >= CONFIG.context_warning_ratio) {
+    log(`  [context] WARNING: estimated input uses ${(contextRatio * 100).toFixed(1)}% of token budget`);
+  }
+  if (promptStats.estimated_tokens > usableTokens) {
+    throw new Error(`Estimated prompt size ${promptStats.estimated_tokens} tokens exceeds input budget ${usableTokens}.`);
+  }
+
+  return {
+    promptText,
+    contextMetadata: {
+      ...skillResult.metadata,
+      final_prompt                     : promptStats,
+      configured_context_window_tokens : CONFIG.context_window_tokens,
+      reserved_output_tokens           : CONFIG.reserved_output_tokens,
+      estimated_input_budget_tokens    : usableTokens,
+      estimated_context_usage_ratio    : contextRatio,
+    },
+  };
 }
 
 // ── Working directory setup ────────────────────────────────────────────────────
 
 function setupWorkDir(agent, prompt_id, attempt) {
-  const work_dir = path.join(CONFIG.work_base, agent, `${prompt_id}_attempt${attempt}`);
-  fs.mkdirSync(work_dir, { recursive: true });
+  const work_dir = path.join(
+    CONFIG.work_base,
+    agent,
+    `${prompt_id}_attempt${attempt}`
+  );
 
-  // Copy recipes folder (read access only — agents read from here)
-  const recipes_dest = path.join(work_dir, "recipes");
-  if (!fs.existsSync(recipes_dest)) {
-    fs.cpSync(CONFIG.recipes_dir, recipes_dest, { recursive: true });
-  }
+  fs.mkdirSync(work_dir, {
+    recursive: true,
+  });
+
+  // Remove all outputs from an earlier run.
+  cleanWorkDir(work_dir);
+
+  // Copy a fresh recipe directory.
+  const recipes_dest = path.join(
+    work_dir,
+    "recipes"
+  );
+
+  fs.cpSync(
+    CONFIG.recipes_dir,
+    recipes_dest,
+    {
+      recursive: true,
+      force: true,
+    }
+  );
 
   return work_dir;
 }
 
 function cleanWorkDir(work_dir) {
-  // Remove R scripts and outputs but keep recipes
   const files = fs.readdirSync(work_dir);
-  for (const f of files) {
-    if (f !== "recipes") {
-      fs.rmSync(path.join(work_dir, f), { recursive: true, force: true });
+
+  for (const file of files) {
+    if (file !== "recipes") {
+      fs.rmSync(
+        path.join(work_dir, file),
+        {
+          recursive: true,
+          force: true,
+        }
+      );
     }
+  }
+
+  const recipes_dir = path.join(
+    work_dir,
+    "recipes"
+  );
+
+  if (fs.existsSync(recipes_dir)) {
+    fs.rmSync(
+      recipes_dir,
+      {
+        recursive: true,
+        force: true,
+      }
+    );
+  }
+}
+
+// ── OpenRouter API call ────────────────────────────────────────────────────────
+
+async function callOpenRouter(model, prompt_text) {
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey) return { stdout: "", stderr: "", error: "OPENROUTER_API_KEY not set" };
+
+  try {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type":  "application/json",
+        "Authorization": `Bearer ${apiKey}`,
+        "HTTP-Referer":  "https://github.com/BIMSBbioinfo/YMithrasen_Benchmark_SingleCellRAG",
+      },
+      body: JSON.stringify({
+        model,
+        max_tokens: 8192,
+        messages: [{ role: "user", content: prompt_text }],
+      }),
+    });
+
+    if (!response.ok) {
+      const body = await response.text();
+      return { stdout: "", stderr: body.slice(0, 300), error: `HTTP ${response.status}: ${body.slice(0, 200)}` };
+    }
+
+    const data    = await response.json();
+    const content = data?.choices?.[0]?.message?.content;
+    const text    = Array.isArray(content)
+      ? content.map(p => (typeof p === "string" ? p : p?.text || "")).join("")
+      : String(content || "");
+    return {
+      stdout      : text,
+      stderr      : "",
+      error       : text ? null : "OpenRouter returned empty content",
+      model       : data.model || model,
+      usage       : data.usage || null,
+      finish_reason: data.choices?.[0]?.finish_reason || null,
+    };
+  } catch (e) {
+    return { stdout: "", stderr: e.message, error: e.message };
   }
 }
 
 // ── Agent call ─────────────────────────────────────────────────────────────────
 
-function callAgent(agent_name, prompt_text, work_dir) {
+async function callAgent(agent_name, prompt_text, work_dir) {
+  const agent = CONFIG.agents[agent_name];
+
+  fs.writeFileSync(path.join(work_dir, "final_prompt.txt"), prompt_text, "utf8");
+  log(`  [prompt] chars=${prompt_text.length}`);
+  log(`  [${agent_name}] calling agent...`);
+
+  // API-mode agents (e.g. gemini via OpenRouter) — no CLI subprocess
+  if (agent.api) {
+    const result = await callOpenRouter(agent.model, prompt_text);
+    fs.writeFileSync(path.join(work_dir, "agent_stdout.txt"), result.stdout || "", "utf8");
+    fs.writeFileSync(path.join(work_dir, "agent_stderr.txt"), result.stderr || "", "utf8");
+    if (result.error) log(`  [${agent_name}] api error: ${result.error.slice(0, 180)}`);
+    return result;
+  }
+
+  // CLI-mode agents (claude, codex)
   return new Promise((resolve) => {
-    const agent = CONFIG.agents[agent_name];
     const cmd = agent.cmd(prompt_text, work_dir);
-    const env = {
-      ...process.env,
-      GEMINI_CLI_TRUST_WORKSPACE: "true",
-    };
-
-    fs.writeFileSync(path.join(work_dir, "final_prompt.txt"), prompt_text, "utf8");
-
-    log(`  [prompt] chars=${prompt_text.length}`);
-    log(`  [${agent_name}] calling agent...`);
+    const env = { ...process.env };
 
     exec(cmd, {
-      timeout : CONFIG.timeout_ms,
-      cwd     : work_dir,
+      timeout  : CONFIG.timeout_ms,
+      cwd      : work_dir,
       env,
-      input   : prompt_text,
       maxBuffer: 20 * 1024 * 1024,
     }, (error, stdout, stderr) => {
       fs.writeFileSync(path.join(work_dir, "agent_stdout.txt"), stdout || "", "utf8");
       fs.writeFileSync(path.join(work_dir, "agent_stderr.txt"), stderr || "", "utf8");
-
-      if (error) {
-        log(`  [${agent_name}] agent error: ${error.message?.slice(0, 180)}`);
-      }
-
-      resolve({
-        stdout: stdout || "",
-        stderr: stderr || "",
-        error: error?.message || null
-      });
+      if (error) log(`  [${agent_name}] agent error: ${error.message?.slice(0, 180)}`);
+      resolve({ stdout: stdout || "", stderr: stderr || "", error: error?.message || null });
     });
   });
 }
@@ -971,12 +1273,24 @@ async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
   const { id: prompt_id } = prompt_obj;
   log(`\n  [${agent_name}/${prompt_id}] attempt ${attempt}`);
 
-  const work_dir    = setupWorkDir(agent_name, prompt_id, attempt);
-  const prompt_text = buildPromptWithContext(prompt_obj);
-  const t_start     = Date.now();
+  const work_dir = setupWorkDir(agent_name, prompt_id, attempt);
+  const { promptText: prompt_text, contextMetadata } = buildPromptWithContext(prompt_obj);
+
+  fs.writeFileSync(path.join(work_dir, "context_metadata.json"), JSON.stringify(contextMetadata, null, 2), "utf8");
+
+  const t_start = Date.now();
 
   // 1. Call agent
   const agent_result = await callAgent(agent_name, prompt_text, work_dir);
+
+  const actualPromptTokens = agent_result.usage?.prompt_tokens ?? null;
+  if (actualPromptTokens !== null) {
+    const estimated = contextMetadata?.final_prompt?.estimated_tokens || 0;
+    log(`  [context] estimated_input_tokens=${estimated} actual_input_tokens=${actualPromptTokens}`);
+    if (estimated > 0 && Math.abs(actualPromptTokens - estimated) / estimated > 0.25) {
+      log(`  [context] NOTE: token estimate differs from provider count by more than 25%`);
+    }
+  }
   const t_agent      = Date.now() - t_start;
   log(`  [${agent_name}/${prompt_id}] agent responded in ${(t_agent/1000).toFixed(1)}s`);
 
@@ -985,7 +1299,7 @@ async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
     return {
       agent: agent_name,
       prompt_id,
-      category: prompt_obj.category,
+      category         : prompt_obj.category || prompt_obj.id?.split('_')[0],
       difficulty: prompt_obj.difficulty,
       attempt,
       agent_latency_ms : t_agent,
@@ -997,6 +1311,10 @@ async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
       grounding_rate   : 0.0,
       failure_type     : "agent_cli_error",
       reason           : agent_result.error,
+      context          : contextMetadata,
+      model            : agent_result.model  || CONFIG.agents[agent_name]?.model || null,
+      usage            : agent_result.usage  || null,
+      finish_reason    : agent_result.finish_reason || null,
       work_dir,
     };
   }
@@ -1009,7 +1327,7 @@ async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
     return {
       agent: agent_name,
       prompt_id,
-      category: prompt_obj.category,
+      category         : prompt_obj.category || prompt_obj.id?.split('_')[0],
       difficulty: prompt_obj.difficulty,
       attempt,
       agent_latency_ms : t_agent,
@@ -1021,6 +1339,10 @@ async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
       grounding_rate   : 0.0,
       failure_type     : "no_code_extracted",
       reason           : "No R code in agent output. Inspect agent_stdout.txt and agent_stderr.txt in the workdir.",
+      context          : contextMetadata,
+      model            : agent_result.model  || CONFIG.agents[agent_name]?.model || null,
+      usage            : agent_result.usage  || null,
+      finish_reason    : agent_result.finish_reason || null,
       work_dir,
     };
   }
@@ -1038,7 +1360,7 @@ async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
     return {
       agent          : agent_name,
       prompt_id,
-      category       : prompt_obj.category,
+      category       : prompt_obj.category || prompt_obj.id?.split("_")[0],
       difficulty     : prompt_obj.difficulty,
       attempt,
       agent_latency_ms : t_agent,
@@ -1051,6 +1373,10 @@ async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
       grounding_rate   : 0.0,
       failure_type     : r_result.error && /timed out|timeout/i.test(r_result.error) ? "timeout" : "r_runtime_error",
       reason           : r_result.error || "R execution failed. Inspect *_r_stdout.txt in the workdir.",
+      context          : contextMetadata,
+      model            : agent_result.model  || CONFIG.agents[agent_name]?.model || null,
+      usage            : agent_result.usage  || null,
+      finish_reason    : agent_result.finish_reason || null,
       work_dir,
     };
   }
@@ -1061,7 +1387,7 @@ async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
   return {
     agent          : agent_name,
     prompt_id,
-    category       : prompt_obj.category,
+    category       : prompt_obj.category || prompt_obj.id?.split("_")[0],
     difficulty     : prompt_obj.difficulty,
     attempt,
     agent_latency_ms : t_agent,
@@ -1075,6 +1401,10 @@ async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
     grounding_fns    : grader_result.grounding_fns  || [],
     failure_type     : grader_result.pass ? "pass" : "grader_fail",
     reason           : grader_result.reason || "",
+    context          : contextMetadata,
+    model            : agent_result.model  || CONFIG.agents[agent_name]?.model || null,
+    usage            : agent_result.usage  || null,
+    finish_reason    : agent_result.finish_reason || null,
     work_dir,
   };
 }
@@ -1123,14 +1453,22 @@ async function runBenchmark(agent_name, prompt_ids = null) {
   log(`BENCHMARK SUMMARY — ${agent_name}`);
   log(`${"─".repeat(70)}`);
 
-  // By metric
-  const pass_rate      = all_results.filter(r => r.grader_pass).length / all_results.length;
-  const r_success_rate = all_results.filter(r => r.r_success).length / all_results.length;
-  const avg_grounding  = all_results.reduce((s, r) => s + (r.grounding_rate || 0), 0) / all_results.length;
-  const avg_latency    = all_results.reduce((s, r) => s + (r.agent_latency_ms || 0), 0) / all_results.length;
+  // Prompt-level Pass@k
+  const prompt_groups = {};
+  for (const r of all_results) {
+    if (!prompt_groups[r.prompt_id]) prompt_groups[r.prompt_id] = [];
+    prompt_groups[r.prompt_id].push(r);
+  }
+  const prompt_passes  = Object.values(prompt_groups).map(g => computePassAtK(g));
+  const pass_rate      = prompt_passes.reduce((s, v) => s + v, 0) / Math.max(prompt_passes.length, 1);
+  const r_success_rate = all_results.filter(r => r.r_success).length  / Math.max(all_results.length, 1);
+  const avg_score      = all_results.reduce((s, r) => s + (r.grader_score   || 0), 0) / Math.max(all_results.length, 1);
+  const avg_grounding  = all_results.reduce((s, r) => s + (r.grounding_rate || 0), 0) / Math.max(all_results.length, 1);
+  const avg_latency    = all_results.reduce((s, r) => s + (r.agent_latency_ms || 0), 0) / Math.max(all_results.length, 1);
 
-  log(`Pass@k (grader):      ${(pass_rate * 100).toFixed(1)}%`);
+  log(`Pass@${CONFIG.k} (strict):     ${(pass_rate * 100).toFixed(1)}%`);
   log(`Workflow success (R):  ${(r_success_rate * 100).toFixed(1)}%`);
+  log(`Avg grader score:      ${avg_score.toFixed(3)}`);
   log(`Avg grounding rate:    ${(avg_grounding * 100).toFixed(1)}%`);
   log(`Avg agent latency:     ${(avg_latency / 1000).toFixed(1)}s`);
 
@@ -1179,7 +1517,7 @@ async function runBenchmark(agent_name, prompt_ids = null) {
     timestamp   : new Date().toISOString(),
     n_prompts   : selected.length,
     k           : CONFIG.k,
-    metrics     : { pass_rate, r_success_rate, avg_grounding, avg_latency_ms: avg_latency },
+    metrics     : { pass_at_k: pass_rate, r_success_rate, avg_score, avg_grounding, avg_latency_ms: avg_latency },
     by_category : Object.fromEntries(categories.map(cat => {
       const r = all_results.filter(x => x.category === cat);
       return [cat, r.filter(x => x.grader_pass).length / r.length];
