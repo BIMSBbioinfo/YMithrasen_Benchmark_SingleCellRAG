@@ -1,9 +1,13 @@
 ---
 id: scrna-seurat
 name: Single-cell RNA-seq analysis with Seurat
-version: 2
+version: 4
 type: user
 ---
+
+<!-- v4: added Critical execution rule 7 — explicitly library() every package whose functions are called directly (ggplot2/ggtitle in particular). Added after this exact failure (could not find function "ggtitle") was confirmed independently across 3 different models/providers (Claude Opus 4.8, Claude Sonnet 5, Gemini 3.5 Flash) under the skills progressive-disclosure condition — cross-model recurrence, not a single-model quirk. No R scripts changed.
+v3: fixed DoubletFinder/CellCycle step-order contradictions (see git history for detail); added Critical execution rules, Seurat v5 notes, pre-output self-check. No R scripts changed. -->
+
 
 # Single-cell RNA-seq analysis with Seurat
 
@@ -21,6 +25,30 @@ Do not use this recipe when:
 - You only have raw FASTQ files (run Cell Ranger or STARsolo first)
 - You need bulk RNA-seq analysis
 - You want a Python-based workflow (use Scanpy instead)
+
+## Critical execution rules
+Follow these rules in every generated script unless the user explicitly states otherwise.
+
+1. **Do not invent inputs.** Generate code only for inputs the user actually described. Do not assume an existing Seurat `.rds` object unless one is stated. Do not invent sample directories (`sample1/`, `sample2/`), metadata tables, or HDF5 files that were not mentioned.
+2. **Use the working directory when that's what's available.** If the prompt names `matrix.mtx`, `genes.tsv`/`features.tsv`, and `barcodes.tsv` with no other path given, read them from the current working directory (`"."`), not a placeholder path like `"path/to/data"` or `"sample1/"`.
+3. **Feature names must be unique before creating a Seurat object.** This is the single most common execution failure in this domain. Prefer `Read10X()`, which already handles this correctly — do not manually reassign feature names afterward:
+   ```r
+   library(Seurat)
+   counts <- Read10X(data.dir = ".")
+   seu <- CreateSeuratObject(counts = counts, project = "project", min.cells = 3, min.features = 200)
+   ```
+   Only when MTX files must be loaded manually (e.g. `Matrix::readMM()` directly), always wrap gene symbols in `make.unique()` — never assign raw, possibly-duplicated symbols as row names:
+   ```r
+   genes    <- read.delim("genes.tsv", header = FALSE, stringsAsFactors = FALSE)
+   barcodes <- read.delim("barcodes.tsv", header = FALSE, stringsAsFactors = FALSE)
+   counts   <- Matrix::readMM("matrix.mtx")
+   rownames(counts) <- make.unique(as.character(genes[[1]]))  # prevents "Duplicate rownames not allowed"
+   colnames(counts) <- as.character(barcodes[[1]])
+   ```
+4. **Do not install packages inside the generated script.** Assume required packages are already available. Use `requireNamespace(..., quietly = TRUE)` to check optional packages and provide a safe fallback (see DoubletFinder pattern below) rather than calling `install.packages()` or `BiocManager::install()`.
+5. **Respect object-state prerequisites.** Never call a function that depends on a prior step's output before that step has run — e.g. PCA must exist before `FindNeighbors()`/anything using PCA dimensions; a neighbour graph must exist before `FindClusters()`; clusters must exist before differential expression between clusters.
+6. **Use Seurat v5-compatible APIs.** See "Seurat v5 compatibility" below.
+7. **Explicitly `library()` every package whose functions you call directly.** Loading Seurat does not automatically attach every package it depends on to the search path — a function can be a real, correct choice and still fail with `could not find function "..."` if its package was never explicitly loaded. This is a common execution failure in plotting code specifically: `Seurat`'s plot functions (`VlnPlot()`, `FeatureScatter()`, `DimPlot()`, etc.) return `ggplot` objects, but customizing them with `ggtitle()`, `theme()`, `labs()`, or similar requires `library(ggplot2)` to be called explicitly — do not assume it is already attached. The same applies to pipe operators (`%>%`): `library(dplyr)` or `library(magrittr)` must be called explicitly if used.
 
 ## Inputs
 
@@ -86,38 +114,40 @@ All parameters are at the top of each script with commented defaults. Adjust bef
 4. Filter low-quality cells based on QC thresholds
    Code: `code/04_filter_cells.R`
 
-5. Detect and remove doublets using DoubletFinder
-   Code: `code/05_doublets.R`
-
-6. Score cell cycle phases and optionally regress out cell cycle effects
-   Code: `code/06_cell_cycle.R`
-
-7. Normalise counts (log-normalisation or SCTransform)
+5. Normalise counts (log-normalisation or SCTransform)
    Code: `code/07_normalise.R`
 
-8. Identify highly variable genes
+6. Score cell cycle phases and optionally regress out cell cycle effects. Run this AFTER normalisation — `CellCycleScoring()` operates on normalised expression values, not raw counts.
+   Code: `code/06_cell_cycle.R`
+
+7. Identify highly variable genes
    Code: `code/08_variable_genes.R`
 
-9. Scale data and regress technical covariates
+8. Scale data and regress technical covariates
    Code: `code/09_scale_data.R`
 
-10. Linear dimensionality reduction - PCA and elbow plot
-    Code: `code/10_pca.R`
+9. Linear dimensionality reduction - PCA and elbow plot
+   Code: `code/10_pca.R`
 
-11. Non-linear embedding - UMAP
-    Code: `code/11_umap.R`
-
-12. Build kNN/SNN neighbour graph
+10. Build kNN/SNN neighbour graph
     Code: `code/12_neighbours.R`
 
-13. Cluster cells and tune resolution
+11. Cluster cells and tune resolution
     Code: `code/13_clustering.R`
+
+12. Non-linear embedding - UMAP
+    Code: `code/11_umap.R`
+
+13. Detect and remove doublets using DoubletFinder. Run this AFTER steps 5–12, not before — `code/05_doublets.R` requires the object to already have normalisation, variable features, scaling, PCA, a neighbour graph, clusters, and UMAP computed (it checks for a `seurat_clusters` column and falls back to marking everything a singlet if that prerequisite is missing). Calling DoubletFinder earlier in the pipeline will fail.
+    Code: `code/05_doublets.R`
 
 14. Find marker genes per cluster
     Code: `code/14_marker_genes.R`
 
 15. Annotate cell types (manual or automated with SingleR)
     Code: `code/15_cell_annotation.R`
+
+**Canonical downstream order, once past filtering:** `NormalizeData → CellCycleScoring (optional) → FindVariableFeatures → ScaleData → RunPCA → FindNeighbors → FindClusters → RunUMAP → DoubletFinder → FindAllMarkers`. This matches what `code/05_doublets.R` actually requires as input, and keeps neighbours/clustering before UMAP rather than after.
 
 ### Multi-sample workflow (steps 1–15 above, then continue)
 16. Load multiple samples with metadata
@@ -145,9 +175,10 @@ All parameters are at the top of each script with commented defaults. Adjust bef
 ## Mid-pipeline entry points
 If the user already has a processed object, start at the matching step. The workflow JSON `input_type` and `output_type` fields define valid entry points. Examples:
 - Have a raw Seurat object → start at step 3 (QC)
-- Have a QC-passed object → start at step 5 (Doublets) or step 7 (Normalise)
-- Have a normalised object → start at step 10 (PCA)
-- Have a clustered object → start at step 14 (Markers) or step 15 (Annotation)
+- Have a QC-passed/filtered object → start at step 5 (Normalise)
+- Have a normalised object → start at step 7 (Variable genes) or step 9 (PCA)
+- Have a clustered object with UMAP → start at step 13 (Doublets) or step 14 (Markers)
+- Have a clustered object (no doublet filtering needed/already done) → start at step 14 (Markers) or step 15 (Annotation)
 - Have per-sample clustered objects → start at step 17 (Integration)
 
 ## Code references
@@ -166,8 +197,37 @@ Dependencies are listed in:
 - CellChat (`20_cellchat.R`) automatically detects Seurat v5 Assay5 format and converts to v3 format with a clear message. The original RNA assay is not modified.
 - Trajectory inference (`19_trajectory.R`) checks for required packages (monocle3, SeuratWrappers) at the start and gives installation instructions if they are missing.
 - SingleR and celldex are Bioconductor packages. Install with `BiocManager::install(c("SingleR", "celldex"))`. See `env/r-packages.txt` for all dependencies.
-- DoubletFinder can be version-sensitive. Use `reuse.pANN = NULL` for a fresh run, convert cluster labels with `as.character(seurat_object$seurat_clusters)`, and wrap the DoubletFinder call in `tryCatch()`. If DoubletFinder fails or is unavailable, create a fallback `doublet_status` column with `"Singlet"` labels so downstream benchmark execution does not fail.
-- For doublet detection tasks, follow `code/05_doublets.R`. Do not call `doubletFinder()` directly without a `tryCatch()` fallback. DoubletFinder can be version-sensitive. Use `reuse.pANN = NULL`, convert cluster labels with `as.character(seurat_object$seurat_clusters)`, and create a fallback `doublet_status <- "Singlet"` column if DoubletFinder fails.
+- For doublet detection, follow `code/05_doublets.R` exactly: always call `run_doubletfinder_safe()`, never `doubletFinder()` directly. DoubletFinder is version-sensitive — use `reuse.pANN = NULL` for a fresh run, convert cluster labels with `as.character(seurat_object$seurat_clusters)`, and wrap the call in `tryCatch()`. If DoubletFinder fails or isn't installed, fall back to a `doublet_status <- "Singlet"` column so downstream execution doesn't fail.
+
+## Seurat v5 compatibility
+- Do not write directly to `object[["RNA"]]@data` or other slots — Seurat v5's `Assay5` objects use a different internal layer structure and this will error or silently do nothing.
+- Do not assume an `Assay5` object has a `meta.features` slot.
+- Use public accessors: `GetAssayData(object, layer = "data")` (not the old `slot = "data"` argument) to read normalised expression.
+- Use `JoinLayers()` before any downstream step that needs a single combined matrix, if the assay has multiple layers (e.g. after `SCTransform` or after per-sample processing).
+- Add cell-level metadata with `AddMetaData()` or `object$column <- value`, not direct slot assignment.
+
+## Version-sensitive function rules
+- **`VariableFeaturePlot()`** takes no `nfeatures`, `topfeatures`, or `label` argument. To label top genes, use `LabelPoints()` separately:
+  ```r
+  seu <- FindVariableFeatures(seu, selection.method = "vst", nfeatures = 2000)
+  top10 <- head(VariableFeatures(seu), 10)
+  p <- VariableFeaturePlot(seu)
+  LabelPoints(plot = p, points = top10, repel = TRUE)
+  ```
+- **`CellCycleScoring()`** requires both `s.features` and `g2m.features` — never call it with only the object:
+  ```r
+  seu <- CellCycleScoring(seu, s.features = Seurat::cc.genes$s.genes, g2m.features = Seurat::cc.genes$g2m.genes, set.ident = FALSE)
+  ```
+- **DoubletFinder**: use the single, currently-installed API convention exposed by the package (see `code/05_doublets.R`'s `run_doubletfinder_safe()`). Do not mix `doubletFinder_v3()`-style and `doubletFinder()`-style calling conventions, and do not invent parameters not shown in that script.
+
+## Pre-output self-check
+Before returning generated code, verify:
+- Every referenced input file was actually supplied or explicitly stated as available — nothing invented.
+- No placeholder path (`path/to/data`, `sample1/`) remains when a working-directory input is available.
+- Feature/gene names are unique before `CreateSeuratObject()`.
+- Required packages are loaded; none are installed inside the script.
+- PCA exists before anything using PCA dimensions; a neighbour graph exists before clustering; clusters exist before differential expression.
+- The final object is assigned to a clearly discoverable variable.
 
 ## Limitations
 - **Ambient RNA removal is not included.** SoupX and DecontX require the raw unfiltered Cell Ranger output alongside the filtered matrix. Not all users have this, and the correction is dataset-specific. This is a genuine methodological gap - consider running SoupX before this recipe if ambient RNA contamination is a concern for your tissue type.
