@@ -32,8 +32,9 @@ const CONFIG = {
   k:            parseInt(process.argv.find((a, i) => process.argv[i-1] === "--k") || "3"),
   suite:        process.argv.find((a, i) => process.argv[i-1] === "--suite") || "internal",
   model:        process.argv.find((a, i) => process.argv[i-1] === "--model") || "all",
+  prompts:      process.argv.find((a, i) => process.argv[i-1] === "--prompts") || "all",
   allowPartialPrompts: process.argv.includes("--allow-partial-prompts"),
-  r_exec:       process.env.R_EXEC || "C:/Program Files/R/R-4.5.1/bin/Rscript.exe",
+  r_exec:       process.env.R_EXEC || "Rscript", // resolved via PATH — activate the micromamba env first, or set R_EXEC explicitly
   dataset_dir:  (process.env.BENCH_DATASET_DIR ||
     "C:/MDC_internship/YMithrasen_Benchmark_SingleCellRAG/benchmark/datasets/filtered_gene_bc_matrices/hg19"
   ).replace(/\\/g, "/"),
@@ -70,13 +71,17 @@ function callBaseline(model, prompt) {
     const shimPath = path.join(__dirname, "scripts/baseline_shim.js");
     exec(
       `node "${shimPath}" "${payload}"`,
-      { timeout: 60000 },
+      { timeout: 180000 }, // was 60000 — too short for reasoning models on complex prompts
       (error, stdout) => {
         try {
           const parsed = JSON.parse(stdout?.trim().split("\n").filter(l => l.startsWith("{")).pop() || "{}");
           resolve(parsed);
         } catch {
-          resolve({ result: null, error: error?.message || "parse error" });
+          const timedOut = error?.killed || error?.signal;
+          resolve({
+            result: null,
+            error: timedOut ? `SHIM_TIMEOUT: process killed after ${error?.signal || "timeout"}` : (error?.message || "parse error")
+          });
         }
       }
     );
@@ -152,6 +157,31 @@ function buildValidationR(validation = {}) {
   // if the prompt DOES specify primary_object, that name is used directly
   // instead (for prompts that legitimately require a specific output name,
   // e.g. "markers").
+  //
+  // BUG FIX (grader_version validation_object_selection_v2): previously
+  // picked ls(envir=.GlobalEnv)[[1]] — the alphabetically first Seurat-class
+  // object — as "the" object to validate. ls() is alphabetical, not creation
+  // order or completeness order. A script that (very commonly, reasonably)
+  // creates `seu` (raw) before `seu_filtered` (processed/clustered) would
+  // have "seu" picked every time, since "seu" < "seu_filtered"
+  // alphabetically — meaning a fully correct pipeline could fail validation
+  // just because the RAW object happened to sort first. Confirmed via
+  // skills_results_2026-08-01T08-41-15-502.json: claude-opus-4-8's
+  // medium_03 and medium_04 both correctly ran the full pipeline (including
+  // RunUMAP/FindClusters) on `seu_filtered`, but validation picked `seu` and
+  // reported "missing reduction 'umap'" / "insufficient clusters" — the code
+  // was right, the grading was wrong. This same bug was present here, in
+  // recipe_benchmark_runner.js, and in skills_benchmark_runner.js (all three
+  // shared this function's original form) — fixed identically in all three.
+  //
+  // Fix: score EVERY Seurat-class candidate against this prompt's actual
+  // requirements (below) and validate whichever one satisfies the most of
+  // them, rather than guessing based on variable name alphabetics. This
+  // still fails correctly if NO candidate satisfies the requirements — it
+  // only stops penalizing scripts that reasonably keep a raw object around
+  // alongside the processed one. BENCH_SELECTED_OBJECT is printed as an
+  // audit trail so the chosen object is visible per-attempt, not just
+  // inferred from pass/fail.
   if (needsPrimaryObject && !explicitObj) {
     checks.push(`
 .bench_seurat_candidates <- Filter(function(x) {
@@ -159,7 +189,24 @@ function buildValidationR(validation = {}) {
   inherits(v, "Seurat")
 }, ls(envir = .GlobalEnv))
 if (length(.bench_seurat_candidates) == 0) stop("VALIDATION_FAILED: no Seurat object found in environment")
-.bench_obj <- get(.bench_seurat_candidates[[1]], envir = .GlobalEnv)
+.bench_score_candidate <- function(.obj) {
+  .s <- 0
+  ${validation.min_cells != null ? `if (ncol(.obj) >= ${validation.min_cells}) .s <- .s + 1` : ""}
+  ${validation.min_features != null ? `if (nrow(.obj) >= ${validation.min_features}) .s <- .s + 1` : ""}
+  ${(validation.required_reductions || []).map(r => `if ("${r}" %in% names(.obj@reductions)) .s <- .s + 1`).join("\n  ")}
+  ${validation.require_clusters ? `if (length(unique(Idents(.obj))) >= ${validation.min_clusters || 2}) .s <- .s + 1` : ""}
+  ${(validation.required_columns || []).map(c => `if ("${c}" %in% colnames(.obj@meta.data)) .s <- .s + 1`).join("\n  ")}
+  .s
+}
+.bench_scores <- sapply(.bench_seurat_candidates, function(.nm) {
+  .obj <- tryCatch(get(.nm, envir = .GlobalEnv), error = function(e) NULL)
+  if (is.null(.obj)) return(-1)
+  tryCatch(.bench_score_candidate(.obj), error = function(e) -1)
+})
+.bench_selected_index <- which.max(.bench_scores)
+.bench_obj_name <- .bench_seurat_candidates[[.bench_selected_index]]
+.bench_obj <- get(.bench_obj_name, envir = .GlobalEnv)
+cat("BENCH_SELECTED_OBJECT:", .bench_obj_name, "\\n")
 `.trim());
   }
 
@@ -201,11 +248,18 @@ if (length(.bench_seurat_candidates) == 0) stop("VALIDATION_FAILED: no Seurat ob
 
 // ── Execute R code ────────────────────────────────────────────────────────────
 
-const INSTALL_PREFIX = `
-if (!requireNamespace("BiocManager", quietly=TRUE)) install.packages("BiocManager", repos="https://cloud.r-project.org", quiet=TRUE)
-if (!requireNamespace("Seurat", quietly=TRUE)) tryCatch(BiocManager::install("Seurat", ask=FALSE, quiet=TRUE), error=function(e) install.packages("Seurat", repos="https://cloud.r-project.org", quiet=TRUE))
-if (!requireNamespace("dplyr", quietly=TRUE)) tryCatch(BiocManager::install("dplyr", ask=FALSE, quiet=TRUE), error=function(e) install.packages("dplyr", repos="https://cloud.r-project.org", quiet=TRUE))
-if (!requireNamespace("patchwork", quietly=TRUE)) tryCatch(BiocManager::install("patchwork", ask=FALSE, quiet=TRUE), error=function(e) install.packages("patchwork", repos="https://cloud.r-project.org", quiet=TRUE))
+// Once the conda/micromamba environment is set up (see environment.yml +
+// setup_env.R), package installation happens once, at environment-creation
+// time — not during benchmark execution. Installing mid-run caused hangs,
+// version drift between attempts, and internet-dependent failures that had
+// nothing to do with model quality. This now fails fast and loud instead.
+const PACKAGE_CHECK_PREFIX = `
+required_packages <- c("Seurat","SeuratObject","dplyr","ggplot2","patchwork","Matrix","tidyr","stringr","readr","ggrepel")
+missing_packages <- required_packages[!vapply(required_packages, requireNamespace, logical(1), quietly = TRUE)]
+if (length(missing_packages) > 0) {
+  stop(paste0("BENCH_ENV_ERROR: missing required packages: ", paste(missing_packages, collapse = ", "),
+              ". Run setup_env.R inside the micromamba environment first."))
+}
 `.trim();
 
 function executeRCode(rCode, datasetDir, validation = {}) {
@@ -226,7 +280,7 @@ function executeRCode(rCode, datasetDir, validation = {}) {
 
   const fullScript = [
     `setwd("${datasetDir.replace(/\\/g, "/")}")`,
-    INSTALL_PREFIX,
+    PACKAGE_CHECK_PREFIX,
     `tryCatch({`,
     `  suppressMessages(suppressWarnings({`,
     rCode,
@@ -253,16 +307,25 @@ function executeRCode(rCode, datasetDir, validation = {}) {
         // (documented via `validated: false` in the result, not silently assumed).
         const validationSuccess = hasValidation ? (stdout || "").includes("BENCH_VALIDATION_OK") : true;
         const success = executionSuccess && validationSuccess;
+        const failureType = success ? null : classifyRFailure(stderr, stdout, error);
+        // Audit trail for buildValidationR()'s object-selection scoring (see
+        // grader_version) — which Seurat-class candidate actually got
+        // validated, captured on every attempt (not just failures) so it's
+        // possible to confirm e.g. `seu_filtered` was correctly chosen over
+        // a raw `seu` object, not just infer it from pass/fail alone.
+        const selectedObjectMatch = (stdout || "").match(/BENCH_SELECTED_OBJECT:\s*(\S+)/);
+        const selectedObject = selectedObjectMatch ? selectedObjectMatch[1] : null;
 
         if (!success) {
           // Show the TAIL, not the head — R error messages print at the end of
           // stderr, after Seurat's verbose progress bars (log-normalization,
           // gene variance calc, etc). Slicing from the front was hiding the
           // actual error and only showing benign progress noise.
-          log(`  [R exit] error=${error?.code} duration=${duration_ms}ms`);
+          log(`  [R exit] error=${error?.code} duration=${duration_ms}ms failureType=${failureType}${selectedObject ? ` selectedObject=${selectedObject}` : ""}`);
           log(`  [R stderr] ${tail(stderr, 600)}`);
           log(`  [R stdout] ${tail(stdout, 400)}`);
         } else {
+          if (selectedObject) log(`  [R exit] success selectedObject=${selectedObject}`);
           try { fs.rmSync(tmpDir, { recursive: true }); } catch {}
         }
         // Store full, untruncated stderr in results JSON — costs nothing and
@@ -273,12 +336,33 @@ function executeRCode(rCode, datasetDir, validation = {}) {
           executionSuccess,
           validationSuccess,
           validated: hasValidation,
+          failureType,
+          selectedObject,
           stderr: stderr || "",
           duration_ms,
         });
       }
     );
   });
+}
+
+// Categorizes a failed attempt so downstream analysis can distinguish
+// environment/setup problems (missing packages, timeouts) from genuine
+// model-generated errors (wrong function names, missing objects, bad data
+// assumptions). Order matters — more specific patterns are checked first.
+function classifyRFailure(stderr = "", stdout = "", error = null) {
+  const combined = `${stderr}\n${stdout}`;
+
+  if (/BENCH_ENV_ERROR:/i.test(combined))                                  return "environment_error";
+  if (/VALIDATION_FAILED:/i.test(combined))                                return "validation_mismatch";
+  if (error?.killed || error?.signal)                                      return "timeout_or_termination";
+  if (/duplicate rownames|duplicate 'row\.names'/i.test(combined))         return "duplicate_feature_names";
+  if (/package .* is required|there is no package called/i.test(combined))return "missing_package";
+  if (/could not find function/i.test(combined))                          return "missing_function";
+  if (/object ['"]?[\w.]+['"]? not found/i.test(combined))                 return "missing_object";
+  if (/directory provided does not exist|cannot open the connection/i.test(combined)) return "input_path_error";
+  if (!stdout && !stderr && error)                                        return "no_output_captured";
+  return "r_execution_error";
 }
 
 function tail(text, n) {
@@ -425,7 +509,12 @@ function calcWorkflowScore(code, expectedWorkflow = []) {
 
   const evaluated = expectedWorkflow.map(stepName => {
     const step = STEP_MAP.get(stepName);
-    if (!step) return { name: stepName, present: false, position: -1 };
+    if (!step) {
+      // Unknown step name (typo or not yet added to PIPELINE_STEPS) — tagged
+      // distinctly from "present: false" so this doesn't silently masquerade
+      // as a real model failure. Visible in results JSON under steps[].unknown.
+      return { name: stepName, present: false, position: -1, unknown: true };
+    }
     const position = findFirstPatternPosition(code, step.patterns);
     return { name: stepName, present: position >= 0, position };
   });
@@ -489,7 +578,8 @@ async function runPassK(modelName, callerFn, prompts, k) {
         ? (res.result || null)
         : extractRFromText(res.result || "");
       if (!code) {
-        attempts.push({ passed: false, error: "no_r_code_extracted", model_error: res.error || null });
+        log(`  ⚠️  [${p.id}] no_r_code_extracted — model_error=${res.error || "(none)"} raw_preview=${JSON.stringify((res.raw_preview || "(not captured)").slice(0, 300))}`);
+        attempts.push({ passed: false, error: "no_r_code_extracted", failure_type: "no_code_extracted", model_error: res.error || null, raw_preview: res.raw_preview || null });
         continue;
       }
       const exec = await executeRCode(code, CONFIG.dataset_dir, p.validation || {});
@@ -499,8 +589,10 @@ async function runPassK(modelName, callerFn, prompts, k) {
         executionSuccess:  exec.executionSuccess,
         validationSuccess: exec.validationSuccess,
         validated:         exec.validated,
+        failure_type:      exec.failureType,
         error:             exec.success ? null : (exec.stderr || "unknown error").trim(),
         duration_ms:       exec.duration_ms,
+        selected_object:   exec.selectedObject, // which Seurat-class candidate buildValidationR() actually validated against — audit trail for grader_version validation_object_selection_v2
       });
     }
     const c = attempts.filter(a => a.passed).length;
@@ -735,11 +827,52 @@ async function preflightChecks() {
     }
   }
 
-  // 3. R executable exists
-  if (!fs.existsSync(CONFIG.r_exec)) {
-    errors.push(`R executable not found: ${CONFIG.r_exec}`);
+  // 3. R is reachable and required packages are present. Uses execution rather
+  // than fs.existsSync, since CONFIG.r_exec may now be a bare PATH command
+  // ("Rscript") rather than a literal file path — existsSync would always be
+  // false for that case even when R is perfectly reachable.
+  try {
+    const versionOut = execFileSync(CONFIG.r_exec, ["--version"], { encoding: "utf8", timeout: 15000 });
+    log(`  ✅ R reachable: ${versionOut.split("\n")[0].trim()}`);
+
+    const pkgCheckScript = `
+required_packages <- c("Seurat","SeuratObject","dplyr","ggplot2","patchwork","Matrix","tidyr","stringr","readr","ggrepel","DoubletFinder","scDblFinder","SingleCellExperiment")
+for (pkg in required_packages) {
+  if (requireNamespace(pkg, quietly = TRUE)) {
+    cat(pkg, ":", as.character(packageVersion(pkg)), "\\n")
   } else {
-    log(`  ✅ R executable found: ${CONFIG.r_exec}`);
+    cat(pkg, ": MISSING\\n")
+  }
+}
+`.trim();
+    const pkgTmpPath = path.join(CONFIG.results_dir, `_pkgcheck_${Date.now()}.R`);
+    fs.mkdirSync(CONFIG.results_dir, { recursive: true });
+    fs.writeFileSync(pkgTmpPath, pkgCheckScript);
+    let pkgOut;
+    try {
+      // 60s, up from 30s — this spawns a fresh Rscript process that loads
+      // Seurat + all required packages from scratch, which is legitimately
+      // slow (observed ~34s in practice) and gets slower under system load.
+      // A timeout here does NOT mean R itself is unreachable — the earlier
+      // `Rscript --version` check already confirmed that — it means this
+      // specific package-loading check ran out of time, usually transient
+      // load rather than a real environment problem. Same fix already
+      // applied to skills_benchmark_runner.js; this was the vanilla
+      // runner's own un-backported copy of that timeout.
+      pkgOut = execFileSync(CONFIG.r_exec, ["--vanilla", pkgTmpPath], { encoding: "utf8", timeout: 60000 });
+    } finally {
+      try { fs.unlinkSync(pkgTmpPath); } catch {}
+    }
+    const missing = [];
+    for (const line of pkgOut.split("\n").map(l => l.trim()).filter(Boolean)) {
+      log(`    ${line}`);
+      if (line.endsWith("MISSING")) missing.push(line.split(":")[0].trim());
+    }
+    if (missing.length) {
+      errors.push(`Missing R packages: ${missing.join(", ")} — run setup_env.R inside the micromamba environment first`);
+    }
+  } catch (e) {
+    errors.push(`R not reachable via "${CONFIG.r_exec}": ${e.message} — activate the micromamba environment or set R_EXEC explicitly`);
   }
 
   // 4. Dataset directory exists
@@ -776,6 +909,23 @@ async function preflightChecks() {
           bucket.push(
             `${missingWorkflow.length}/${promptsPreview.length} prompts have no 'expected_workflow' — workflow score would be N/A for: ${missingWorkflow.map(p => p.id).join(", ")}` +
             (CONFIG.allowPartialPrompts ? "" : " (pass --allow-partial-prompts to run anyway)")
+          );
+        }
+
+        // Unrelated to --allow-partial-prompts: an unrecognized step name in
+        // expected_workflow is a typo, not incomplete annotation, and silently
+        // corrupts that prompt's workflow score (counted as a real failure)
+        // rather than leaving it honestly N/A. Always a hard error.
+        const knownSteps = new Set(PIPELINE_STEPS.map(s => s.name));
+        const badSteps = [];
+        for (const p of promptsPreview) {
+          for (const step of (p.expected_workflow || [])) {
+            if (!knownSteps.has(step)) badSteps.push(`${p.id}:"${step}"`);
+          }
+        }
+        if (badSteps.length) {
+          errors.push(
+            `Unknown expected_workflow step name(s) — check for typos against PIPELINE_STEPS (${[...knownSteps].join(", ")}): ${badSteps.join(", ")}`
           );
         }
       } catch (e) {
@@ -845,7 +995,18 @@ log("═".repeat(60));
 log("\nBuilding R function registry for grounding rate...");
 const R_FUNCTION_REGISTRY = getRFunctionRegistry();
 
-const prompts = loadJSONL(CONFIG.prompts_file);
+let prompts = loadJSONL(CONFIG.prompts_file);
+if (CONFIG.prompts !== "all") {
+  const wantedIds = CONFIG.prompts.split(",").map(s => s.trim());
+  const allIds = new Set(prompts.map(p => p.id));
+  const unknownIds = wantedIds.filter(id => !allIds.has(id));
+  if (unknownIds.length) {
+    log(`❌ Unknown prompt id(s) in --prompts: ${unknownIds.join(", ")}`);
+    process.exit(1);
+  }
+  prompts = prompts.filter(p => wantedIds.includes(p.id));
+  log(`  Filtered to ${prompts.length} prompt(s): ${prompts.map(p => p.id).join(", ")}`);
+}
 const qaPairs = CONFIG.suite === "qa" ? loadJSONL(CONFIG.qa_file) : [];
 
 const API_MODELS = {
@@ -949,6 +1110,18 @@ const MODEL_SAMPLING = {
 
 fs.writeFileSync(outJson, JSON.stringify({
   run_id,
+  // Bumped whenever buildValidationR()'s grading logic changes in a way that
+  // affects pass/fail outcomes — results are NOT directly comparable across
+  // grader_version values. v2 fixes a real bug: v1 picked the alphabetically
+  // first Seurat-class object (ls() order) to validate, which could silently
+  // pick a raw/unfiltered object over the correctly-processed one whenever a
+  // script used a name like `seu` alongside `seu_filtered` (very common —
+  // "seu" sorts before "seu_filtered"). v2 scores every Seurat-class
+  // candidate against the prompt's actual requirements and validates
+  // whichever one satisfies the most, with BENCH_SELECTED_OBJECT logged as
+  // an audit trail of which one was chosen. Any results file predating this
+  // field used the old (buggy) v1 selection logic.
+  grader_version: "validation_object_selection_v2",
   config: { ...CONFIG, grounding_registry_packages: R_REGISTRY_PACKAGES, model_sampling: MODEL_SAMPLING },
   results: allResults,
 }, null, 2));

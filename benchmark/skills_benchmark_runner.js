@@ -1,11 +1,10 @@
 /**
  * skills_benchmark_runner.js
  *
- * Sibling of recipe_benchmark_runner.js. Where that script pastes the
- * ENTIRE recipe.md text into the system prompt up front (then allows
- * fetching pre-announced supporting files), this script instead SIMULATES
- * the shape of Claude's Skills progressive disclosure, as closely as a bare
- * chat-completion API call reasonably allows:
+ * Compared against benchmark_runner.js's vanilla baseline (no skill
+ * context, no tools). This script SIMULATES the shape of Claude's Skills
+ * progressive disclosure, as closely as a bare chat-completion API call
+ * reasonably allows:
  *   - Only a SHORT metadata teaser (name + what-the-skill-does, built by
  *     buildSkillTeaser() below) is visible up front — not the full recipe.
  *   - The model must discover and read recipe.md itself via a general
@@ -19,11 +18,18 @@
  * not a claim of equivalence to Claude's actual internal skill-loading
  * implementation, which this project has no visibility into. The `view`
  * tool itself and the multi-turn tool loop live in skills_shim.js, not
- * here — this script's job is building the teaser, running the same proven
- * R-sandbox/scoring/preflight machinery as recipe_benchmark_runner.js, and
+ * here — this script's job is building the teaser, running the same
+ * R-sandbox/scoring/preflight machinery as benchmark_runner.js, and
  * keeping output files clearly separate (skills_results_*.json /
  * skills_comparison_*.json) so this condition never overwrites or gets
- * confused with the other one.
+ * confused with the vanilla baseline.
+ *
+ * (An earlier, now out-of-scope ablation — recipe_benchmark_runner.js,
+ * which pastes the ENTIRE recipe.md text into the system prompt up front
+ * instead of a teaser + discovery — exists but is not part of the current
+ * comparison design. Restore it if you later want to isolate "does the
+ * content help at all" from "does progressive delivery add anything beyond
+ * the content".)
  *
  * IMPORTANT DISCLOSURE — forced final synthesis is NOT documented Claude
  * Skills behavior. Anthropic's tool-use docs describe an ordinary
@@ -40,17 +46,15 @@
  * relevant files and stopped voluntarily — report the `Forced` count
  * alongside Pass@k when interpreting results, not just the headline score.
  *
- * One deliberate simplification kept from recipe_benchmark_runner.js: skill
- * SELECTION itself is still skipped — the teaser tells the model this skill
- * IS the relevant one (oracle-selected), rather than making it choose among
- * several candidate skills. That's a further, separate extension.
+ * One deliberate simplification: skill SELECTION itself is skipped — the
+ * teaser tells the model this skill IS the relevant one (oracle-selected),
+ * rather than making it choose among several candidate skills. That's a
+ * further, separate extension.
  *
  * Condition modeled: "Oracle-selected skill with metadata-only upfront
  * context and on-demand access to the main recipe and supporting files
  * through a sandboxed view tool" — distinct from:
  *   - benchmark_runner.js's vanilla baseline (no skill context, no tools)
- *   - recipe_benchmark_runner.js's condition (full recipe.md pre-pasted,
- *     narrow enum-constrained tool for supporting files only)
  *   - coding_agent_runner.js's CLI-agent "with-recipe" condition (a full
  *     coding agent with general filesystem access, not a scoped tool)
  *
@@ -131,7 +135,7 @@ const CONFIG = {
 
   prompts_file: path.join(__dirname, "prompts/benchmark_prompts.jsonl"),
 
-  // Repo layout: benchmark/recipe_benchmark_runner.js, recipes/recipe.md is a
+  // Repo layout: benchmark/skills_benchmark_runner.js, recipes/recipe.md is a
   // sibling of benchmark/ — same relative path convention as
   // coding_agent_runner.js's CONFIG.recipe_file.
   recipe_file:  path.resolve(__dirname, "..", "recipes", "recipe.md"),
@@ -320,13 +324,49 @@ function buildValidationR(validation = {}) {
     validation.required_columns?.length;
 
   if (needsPrimaryObject && !explicitObj) {
+    // BUG FIX: previously picked ls(envir=.GlobalEnv)[[1]] — the
+    // alphabetically first Seurat-class object — as "the" object to
+    // validate. ls() is alphabetical, not creation order or completeness
+    // order. A script that (very commonly, reasonably) creates `seu`
+    // (raw) before `seu_filtered` (processed/clustered) would have "seu"
+    // picked every time, since "seu" < "seu_filtered" alphabetically —
+    // meaning a fully correct pipeline could fail validation just because
+    // the RAW object happened to sort first. Confirmed via
+    // skills_results_2026-08-01T08-41-15-502.json: claude-opus-4-8's
+    // medium_03 and medium_04 both correctly ran the full pipeline
+    // (including RunUMAP/FindClusters) on `seu_filtered`, but validation
+    // picked `seu` and reported "missing reduction 'umap'" /
+    // "insufficient clusters" — the code was right, the grading was wrong.
+    // Fix: score EVERY Seurat-class candidate against this prompt's actual
+    // requirements (below) and validate whichever one satisfies the most
+    // of them, rather than guessing based on variable name alphabetics.
+    // This still fails correctly if NO candidate satisfies the
+    // requirements — it only stops penalizing scripts that reasonably keep
+    // a raw object around alongside the processed one.
     checks.push(`
 .bench_seurat_candidates <- Filter(function(x) {
   v <- tryCatch(get(x, envir = .GlobalEnv), error = function(e) NULL)
   inherits(v, "Seurat")
 }, ls(envir = .GlobalEnv))
 if (length(.bench_seurat_candidates) == 0) stop("VALIDATION_FAILED: no Seurat object found in environment")
-.bench_obj <- get(.bench_seurat_candidates[[1]], envir = .GlobalEnv)
+.bench_score_candidate <- function(.obj) {
+  .s <- 0
+  ${validation.min_cells != null ? `if (ncol(.obj) >= ${validation.min_cells}) .s <- .s + 1` : ""}
+  ${validation.min_features != null ? `if (nrow(.obj) >= ${validation.min_features}) .s <- .s + 1` : ""}
+  ${(validation.required_reductions || []).map(r => `if ("${r}" %in% names(.obj@reductions)) .s <- .s + 1`).join("\n  ")}
+  ${validation.require_clusters ? `if (length(unique(Idents(.obj))) >= ${validation.min_clusters || 2}) .s <- .s + 1` : ""}
+  ${(validation.required_columns || []).map(c => `if ("${c}" %in% colnames(.obj@meta.data)) .s <- .s + 1`).join("\n  ")}
+  .s
+}
+.bench_scores <- sapply(.bench_seurat_candidates, function(.nm) {
+  .obj <- tryCatch(get(.nm, envir = .GlobalEnv), error = function(e) NULL)
+  if (is.null(.obj)) return(-1)
+  tryCatch(.bench_score_candidate(.obj), error = function(e) -1)
+})
+.bench_selected_index <- which.max(.bench_scores)
+.bench_obj_name <- .bench_seurat_candidates[[.bench_selected_index]]
+.bench_obj <- get(.bench_obj_name, envir = .GlobalEnv)
+cat("BENCH_SELECTED_OBJECT:", .bench_obj_name, "\\n")
 `.trim());
   }
 
@@ -420,12 +460,20 @@ function executeRCode(rCode, datasetDir, validation = {}) {
         const validationSuccess = hasValidation ? (stdout || "").includes("BENCH_VALIDATION_OK") : true;
         const success = executionSuccess && validationSuccess;
         const failureType = success ? null : classifyRFailure(stderr, stdout, error);
+        // Audit trail for buildValidationR()'s object-selection scoring (see
+        // grader_version) — which Seurat-class candidate actually got
+        // validated, captured on every attempt (not just failures) so it's
+        // possible to confirm e.g. `seu_filtered` was correctly chosen over
+        // a raw `seu` object, not just infer it from pass/fail alone.
+        const selectedObjectMatch = (stdout || "").match(/BENCH_SELECTED_OBJECT:\s*(\S+)/);
+        const selectedObject = selectedObjectMatch ? selectedObjectMatch[1] : null;
 
         if (!success) {
-          log(`  [R exit] error=${error?.code} duration=${duration_ms}ms failureType=${failureType}`);
+          log(`  [R exit] error=${error?.code} duration=${duration_ms}ms failureType=${failureType}${selectedObject ? ` selectedObject=${selectedObject}` : ""}`);
           log(`  [R stderr] ${tail(stderr, 600)}`);
           log(`  [R stdout] ${tail(stdout, 400)}`);
         } else {
+          if (selectedObject) log(`  [R exit] success selectedObject=${selectedObject}`);
           try { fs.rmSync(tmpDir, { recursive: true }); } catch {}
         }
         resolve({
@@ -434,6 +482,7 @@ function executeRCode(rCode, datasetDir, validation = {}) {
           validationSuccess,
           validated: hasValidation,
           failureType,
+          selectedObject,
           stderr: stderr || "",
           duration_ms,
         });
@@ -672,6 +721,7 @@ async function runPassK(modelName, callerFn, prompts, k) {
         failure_type:      exec.failureType,
         error:             exec.success ? null : (exec.stderr || "unknown error").trim(),
         duration_ms:       exec.duration_ms,
+        selected_object:   exec.selectedObject, // which Seurat-class candidate buildValidationR() actually validated against — audit trail for grader_version validation_object_selection_v2
         tool_calls_made:   toolCallsMade,
         tool_budget_exhausted: toolBudgetExhausted,
       });
@@ -994,7 +1044,7 @@ for (pkg in required_packages) {
 
 function pct(v) { return v === null || v === undefined ? "N/A" : (v * 100).toFixed(1) + "%"; }
 
-function buildComparison(recipeResults) {
+function buildComparison(skillResults) {
   if (CONFIG.skipComparison) return null;
   if (!fs.existsSync(CONFIG.baseline_file)) {
     log(`\n⚠️  Skipping comparison — baseline file not found: ${CONFIG.baseline_file}`);
@@ -1012,8 +1062,8 @@ function buildComparison(recipeResults) {
   // Pass@k is NOT comparable across different k. Pass@3 is mathematically
   // >= Pass@1 for the same underlying per-attempt success rate (more
   // attempts raise the chance of at least one success) — so a k mismatch
-  // alone would make the recipe condition look worse than it is, for a
-  // reason unrelated to the recipe. Never fail silently on this: annotate
+  // alone would make the skill-enabled condition look worse than it is, for
+  // a reason unrelated to the skill. Never fail silently on this: annotate
   // the comparison object AND warn loudly so it can't be misread later,
   // rather than blocking the run outright (k=1 dry-run-style comparisons
   // against a k=3 baseline are still useful for spotting gross breakage,
@@ -1021,11 +1071,11 @@ function buildComparison(recipeResults) {
   const baselineK = baseline.config?.k;
   const kMismatch = baselineK != null && baselineK !== CONFIG.k;
   if (kMismatch) {
-    log(`\n⚠️  K MISMATCH: this run used k=${CONFIG.k}, baseline used k=${baselineK}. Pass@k deltas below are NOT a like-for-like comparison — Pass@${baselineK} is structurally >= Pass@${CONFIG.k} for the same success rate, independent of any recipe effect. Treat deltas as directional/sanity-check only until re-run at matching k.`);
+    log(`\n⚠️  K MISMATCH: this run used k=${CONFIG.k}, baseline used k=${baselineK}. Pass@k deltas below are NOT a like-for-like comparison — Pass@${baselineK} is structurally >= Pass@${CONFIG.k} for the same success rate, independent of any skill effect. Treat deltas as directional/sanity-check only until re-run at matching k.`);
   }
 
   const rows = [];
-  for (const [modelName, recipeRes] of Object.entries(recipeResults)) {
+  for (const [modelName, skillRes] of Object.entries(skillResults)) {
     const baseRes = baseline.results?.[modelName];
     if (!baseRes?.passK) {
       log(`  [compare] no baseline entry for model="${modelName}" — skipping`);
@@ -1036,33 +1086,33 @@ function buildComparison(recipeResults) {
     const baseWorkflow = baseRes.quality?.avgWorkflow ?? null;
     const baseGrounding= baseRes.quality?.avgGrounding ?? null;
 
-    const recipePassK   = recipeRes.passK.avg;
-    const recipeASR      = recipeRes.passK.avgAttemptSuccessRate;
-    const recipeWorkflow = recipeRes.quality?.avgWorkflow ?? null;
-    const recipeGrounding= recipeRes.quality?.avgGrounding ?? null;
+    const skillPassK   = skillRes.passK.avg;
+    const skillASR      = skillRes.passK.avgAttemptSuccessRate;
+    const skillWorkflow = skillRes.quality?.avgWorkflow ?? null;
+    const skillGrounding= skillRes.quality?.avgGrounding ?? null;
 
     rows.push({
       model: modelName,
       baseline_pass_k: basePassK,
-      recipe_pass_k: recipePassK,
-      delta_pass_k: recipePassK - basePassK,
+      skill_pass_k: skillPassK,
+      delta_pass_k: skillPassK - basePassK,
       baseline_attempt_success_rate: baseASR,
-      recipe_attempt_success_rate: recipeASR,
-      delta_attempt_success_rate: recipeASR - baseASR,
+      skill_attempt_success_rate: skillASR,
+      delta_attempt_success_rate: skillASR - baseASR,
       baseline_workflow: baseWorkflow,
-      recipe_workflow: recipeWorkflow,
-      delta_workflow: (baseWorkflow != null && recipeWorkflow != null) ? recipeWorkflow - baseWorkflow : null,
+      skill_workflow: skillWorkflow,
+      delta_workflow: (baseWorkflow != null && skillWorkflow != null) ? skillWorkflow - baseWorkflow : null,
       baseline_grounding: baseGrounding,
-      recipe_grounding: recipeGrounding,
-      delta_grounding: (baseGrounding != null && recipeGrounding != null) ? recipeGrounding - baseGrounding : null,
-      // Per-prompt breakdown, for spotting which specific tasks the recipe helped/hurt.
-      per_prompt: (recipeRes.passK.results || []).map(rp => {
-        const bp = (baseRes.passK.results || []).find(x => x.id === rp.id);
+      skill_grounding: skillGrounding,
+      delta_grounding: (baseGrounding != null && skillGrounding != null) ? skillGrounding - baseGrounding : null,
+      // Per-prompt breakdown, for spotting which specific tasks the skill condition helped/hurt.
+      per_prompt: (skillRes.passK.results || []).map(sp => {
+        const bp = (baseRes.passK.results || []).find(x => x.id === sp.id);
         return {
-          id: rp.id,
+          id: sp.id,
           baseline_score: bp ? bp.score : null,
-          recipe_score: rp.score,
-          delta: bp ? rp.score - bp.score : null,
+          skill_score: sp.score,
+          delta: bp ? sp.score - bp.score : null,
         };
       }),
     });
@@ -1071,7 +1121,7 @@ function buildComparison(recipeResults) {
   return {
     baseline_run_id: baseline.run_id,
     baseline_file: CONFIG.baseline_file,
-    recipe_k: CONFIG.k,
+    skill_k: CONFIG.k,
     baseline_k: baselineK ?? null,
     k_mismatch: kMismatch,
     rows,
@@ -1083,18 +1133,18 @@ function logComparisonTable(comparison) {
   log("\n" + "─".repeat(68));
   log(`COMPARISON vs BASELINE (run_id=${comparison.baseline_run_id})`);
   if (comparison.k_mismatch) {
-    log(`⚠️  K MISMATCH: this run k=${comparison.recipe_k} vs baseline k=${comparison.baseline_k} — deltas below are NOT a valid Pass@k comparison, directional only.`);
+    log(`⚠️  K MISMATCH: this run k=${comparison.skill_k} vs baseline k=${comparison.baseline_k} — deltas below are NOT a valid Pass@k comparison, directional only.`);
   }
   log("─".repeat(68));
-  log(`${"Model".padEnd(30)} Baseline    +Recipe     Δ Pass@k`);
+  log(`${"Model".padEnd(30)} Baseline    +Skill      Δ Pass@k`);
   log("─".repeat(68));
   for (const r of comparison.rows) {
     const label = (MODEL_DISPLAY_NAMES[r.model] || r.model).padEnd(30);
     const deltaStr = (r.delta_pass_k >= 0 ? "+" : "") + (r.delta_pass_k * 100).toFixed(1) + "pp";
-    log(`${label} ${pct(r.baseline_pass_k).padEnd(11)} ${pct(r.recipe_pass_k).padEnd(11)} ${deltaStr}`);
+    log(`${label} ${pct(r.baseline_pass_k).padEnd(11)} ${pct(r.skill_pass_k).padEnd(11)} ${deltaStr}`);
   }
   log("─".repeat(68));
-  log("(pp = percentage points. Positive Δ = recipe injection helped this model on this metric.)");
+  log("(pp = percentage points. Positive Δ = the skill-enabled condition helped this model on this metric.)");
   if (comparison.k_mismatch) {
     log(`(Re-run at k=${comparison.baseline_k} for a valid comparison — see skills_comparison_*.json's k_mismatch field.)`);
   }
@@ -1229,6 +1279,17 @@ const outCompareJson = path.join(CONFIG.results_dir, `skills_comparison_${run_id
 
 fs.writeFileSync(outJson, JSON.stringify({
   run_id,
+  // Bumped whenever buildValidationR()'s grading logic changes in a way that
+  // affects pass/fail outcomes — results are NOT directly comparable across
+  // grader_version values. v2 fixes a real bug: v1 picked the alphabetically
+  // first Seurat-class object (ls() order) to validate, which could silently
+  // pick a raw/unfiltered object over the correctly-processed one whenever a
+  // script used a name like `seu` alongside `seu_filtered` (very common —
+  // "seu" sorts before "seu_filtered"). v2 scores every Seurat-class
+  // candidate against the prompt's actual requirements and validates
+  // whichever one satisfies the most, with BENCH_SELECTED_OBJECT emitted
+  // (via stdout) as an audit trail of which one was chosen.
+  grader_version: "validation_object_selection_v2",
   condition: "simulated_progressive_disclosure_bounded_exploration_forced_synthesis",
   injection_channel: "system_context_teaser_plus_general_view_tool", // metadata teaser only via system context; recipe.md AND supporting files both discovered/read on demand via view() — see skills_shim.js header
   skill_provenance: {
