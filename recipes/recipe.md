@@ -5,9 +5,6 @@ version: 4
 type: user
 ---
 
-<!-- v4: added Critical execution rule 7 — explicitly library() every package whose functions are called directly (ggplot2/ggtitle in particular). Added after this exact failure (could not find function "ggtitle") was confirmed independently across 3 different models/providers (Claude Opus 4.8, Claude Sonnet 5, Gemini 3.5 Flash) under the skills progressive-disclosure condition — cross-model recurrence, not a single-model quirk. No R scripts changed.
-v3: fixed DoubletFinder/CellCycle step-order contradictions (see git history for detail); added Critical execution rules, Seurat v5 notes, pre-output self-check. No R scripts changed. -->
-
 
 # Single-cell RNA-seq analysis with Seurat
 

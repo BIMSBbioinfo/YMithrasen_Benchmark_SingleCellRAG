@@ -5,18 +5,42 @@
  * Inspired by HumanEval (Pass@k), SWE-bench (repo-grounded eval),
  * Terminal-Bench (end-to-end workflow), and scBench (deterministic grading).
  *
+ * NOTE on Pass@k: computePassAtK() below reports whether ANY of the k
+ * attempts passed (empirical "success within k attempts"), not HumanEval's
+ * formal unbiased Pass@k estimator (which corrects for n>k samples via a
+ * combinatorial formula). Report it in the thesis as empirical Pass@k /
+ * success-within-k, not as the HumanEval estimator — the two are not
+ * numerically interchangeable even though they share a name.
+ *
  * Usage:
  *   node coding_agent_runner.js --agent claude
  *   node coding_agent_runner.js --agent codex
  *   node coding_agent_runner.js --agent gemini
  *   node coding_agent_runner.js --agent claude --prompts p01,p02,p03
  *   node coding_agent_runner.js --agent all
+ *
+ * RESUME: interrupted runs (e.g. Claude Code session/token limits during a
+ * long k=3 run) can be resumed with --resume — completed attempts are
+ * loaded from results/checkpoints/ and the agent is not called again for
+ * them. Resume is OFF by default (a plain invocation always re-runs
+ * everything); checkpoints are still written as the run progresses either
+ * way, so --resume can pick up from any prior invocation, complete or
+ * interrupted. Model outputs are never cached/reused ACROSS attempts (k
+ * independence is preserved); only an already-completed, already-graded
+ * attempt for the exact same agent+condition+prompt_id+attempt can be
+ * skipped — and infrastructure failures (agent_cli_error — no usable
+ * response was ever obtained) are never checkpointed, so a session/rate-
+ * limit interruption is always retried on --resume rather than treated as
+ * done. Checkpoints are automatically invalidated (ignored, re-run) if the
+ * prompts file, graders.R, any file under recipes/, or the dataset path
+ * changes — see computeBenchmarkVersion().
  */
 
 import "dotenv/config";
-import { exec, execSync } from "child_process";
+import { exec } from "child_process";
 import fs   from "fs";
 import path from "path";
+import crypto from "crypto";
 import { fileURLToPath } from "url";
 
 const __dirname = (() => {
@@ -41,23 +65,34 @@ const CONFIG = {
   grader_script: path.join(__dirname, "graders", "graders.R"),
   results_dir  : path.join(__dirname, "results"),
   work_base    : path.join(__dirname, "workdirs"),
-  r_exec       : process.env.R_EXEC || "C:/Program Files/R/R-4.5.1/bin/Rscript.exe",
+  checkpoints_dir: path.join(__dirname, "results", "checkpoints"),
+  r_exec       : process.env.R_EXEC || "C:/Program Files/R/R-4.6.1/bin/Rscript.exe",
+
+  // Resume/checkpoint behaviour: OFF by default. A checkpoint is only
+  // consulted (and an attempt skipped) when --resume is explicitly passed —
+  // safer than resume-by-default, since months later a "new experiment"
+  // invocation shouldn't silently reuse old checkpoints. Checkpoints are
+  // still WRITTEN after every genuine completed attempt regardless of this
+  // flag (see shouldCheckpoint below), so a later --resume run can always
+  // pick up from wherever an earlier run left off.
+  resume_run   : process.argv.includes("--resume"),
 
   // Benchmark settings
   k                     : Number(process.env.BENCH_K || 1),
   timeout_ms            : Number(process.env.BENCH_TIMEOUT_MS    || 600000),
   r_timeout_ms          : Number(process.env.BENCH_R_TIMEOUT_MS  || 600000),
   no_recipe             : process.argv.includes("--no-recipe") || process.env.BENCH_NO_RECIPE === "1",
-  context_mode          : process.env.BENCH_CONTEXT_MODE || "full",
+  // Recipe delivery for the non-baseline condition is always progressive
+  // disclosure (teaser only, agent discovers ./recipes itself via its own
+  // filesystem tools — see buildAgentTeaser). Full-recipe and pointer-card
+  // injection modes were removed; recipe_benchmark_runner.js is the frozen
+  // full-injection ablation if that comparison is needed again.
   // Context budgeting
   recipe_warning_chars  : Number(process.env.BENCH_RECIPE_WARNING_CHARS    || 16000),
   recipe_max_chars      : Number(process.env.BENCH_RECIPE_MAX_CHARS         || 20000),
-  skill_context_max_chars: Number(process.env.BENCH_SKILL_CONTEXT_MAX_CHARS || 50000),
   context_window_tokens : Number(process.env.BENCH_CONTEXT_WINDOW_TOKENS   || 128000),
   reserved_output_tokens: Number(process.env.BENCH_MAX_TOKENS               || 12000),
   context_warning_ratio : Number(process.env.BENCH_CONTEXT_WARNING_RATIO   || 0.8),
-  temperature           : Number(process.env.BENCH_TEMPERATURE               || 0),
-  max_tokens            : Number(process.env.BENCH_MAX_TOKENS                || 12000),
 
   // Agent CLI commands (sandbox: recipes only + dataset read-only)
   agents: {
@@ -100,6 +135,110 @@ const CONFIG = {
   },
 };
 
+// Single source of truth for the experimental condition label — derived
+// directly from CONFIG.no_recipe so it can never drift from what
+// buildPromptWithContext() / setupWorkDir() actually did. Saved into both
+// per-attempt context_metadata.json and the final summary JSON (see #7).
+// Named to match skills_benchmark_runner.js's convention: skill relevance
+// AND its primary instruction file (recipe.md) have already been decided
+// (oracle-selected) — the agent autonomously selects only which supporting
+// files, if any, it needs. This is not a claim about discovering native
+// Claude/Codex/Gemini Skills activation, nor about discovering which file
+// in ./recipes is authoritative.
+function getCondition() {
+  return CONFIG.no_recipe ? "no_recipe" : "oracle_activated_progressive_disclosure";
+}
+
+// ── Resume / checkpointing ───────────────────────────────────────────────────
+// Solves interrupted long k=3 runs (e.g. Claude Code session/token limits)
+// without compromising Pass@k: only a COMPLETED, already-graded attempt for
+// the exact same agent+condition+prompt_id+attempt can be skipped on resume.
+// Model outputs are never cached across attempts — every attempt that
+// actually needs to run still calls the agent independently.
+
+// Recursively collects (relative_path, content) for every text file under a
+// directory, sorted for a deterministic hash regardless of OS listing order.
+// Binary/unreadable files are skipped rather than erroring.
+function collectDirTextContent(dir) {
+  const out = [];
+  function walk(d, rel) {
+    let entries;
+    try { entries = fs.readdirSync(d, { withFileTypes: true }); } catch { return; }
+    for (const e of entries) {
+      const full = path.join(d, e.name);
+      const relPath = rel ? `${rel}/${e.name}` : e.name;
+      if (e.isDirectory()) walk(full, relPath);
+      else {
+        try { out.push([relPath, fs.readFileSync(full, "utf8")]); } catch { /* skip binary/unreadable */ }
+      }
+    }
+  }
+  walk(dir, "");
+  out.sort((a, b) => a[0].localeCompare(b[0]));
+  return out;
+}
+
+let _benchmark_version = null;
+function computeBenchmarkVersion() {
+  if (_benchmark_version) return _benchmark_version;
+  const parts = [CONFIG.prompts_file, CONFIG.grader_script]
+    .map(p => { try { return fs.readFileSync(p, "utf8"); } catch { return ""; } });
+  // Whole recipes directory (recipe.md + every supporting file under
+  // recipes/code/, recipes/scripts/, etc.) — not just recipe.md — so a
+  // change to any file the agent could actually read invalidates stale
+  // checkpoints.
+  for (const [relPath, content] of collectDirTextContent(CONFIG.recipes_dir)) {
+    parts.push(`${relPath}\u0000${content}`);
+  }
+  // Dataset identifier — the path only, not its (large) contents. Switching
+  // to a different dataset should invalidate checkpoints even if nothing
+  // else changed.
+  parts.push(CONFIG.dataset_dir);
+
+  _benchmark_version = crypto.createHash("sha256").update(parts.join("\u0000")).digest("hex").slice(0, 12);
+  return _benchmark_version;
+}
+
+function checkpointPath(agent_name, prompt_id, attempt) {
+  return path.join(CONFIG.checkpoints_dir, agent_name, getCondition(), `${prompt_id}_attempt${attempt}.json`);
+}
+
+// Only a genuine completed model attempt is checkpoint-worthy. An
+// agent_cli_error means the CLI call itself failed (session limit, rate
+// limit, transient error) BEFORE any usable response was obtained — that is
+// not a completed attempt, and checkpointing it would make resume skip the
+// exact thing it's supposed to retry. grader_fail / r_runtime_error /
+// no_code_extracted / timeout all mean the agent DID produce a response
+// (which was then graded, or failed to run/parse) — those are genuine
+// completed attempts and remain checkpointable.
+function shouldCheckpoint(result) {
+  return result.failure_type !== "agent_cli_error";
+}
+
+function loadCheckpoint(agent_name, prompt_id, attempt) {
+  if (!CONFIG.resume_run) return null;
+  const p = checkpointPath(agent_name, prompt_id, attempt);
+  if (!fs.existsSync(p)) return null;
+  try {
+    const data = JSON.parse(fs.readFileSync(p, "utf8"));
+    if (data.benchmark_version !== computeBenchmarkVersion()) return null; // stale — prompts/recipe/grader/dataset changed
+    if (!data.result) return null;
+    return data.result;
+  } catch {
+    return null; // corrupt/partial checkpoint — treat as absent, will be re-run and overwritten
+  }
+}
+
+function saveCheckpoint(agent_name, prompt_id, attempt, result) {
+  const p = checkpointPath(agent_name, prompt_id, attempt);
+  fs.mkdirSync(path.dirname(p), { recursive: true });
+  fs.writeFileSync(p, JSON.stringify({
+    benchmark_version: computeBenchmarkVersion(),
+    saved_at: new Date().toISOString(),
+    result,
+  }, null, 2));
+}
+
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
 const run_id = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
@@ -107,10 +246,6 @@ const run_id = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
 function log(msg) {
   const ts = new Date().toISOString();
   process.stdout.write(`[${ts}] ${msg}\n`);
-}
-
-function escape(str) {
-  return str.replace(/"/g, '\\"').replace(/\n/g, " ");
 }
 
 function compactMarkdown(text) {
@@ -122,14 +257,6 @@ function compactMarkdown(text) {
 }
 
 function cleanPromptWhitespace(text) {
-  return String(text || "")
-    .replace(/\r\n/g, "\n")
-    .replace(/[ \t]+$/gm, "")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
-}
-
-function compactCode(text) {
   return String(text || "")
     .replace(/\r\n/g, "\n")
     .replace(/[ \t]+$/gm, "")
@@ -197,148 +324,6 @@ function extractRCode(text) {
   return null;
 }
 
-// ── Script preselection ────────────────────────────────────────────────────────
-// Maps prompt keywords to the most relevant recipe script(s).
-// Only matched scripts are injected, avoiding full recipe.md context bloat.
-
-const SCRIPT_MAP = [
-  { scripts: ["02_load_data.R"],
-    keywords: ["load", "read10x", "barcodes", "matrix.mtx", "seurat object",
-               "convert", "three files", "mtx", "genes.tsv", "barcodes.tsv"] },
-  { scripts: ["03_qc_metrics.R"],
-    keywords: ["qc", "quality control", "mitochondrial", "percent.mt",
-               "violin", "nfeature", "ncount", "qc metrics", "ribosomal"] },
-  { scripts: ["04_filter_cells.R"],
-    keywords: ["filter", "low-quality", "low quality", "min_feat", "max_feat",
-               "remove cells", "keep cells", "200 and 2500"] },
-  { scripts: ["05_doublets.R"],
-    keywords: ["doublet", "doubletfinder", "singlet", "multiplet"] },
-  { scripts: ["06_cell_cycle.R"],
-    keywords: ["cell cycle", "s phase", "g2m", "cellcyclescoring", "phase"] },
-  { scripts: ["07_normalise.R"],
-    keywords: ["normaliz", "normalise", "lognormalize", "sctransform", "scale.factor"] },
-  { scripts: ["08_variable_genes.R"],
-    keywords: ["variable", "hvg", "findvariablefeatures", "highly variable", "vst"] },
-  { scripts: ["09_scale_data.R"],
-    keywords: ["scale", "scaledata", "regress", "vars.to.regress"] },
-  { scripts: ["10_pca.R"],
-    keywords: ["pca", "elbow", "principal component", "runpca", "linear"] },
-  { scripts: ["11_umap.R"],
-    keywords: ["umap", "embedding", "tsne", "runumap", "visuali"] },
-  { scripts: ["12_neighbours.R"],
-    keywords: ["neighbour", "neighbor", "knn", "snn", "findneighbors"] },
-  { scripts: ["13_clustering.R"],
-    keywords: ["cluster", "resolution", "louvain", "leiden", "findclusters"] },
-  { scripts: ["14_marker_genes.R"],
-    keywords: ["marker", "findallmarkers", "findmarkers", "heatmap", "doheatmap",
-               "differential expression", "wilcoxon", "mast", "featureplot"] },
-  { scripts: ["15_cell_annotation.R"],
-    keywords: ["annotate", "annotation", "cell type", "singler", "renameidents",
-               "cd4", "cd8", "monocyte", "b cell", "t cell", "nk cell"] },
-  { scripts: ["17_integration.R"],
-    keywords: ["integrat", "harmony", "cca", "rpca", "batch correct"] },
-  { scripts: ["18_pseudobulk_de.R"],
-    keywords: ["pseudobulk", "deseq2", "aggregate"] },
-  { scripts: ["19_trajectory.R"],
-    keywords: ["trajectory", "pseudotime", "monocle"] },
-];
-
-const FULL_PIPELINE_KEYWORDS = [
-  "full pipeline", "complete pipeline", "end-to-end", "full standard",
-  "complete.*seurat", "entire pipeline", "from.*loading.*through",
-  "complete end-to-end", "full analysis pipeline"
-];
-
-const FULL_PIPELINE_SCRIPTS = [
-  "02_load_data.R", "03_qc_metrics.R", "04_filter_cells.R",
-  "07_normalise.R", "08_variable_genes.R", "09_scale_data.R", "10_pca.R",
-  "11_umap.R", "12_neighbours.R", "13_clustering.R", "14_marker_genes.R",
-];
-
-// Script dependencies (for context expansion if needed) — ensures all required scripts are included
-const SCRIPT_DEPS = {
-  "03_qc_metrics.R":      ["02_load_data.R"],
-  "04_filter_cells.R":    ["02_load_data.R", "03_qc_metrics.R"],
-  "05_doublets.R":        ["02_load_data.R", "03_qc_metrics.R", "04_filter_cells.R", "07_normalise.R", "08_variable_genes.R", "09_scale_data.R", "10_pca.R", "11_umap.R", "12_neighbours.R", "13_clustering.R"],
-  "06_cell_cycle.R":      ["02_load_data.R", "03_qc_metrics.R", "04_filter_cells.R"],
-  "07_normalise.R":       ["02_load_data.R", "03_qc_metrics.R", "04_filter_cells.R"],
-  "08_variable_genes.R":  ["02_load_data.R", "03_qc_metrics.R", "04_filter_cells.R", "07_normalise.R"],
-  "09_scale_data.R":      ["02_load_data.R", "03_qc_metrics.R", "04_filter_cells.R", "07_normalise.R", "08_variable_genes.R"],
-  "10_pca.R":             ["02_load_data.R", "03_qc_metrics.R", "04_filter_cells.R", "07_normalise.R", "08_variable_genes.R", "09_scale_data.R"],
-  "11_umap.R":            ["02_load_data.R", "03_qc_metrics.R", "04_filter_cells.R", "07_normalise.R", "08_variable_genes.R", "09_scale_data.R", "10_pca.R"],
-  "12_neighbours.R":      ["02_load_data.R", "03_qc_metrics.R", "04_filter_cells.R", "07_normalise.R", "08_variable_genes.R", "09_scale_data.R", "10_pca.R"],
-  "13_clustering.R":      ["02_load_data.R", "03_qc_metrics.R", "04_filter_cells.R", "07_normalise.R", "08_variable_genes.R", "09_scale_data.R", "10_pca.R", "12_neighbours.R", "11_umap.R"],
-  "14_marker_genes.R":    ["02_load_data.R", "03_qc_metrics.R", "04_filter_cells.R", "07_normalise.R", "08_variable_genes.R", "09_scale_data.R", "10_pca.R", "12_neighbours.R", "13_clustering.R", "11_umap.R"],
-  "15_cell_annotation.R": ["02_load_data.R", "03_qc_metrics.R", "04_filter_cells.R", "07_normalise.R", "08_variable_genes.R", "09_scale_data.R", "10_pca.R", "12_neighbours.R", "13_clustering.R", "11_umap.R", "14_marker_genes.R"],
-  "17_integration.R":     ["16_load_multisample.R"],
-  "18_pseudobulk_de.R":   ["16_load_multisample.R", "17_integration.R", "13_clustering.R", "14_marker_genes.R", "15_cell_annotation.R"],
-  "19_trajectory.R":      ["16_load_multisample.R", "17_integration.R", "13_clustering.R", "15_cell_annotation.R"],
-};
-
-// Recursively expand script dependencies to ensure all required context is included
-function expandDependencies(selected) {
-  const expanded = [];
-  const seen = new Set();
-
-  function add(script) {
-    for (const dep of SCRIPT_DEPS[script] || []) add(dep);
-    if (!seen.has(script)) {
-      seen.add(script);
-      expanded.push(script);
-    }
-  }
-
-  selected.forEach(add);
-  return expanded;
-}
-
-
-function loadScriptSummary(script_names) {
-  return script_names
-    .map(name => RECIPE_CARDS[name] || `${name} — follow the corresponding recipe script if present.`)
-    .join("\n\n");
-}
-function selectScripts(promptText) {
-  const resolved = resolveRecipeNodes(promptText);
-  return resolved.scripts.length > 0 ? resolved.scripts : ["02_load_data.R"];
-}
-
-function loadScriptContent(script_names, available_chars = Infinity) {
-  const code_dir = path.join(CONFIG.recipes_dir, "code");
-  const included = [];
-  const omitted  = [];
-  const chunks   = [];
-  let used_chars = 0;
-
-  for (const name of script_names) {
-    const fpath = path.join(code_dir, name);
-    if (!fs.existsSync(fpath)) {
-      omitted.push({ name, reason: "file_not_found" });
-      continue;
-    }
-    const raw     = fs.readFileSync(fpath, "utf8");
-    const compact = compactCode(raw);
-    const chunk   = `## Reference implementation: ${name}\n\`\`\`r\n${compact}\n\`\`\``;
-    const required = chunk.length + (chunks.length > 0 ? 2 : 0);
-
-    if (used_chars + required > available_chars) {
-      omitted.push({ name, reason: "context_budget", chars: chunk.length });
-      continue;
-    }
-    chunks.push(chunk);
-    included.push({ name, chars: chunk.length, estimated_tokens: estimateTokens(chunk) });
-    used_chars += required;
-  }
-
-  const joined = chunks.join("\n\n");
-  return {
-    content : joined,
-    included,
-    omitted,
-    stats   : { chars: used_chars, estimated_tokens: estimateTokens(joined) },
-  };
-}
-
 function loadRecipeDocument() {
   if (!fs.existsSync(CONFIG.recipe_file)) {
     throw new Error(`Recipe file not found: ${CONFIG.recipe_file}`);
@@ -358,605 +343,62 @@ function loadRecipeDocument() {
   return { raw, compact, stats };
 }
 
-function buildFullSkillContext(prompt_obj, resolved, selected_scripts) {
+// Pulls `name:` out of recipe.md's YAML frontmatter (between the first two
+// `---` lines) without a full YAML parser — same convention as
+// skills_benchmark_runner.js's extractFrontmatterField.
+function extractFrontmatterField(raw, field) {
+  const frontmatterMatch = raw.match(/^---\n([\s\S]*?)\n---/);
+  if (!frontmatterMatch) return null;
+  const line = frontmatterMatch[1].split("\n").find(l => l.trim().startsWith(`${field}:`));
+  return line ? line.split(":").slice(1).join(":").trim() : null;
+}
+
+// Pulls the body paragraph under a given "## Heading" (up to the next "##").
+// Same convention as skills_benchmark_runner.js's extractSection.
+function extractNamedSection(raw, heading) {
+  const re = new RegExp(`##\\s+${heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*\\n([\\s\\S]*?)(?=\\n##\\s|$)`, "i");
+  const match = raw.match(re);
+  return match ? match[1].trim() : null;
+}
+
+// Builds the SHORT metadata-only teaser injected into the prompt for the
+// "progressive" condition — mirrors skills_benchmark_runner.js's
+// buildSkillTeaser(): the agent gets a skill name + a one-paragraph
+// description of what it does, NOT the recipe body or any script content.
+//
+// The relevant skill AND its primary instruction file (recipe.md) are
+// provided by the benchmark condition — the coding agent autonomously
+// selects only which, if any, additional supporting files it needs for the
+// specific task. This is deliberate: the condition is named
+// oracle_activated_progressive_disclosure because skill *selection* is
+// already decided; this runner is not testing whether the agent can
+// discover which file in ./recipes is authoritative.
+//
+// The key difference from the plain-API skills condition: these are coding
+// agents (Claude Code / Codex / Gemini CLI) with real filesystem access, and
+// setupWorkDir() already copies the full ./recipes folder into the agent's
+// sandboxed work_dir before it runs. So there's no need for a fake view()
+// tool like skills_shim.js provides to the non-agentic API models — the
+// agent can just use its own native file-reading tools on ./recipes.
+function buildAgentTeaser() {
   const recipe = loadRecipeDocument();
-
-  const routingHeader = compactMarkdown(`
-# SINGLE-CELL R RECIPE SKILL
-
-## Routing decision
-
-- Workflow: ${resolved.workflowKind || "unknown"}
-- Input type: ${resolved.inputType || "unknown"}
-- Target nodes: ${(resolved.targetNodes || []).join(", ") || "unknown"}
-- Selected scripts: ${selected_scripts.join(", ") || "none"}
-
-The complete recipe document below defines the workflow, parameters,
-supported inputs, limitations and execution rules.
-Use it as authoritative procedural guidance.
-The selected R reference implementations appear afterwards.
-Adapt them to the task — do not blindly concatenate them.
-`);
-
-  const recipeBlock = `${routingHeader}\n\n## Complete recipe document\n\n${recipe.compact}`;
-  const remainingChars = Math.max(0, CONFIG.skill_context_max_chars - recipeBlock.length - 200);
-  const scripts = loadScriptContent(selected_scripts, remainingChars);
-
-  const omissionNotice = scripts.omitted.length > 0
-    ? compactMarkdown(`
-## Context-budget notice
-
-The following selected reference files were not embedded because the configured context budget was reached:
-
-${scripts.omitted.map(item => `- ${item.name}: ${item.reason}`).join("\n")}
-
-The complete recipe overview above is still present.
-Do not assume details from omitted files that are not stated in the recipe document.
-`) : "";
-
-  const content = [
-    recipeBlock,
-    scripts.content ? `## Selected reference implementations\n\n${scripts.content}` : "",
-    omissionNotice,
-  ].filter(Boolean).join("\n\n");
-
-  const stats = textStats(content);
-
-  if (scripts.omitted.length > 0) {
-    log(`  [recipe] omitted ${scripts.omitted.length} script(s) due to context budget: ${scripts.omitted.map(o => o.name).join(", ")}`);
-  }
-
-  return {
-    content,
-    metadata: {
-      mode            : "full",
-      recipe          : recipe.stats,
-      selected_scripts,
-      included_scripts: scripts.included,
-      omitted_scripts : scripts.omitted,
-      script_context  : scripts.stats,
-      total_skill_context: stats,
-    },
-  };
-}
-
-function extractSection(content, startHeading, endHeadingRegex) {
-  const start = content.indexOf(startHeading);
-  if (start === -1) return "";
-
-  const rest = content.slice(start);
-  const afterHeading = rest.slice(startHeading.length);
-  const endMatch = afterHeading.match(endHeadingRegex);
-
-  if (!endMatch || endMatch.index === undefined) {
-    return rest.trim();
-  }
-
-  return rest.slice(0, startHeading.length + endMatch.index).trim();
-}
-
-function extractNotes(recipe_content) {
-  const start = recipe_content.indexOf("## Notes");
-  const end = recipe_content.indexOf("## Limitations");
-
-  if (start !== -1 && end !== -1) {
-    return recipe_content.slice(start, end).trim();
-  }
-
-  return "";
-}
-
-function scriptNumber(scriptName) {
-  const match = scriptName.match(/^(\d+)_/);
-  return match ? parseInt(match[1], 10) : null;
-}
-
-function extractRelevantSteps(recipe_content, selected_scripts) {
-  const stepsSection = extractSection(
-    recipe_content,
-    "## Steps",
-    /\n## Workflows|\n## Mid-pipeline|\n## Code references|\n## Environment|\n## Notes|\n## Limitations/
-  );
-
-  if (!stepsSection) return "";
-
-  const selectedNums = selected_scripts
-    .map(scriptNumber)
-    .filter(n => Number.isInteger(n));
-
-  if (selectedNums.length === 0) return "";
-
-  const lines = stepsSection.split(/\r?\n/);
-  const kept = [];
-  let keepCurrent = false;
-
-  for (const line of lines) {
-    const stepMatch = line.match(/^\s*(\d+)\.\s+/);
-
-    if (stepMatch) {
-      const n = parseInt(stepMatch[1], 10);
-      keepCurrent = selectedNums.includes(n);
-    }
-
-    if (keepCurrent) {
-      kept.push(line);
-    }
-  }
-
-  return kept.join("\n").trim();
-}
-
-function loadWorkflowGraph(kind = "single") {
-  const filename = kind === "multi"
-    ? "multi-sample-workflow.json"
-    : "single-sample-workflow.json";
-
-  const candidates = [
-    path.join(CONFIG.recipes_dir, filename),
-    path.join(CONFIG.workflows_dir, filename),
-    path.join(CONFIG.recipes_dir, "workflows", filename),
-  ];
-
-  for (const workflowFile of candidates) {
-    if (fs.existsSync(workflowFile)) {
-      return JSON.parse(fs.readFileSync(workflowFile, "utf8"));
-    }
-  }
-
-  log(`  [recipe] workflow file not found. Tried:`);
-  for (const f of candidates) {
-    log(`  [recipe]   ${f}`);
-  }
-
-  return null;
-}
-
-function detectWorkflowKind(promptText) {
-  const text = promptText.toLowerCase();
-
-  if (
-    /multi[- ]?sample|multiple samples|several samples|batch|condition|donor|replicate|integrat|pseudobulk|deseq2|trajectory|pseudotime|cellchat|cell[- ]cell|pathway|enrichment/.test(text)
-  ) {
-    return "multi";
-  }
-
-  return "single";
-}
-
-function detectInputType(promptText, workflowKind) {
-  const text = promptText.toLowerCase();
-
-  if (/clustered object|already clustered|seurat_object_clustered/.test(text)) {
-    return "seurat_object_clustered";
-  }
-
-  if (/pca object|already pca|seurat_object_pca/.test(text)) {
-    return "seurat_object_pca";
-  }
-
-  if (/normalised object|normalized object|already normalised|already normalized|seurat_object_normalised|seurat_object_normalized/.test(text)) {
-    return "seurat_object_normalised";
-  }
-
-  if (/qc[- ]?passed|filtered object|seurat_object_filtered/.test(text)) {
-    return "seurat_object_filtered";
-  }
-
-  if (/raw seurat object|seurat_object_raw/.test(text)) {
-    return "seurat_object_raw";
-  }
-
-  if (/sample list|sample_list/.test(text)) {
-    return "sample_list";
-  }
-
-  if (/integrated object|seurat_object_integrated/.test(text)) {
-    return "seurat_object_integrated";
-  }
-
-  if (/annotated object|seurat_object_annotated/.test(text)) {
-    return "seurat_object_annotated";
-  }
-
-  if (workflowKind === "multi") {
-    return "multi_sample_files";
-  }
-
-  return "raw_count_data";
-}
-
-function detectTargetNodeIds(promptText, workflowKind) {
-  const text = promptText.toLowerCase();
-  const targets = [];
-
-  if (/load|read10x|matrix\.mtx|barcodes|genes\.tsv|features\.tsv|seurat object/.test(text)) {
-    targets.push(workflowKind === "multi" ? "load_multisample" : "load_data");
-  }
-
-  if (/qc|quality control|mitochondrial|percent\.mt|nfeature|ncount|violin|scatter/.test(text)) {
-    targets.push("qc_metrics");
-  }
-
-  if (/filter|low-quality|low quality|remove cells|keep cells|min_feat|max_feat|max_mt/.test(text)) {
-    targets.push("filter_cells");
-  }
-
-  if (/doublet|doubletfinder|singlet|multiplet/.test(text)) {
-    targets.push("doublets");
-  }
-
-  if (/cell cycle|s phase|g2m|phase/.test(text)) {
-    targets.push("cell_cycle");
-  }
-
-  if (/normaliz|normalise|lognormalize|sctransform/.test(text)) {
-    targets.push("normalise");
-  }
-
-  if (/variable|hvg|highly variable|findvariablefeatures/.test(text)) {
-    targets.push("variable_genes");
-  }
-
-  if (/scale|scaledata|regress/.test(text)) {
-    targets.push("scale_data");
-  }
-
-  if (/pca|principal component|elbow|runpca/.test(text)) {
-    targets.push("pca");
-  }
-
-  if (/umap|embedding|tsne|visuali|dimplot/.test(text)) {
-    targets.push("umap");
-  }
-
-  if (/neighbo[u]?r|knn|snn|findneighbors/.test(text)) {
-    targets.push("neighbours");
-  }
-
-  if (/cluster|resolution|louvain|leiden|findclusters/.test(text)) {
-    targets.push("clustering");
-  }
-
-  if (/marker|findallmarkers|findmarkers|differential expression|wilcoxon|mast/.test(text)) {
-    targets.push("marker_genes");
-  }
-
-  if (/annotat|cell type|singler|renameidents/.test(text)) {
-    targets.push("cell_annotation");
-  }
-
-  if (/integrat|batch|harmony|cca|rpca/.test(text)) {
-    targets.push("integration");
-  }
-
-  if (/pseudobulk|deseq2|aggregate/.test(text)) {
-    targets.push("pseudobulk_de");
-  }
-
-  if (/trajectory|pseudotime|monocle/.test(text)) {
-    targets.push("trajectory");
-  }
-
-  if (/cellchat|cell[- ]cell communication|communication network/.test(text)) {
-    targets.push("cellchat");
-  }
-
-  if (/pathway|enrichr|go|kegg|msigdb|enrichment/.test(text)) {
-    targets.push("pathway_enrichment");
-  }
-
-  if (targets.length === 0) {
-    targets.push(workflowKind === "multi" ? "load_multisample" : "load_data");
-  }
-
-  return [...new Set(targets)];
-}
-
-function buildAdjacency(workflow) {
-  const adj = new Map();
-
-  for (const node of workflow.nodes || []) {
-    adj.set(node.id, []);
-  }
-
-  for (const edge of workflow.edges || []) {
-    if (!adj.has(edge.from)) adj.set(edge.from, []);
-    adj.get(edge.from).push(edge.to);
-  }
-
-  return adj;
-}
-
-function nodeForInputType(workflow, inputType) {
-  const exact = (workflow.nodes || []).find(n => n.input_type === inputType);
-  if (exact) return exact.id;
-
-  const producedBy = (workflow.nodes || []).find(n => n.output_type === inputType);
-  if (producedBy) return producedBy.id;
-
-  return null;
-}
-
-function shortestPath(workflow, startNodeId, targetNodeId) {
-  if (!startNodeId || !targetNodeId) return [];
-  if (startNodeId === targetNodeId) return [targetNodeId];
-
-  const adj = buildAdjacency(workflow);
-  const queue = [[startNodeId]];
-  const seen = new Set([startNodeId]);
-
-  while (queue.length > 0) {
-    const pathSoFar = queue.shift();
-    const last = pathSoFar[pathSoFar.length - 1];
-
-    for (const next of adj.get(last) || []) {
-      if (seen.has(next)) continue;
-
-      const nextPath = [...pathSoFar, next];
-
-      if (next === targetNodeId) {
-        return nextPath;
-      }
-
-      seen.add(next);
-      queue.push(nextPath);
-    }
-  }
-
-  return [targetNodeId];
-}
-
-function resolveRecipeNodes(promptText) {
-  // Full pipeline shortcut — if the prompt matches a full pipeline pattern,
-  // return all standard single-sample scripts immediately without keyword matching
-  if (FULL_PIPELINE_KEYWORDS.some(kw => new RegExp(kw, "i").test(promptText))) {
-    return {
-      workflowKind : "single",
-      inputType    : "raw_count_data",
-      startNode    : "load_data",
-      targetNodes  : ["marker_genes"],
-      nodes        : [],
-      scripts      : FULL_PIPELINE_SCRIPTS,
-    };
-  }
-
-  const workflowKind = detectWorkflowKind(promptText);
-  const workflow = loadWorkflowGraph(workflowKind);
-
-  if (!workflow) {
-    const fallbackTargetNodes = detectTargetNodeIds(promptText, workflowKind);
-
-    return {
-      workflowKind,
-      inputType: workflowKind === "multi" ? "multi_sample_files" : "raw_count_data",
-      startNode: workflowKind === "multi" ? "load_multisample" : "load_data",
-      targetNodes: fallbackTargetNodes,
-      nodes: [],
-      scripts: workflowKind === "multi" ? ["16_load_multisample.R"] : ["02_load_data.R"],
-    };
-  }
-
-  const inputType = detectInputType(promptText, workflowKind);
-  const startNode = nodeForInputType(workflow, inputType);
-  const targetNodes = detectTargetNodeIds(promptText, workflowKind);
-
-  const nodeIds = [];
-
-  for (const target of targetNodes) {
-    const pathNodes = shortestPath(workflow, startNode, target);
-
-    for (const nodeId of pathNodes) {
-      if (!nodeIds.includes(nodeId)) {
-        nodeIds.push(nodeId);
-      }
-    }
-  }
-
-  const selectedNodes = nodeIds
-    .map(id => (workflow.nodes || []).find(n => n.id === id))
-    .filter(Boolean);
-
-  const scripts = selectedNodes
-    .map(n => n.path)
-    .filter(Boolean)
-    .map(p => path.basename(p));
-
-  return {
-    workflowKind,
-    inputType,
-    startNode,
-    targetNodes,
-    nodes: selectedNodes,
-    scripts: [...new Set(scripts)],
-  };
-}
-
-function extractParamsTable(recipe_content) {
-  const start = recipe_content.indexOf("| Parameter |");
-  const end = recipe_content.indexOf("## Steps");
-
-  if (start !== -1 && end !== -1) {
-    return recipe_content.slice(start, end).trim();
-  }
-
-  return "";
-}
-
-function extractNotesForSelectedNodes(recipe_content, selectedNodes) {
-  const selectedIds = new Set(selectedNodes.map(n => n.id));
-  const notes = [];
-
-  if (selectedIds.has("qc_metrics") || selectedIds.has("filter_cells")) {
-    notes.push("- For human data, use `^MT-` for mitochondrial genes. Compute `percent.mt` before filtering by mitochondrial percentage.");
-  }
-
-  if (selectedIds.has("doublets")) {
-    notes.push("- Doublet detection is optional-package-dependent. Use DoubletFinder only if it is installed. Do not install packages inside the benchmark script.");
-    notes.push("- If DoubletFinder is unavailable, create a safe fallback output that marks all cells as `Singlet` and continues, rather than failing.");
-    notes.push("- If using DoubletFinder, detect classification columns dynamically with `grep()`, not hardcoded names.");
-  }
-
-  if (selectedIds.has("cell_annotation")) {
-    notes.push("- Prefer manual marker-based annotation for benchmark robustness.");
-    notes.push("- Use SingleR/celldex only if explicitly requested and installed. Do not install packages inside the benchmark script.");
-    notes.push("- If no reference package is available, assign simple cluster labels or marker-informed labels and save the annotated object/output required by the task.");
-  }
-
-  if (selectedIds.has("marker_genes")) {
-    notes.push("- Marker genes require clusters to exist first. Use FindAllMarkers only after FindClusters has run.");
-  }
-
-  if (selectedIds.has("integration")) {
-    notes.push("- Multi-sample integration should use common genes across samples and avoid optional Harmony unless explicitly requested and installed.");
-  }
-
-  if (selectedIds.has("trajectory")) {
-    notes.push("- Use Monocle3 only if explicitly requested and installed. Otherwise avoid trajectory code that will fail.");
-  }
-
-  if (selectedIds.has("cellchat")) {
-    notes.push("- Use CellChat only if explicitly requested and installed. Otherwise avoid CellChat code that will fail.");
-  }
-
-  return notes.join("\n");
-}
-
-function buildWorkflowNodeContext(resolved) {
-  if (!resolved.nodes || resolved.nodes.length === 0) {
-    return "No workflow nodes selected.";
-  }
-
-  return resolved.nodes.map((node, idx) => {
-    return `${idx + 1}. ${node.id} (${node.input_type} -> ${node.output_type})
-   script: ${node.path}`;
-  }).join("\n");
-}
-
-// Pointer-style cards for each recipe script.
-// Each card tells the agent: what the script does, which function to use, and where to find it.
-// No prose summaries — the actual file is the source of truth.
-const RECIPE_POINTERS = {
-  "02_load_data.R": `## 02_load_data.R — Load raw count data
-File: ./recipes/code/02_load_data.R
-Use Read10X() for MTX folders, Read10X_h5() for H5 files, readRDS() for RDS.
-Creates a Seurat object with CreateSeuratObject(). Object named: seu`,
-
-  "03_qc_metrics.R": `## 03_qc_metrics.R — Compute QC metrics
-File: ./recipes/code/03_qc_metrics.R
-Use PercentageFeatureSet(seu, pattern="^MT-") for percent.mt.
-Adds nFeature_RNA, nCount_RNA, percent.mt to seu@meta.data.`,
-
-  "04_filter_cells.R": `## 04_filter_cells.R — Filter low-quality cells
-File: ./recipes/code/04_filter_cells.R
-Use subset() with nFeature_RNA, nCount_RNA, percent.mt thresholds.
-Output object named: seu_filtered`,
-
-  "05_doublets.R": `## 05_doublets.R — Doublet detection
-File: ./recipes/code/05_doublets.R
-Key function: run_doubletfinder_safe(seu, n_pcs, doublet_rate, pK, run_pk_sweep)
-Usage: source("./recipes/code/05_doublets.R") then call run_doubletfinder_safe()
-DO NOT call doubletFinder() directly — use run_doubletfinder_safe() only.
-Input: seu_filtered with clusters and UMAP already run.
-Output: seu_df with $doublet_status; subset to seu_singlets after.`,
-
-  "06_cell_cycle.R": `## 06_cell_cycle.R — Cell cycle scoring
-File: ./recipes/code/06_cell_cycle.R
-Use CellCycleScoring() with s.genes and g2m.genes from Seurat.
-Adds S.Score, G2M.Score, Phase to seu@meta.data.`,
-
-  "07_normalise.R": `## 07_normalise.R — Normalise data
-File: ./recipes/code/07_normalise.R
-Use NormalizeData(seu_filtered, normalization.method="LogNormalize", scale.factor=10000).
-Output object named: seu_filtered (updated in place).`,
-
-  "08_variable_genes.R": `## 08_variable_genes.R — Find highly variable genes
-File: ./recipes/code/08_variable_genes.R
-Use FindVariableFeatures(seu_filtered, selection.method="vst", nfeatures=2000).`,
-
-  "09_scale_data.R": `## 09_scale_data.R — Scale data
-File: ./recipes/code/09_scale_data.R
-Use ScaleData(seu_filtered, features=VariableFeatures(seu_filtered)).`,
-
-  "10_pca.R": `## 10_pca.R — PCA
-File: ./recipes/code/10_pca.R
-Use RunPCA(seu_filtered, features=VariableFeatures(seu_filtered), npcs=50).
-Use ElbowPlot() to choose n_pcs.`,
-
-  "11_umap.R": `## 11_umap.R — UMAP embedding
-File: ./recipes/code/11_umap.R
-Use RunUMAP(seu_filtered, dims=1:n_pcs).`,
-
-  "12_neighbours.R": `## 12_neighbours.R — Find neighbours
-File: ./recipes/code/12_neighbours.R
-Use FindNeighbors(seu_filtered, dims=1:n_pcs).`,
-
-  "13_clustering.R": `## 13_clustering.R — Cluster cells
-File: ./recipes/code/13_clustering.R
-Use FindClusters(seu_filtered, resolution=0.5).
-Cluster labels available as Idents(seu_filtered) or seu_filtered$seurat_clusters.`,
-
-  "14_marker_genes.R": `## 14_marker_genes.R — Find marker genes
-File: ./recipes/code/14_marker_genes.R
-Use FindAllMarkers(seu_filtered, only.pos=TRUE, min.pct=0.25, logfc.threshold=0.25).
-Requires clusters to exist first (FindClusters must have run).`,
-
-  "15_cell_annotation.R": `## 15_cell_annotation.R — Annotate cell types
-File: ./recipes/code/15_cell_annotation.R
-Prefer marker-based annotation using RenameIdents().
-Use SingleR/celldex only if explicitly requested and installed.`,
-
-  "16_load_multisample.R": `## 16_load_multisample.R — Load multiple samples
-File: ./recipes/code/16_load_multisample.R
-Read each sample with Read10X(), create Seurat objects, merge with merge().`,
-
-  "17_integration.R": `## 17_integration.R — Integrate samples
-File: ./recipes/code/17_integration.R
-Use IntegrateLayers() or Harmony. Requires merged object with batch info.`,
-
-  "18_pseudobulk_de.R": `## 18_pseudobulk_de.R — Pseudobulk differential expression
-File: ./recipes/code/18_pseudobulk_de.R
-Aggregate counts per sample/cluster, then use DESeq2.`,
-
-  "19_trajectory.R": `## 19_trajectory.R — Trajectory analysis
-File: ./recipes/code/19_trajectory.R
-Use Monocle3 only if explicitly requested and installed.`,
-};
-
-function buildPointerCards(selected_scripts, resolved) {
-  const paramsTable = (() => {
-    const recipe_content = fs.existsSync(CONFIG.recipe_file)
-      ? fs.readFileSync(CONFIG.recipe_file, "utf8") : "";
-    return extractParamsTable(recipe_content);
-  })();
-
-  const cards = selected_scripts
-    .map(name => RECIPE_POINTERS[name] || `## ${name}\nFile: ./recipes/code/${name}`)
-    .join("\n\n");
-
-  const selectedNotes = extractNotesForSelectedNodes("", resolved.nodes);
-
-  return `RECIPE / SKILL ROUTING CONTEXT
-
-Workflow selected: ${resolved.workflowKind}
-Detected input type: ${resolved.inputType || "unknown"}
-Target node(s): ${(resolved.targetNodes || []).join(", ") || "unknown"}
-
-The selected workflow path below is dependency guidance, not mandatory code to copy.
-Use it to understand what must exist before the requested target step.
-Generate the smallest complete executable R script for the benchmark task.
-
-PARAMETER GUIDANCE
-The recipe parameter table provides suggested ranges only.
-Use task-specified values first. Otherwise choose reasonable values and define them in code.
-
-${paramsTable}
-
-SELECTED WORKFLOW PATH
-${selected_scripts.map((s, i) => `${i + 1}. ${s}`).join("\n")}
-
-RECIPE CARDS — read the listed file before writing code for that step:
-${cards}
-${selectedNotes ? `\nTASK-SPECIFIC NOTES\n${selectedNotes}` : ""}`;
+  const name = extractFrontmatterField(recipe.raw, "name") || "a domain-specific single-cell analysis skill";
+  const whatItDoes = extractNamedSection(recipe.raw, "What this recipe does") || "(description unavailable)";
+
+  const teaser = [
+    "A skill is available and has already been determined to be relevant to the task below.",
+    "",
+    `Name: ${name}`,
+    "",
+    `What it does: ${whatItDoes}`,
+    "",
+    "First read ./recipes/recipe.md in full. This is the primary instruction file for the skill.",
+    "Only if recipe.md does not provide enough information for the SPECIFIC task below, read the smallest number of relevant supporting files (e.g. under ./recipes/code/) needed to complete it.",
+    "Do not read supporting files unless they are necessary, and do not read every referenced pipeline script.",
+    "Once you have enough information, write the final executable R code.",
+  ].join("\n");
+
+  return { teaser, recipe };
 }
 
 function buildPromptWithContext(prompt_obj) {
@@ -980,12 +422,11 @@ OUTPUT REQUIREMENTS:
 - Save required outputs to the current working directory.
 - Generate the smallest complete executable script.
 `);
-    log(`  [recipe] mode=none`);
+    log(`  [recipe] condition=${getCondition()}`);
     return {
       promptText,
       contextMetadata: {
-        mode                    : "no_recipe",
-        selected_scripts        : [],
+        condition               : getCondition(),
         final_prompt            : textStats(promptText),
         configured_context_window_tokens: CONFIG.context_window_tokens,
         reserved_output_tokens  : CONFIG.reserved_output_tokens,
@@ -993,42 +434,15 @@ OUTPUT REQUIREMENTS:
     };
   }
 
-  // With-recipe: resolve which scripts are relevant
-  const resolved        = resolveRecipeNodes(prompt_obj.prompt);
-  const selected_scripts = expandDependencies(resolved.scripts || []);
+  // Progressive-disclosure condition: the agent gets a short teaser only.
+  log(`  [recipe] condition=${getCondition()}`);
 
-  log(`  [recipe] workflow=${resolved.workflowKind || "unknown"}`);
-  log(`  [recipe] input=${resolved.inputType || "unknown"}`);
-  log(`  [recipe] targets=${(resolved.targetNodes || []).join(", ") || "unknown"}`);
-  log(`  [recipe] selected: ${(selected_scripts || []).join(", ") || "none"}`);
-  log(`  [recipe] mode=${CONFIG.context_mode}`);
-
-  let skillResult;
-  if (CONFIG.context_mode === "full") {
-    skillResult = buildFullSkillContext(prompt_obj, resolved, selected_scripts);
-  } else {
-    const summaryContent = buildPointerCards(selected_scripts, resolved);
-    skillResult = {
-      content : compactMarkdown(summaryContent),
-      metadata: {
-        mode            : "summary",
-        selected_scripts,
-        total_skill_context: textStats(summaryContent),
-      },
-    };
-  }
-
-  const recipe_context = skillResult.content;
+  const { teaser, recipe } = buildAgentTeaser();
 
   const promptText = cleanPromptWhitespace(`
 You are an expert bioinformatician working with single-cell RNA-seq data in R using Seurat.
 
-Relevant workflow and recipe guidance has been included below.
-Use the recipe as procedural guidance, but satisfy the benchmark task exactly.
-Task-specified requirements override recipe defaults.
-
-RECIPE SKILL CONTEXT:
-${recipe_context}
+${teaser}
 
 DATASET PATH:
 ${CONFIG.dataset_dir}
@@ -1062,7 +476,9 @@ OUTPUT REQUIREMENTS:
   return {
     promptText,
     contextMetadata: {
-      ...skillResult.metadata,
+      condition                        : getCondition(),
+      teaser                            : textStats(teaser),
+      recipe_provenance                 : recipe.stats,
       final_prompt                     : promptStats,
       configured_context_window_tokens : CONFIG.context_window_tokens,
       reserved_output_tokens           : CONFIG.reserved_output_tokens,
@@ -1078,6 +494,7 @@ function setupWorkDir(agent, prompt_id, attempt) {
   const work_dir = path.join(
     CONFIG.work_base,
     agent,
+    getCondition(),
     `${prompt_id}_attempt${attempt}`
   );
 
@@ -1088,20 +505,26 @@ function setupWorkDir(agent, prompt_id, attempt) {
   // Remove all outputs from an earlier run.
   cleanWorkDir(work_dir);
 
-  // Copy a fresh recipe directory.
-  const recipes_dest = path.join(
-    work_dir,
-    "recipes"
-  );
+  // Copy a fresh recipe directory — ONLY for the progressive-disclosure
+  // condition. For --no-recipe, the folder must not exist at all: these are
+  // coding agents with general filesystem access, so even an unmentioned
+  // ./recipes folder sitting in the work_dir could be discovered and read on
+  // its own initiative, silently contaminating the vanilla baseline.
+  if (!CONFIG.no_recipe) {
+    const recipes_dest = path.join(
+      work_dir,
+      "recipes"
+    );
 
-  fs.cpSync(
-    CONFIG.recipes_dir,
-    recipes_dest,
-    {
-      recursive: true,
-      force: true,
-    }
-  );
+    fs.cpSync(
+      CONFIG.recipes_dir,
+      recipes_dest,
+      {
+        recursive: true,
+        force: true,
+      }
+    );
+  }
 
   return work_dir;
 }
@@ -1259,8 +682,6 @@ function runGrader(prompt_id, work_dir) {
           pass           : false,
           score          : 0.0,
           reason         : "Grader parse error: " + (error?.message || "unknown"),
-          grounding_rate : 0.0,
-          grounding_fns  : [],
         });
       }
     });
@@ -1268,7 +689,16 @@ function runGrader(prompt_id, work_dir) {
 }
 
 // ── Single prompt evaluation ───────────────────────────────────────────────────
-
+// NOTE on `usage`: the claude/codex CLI agents (see CONFIG.agents) are invoked
+// via plain stdout/stderr subprocess calls, not a structured API response, so
+// their `agent_result.usage` (and therefore every result object's `usage`
+// field below) will generally be null — token counts and any provider-side
+// prompt-caching effects are NOT captured for those two agents. Only the
+// OpenRouter-API-mode path (callOpenRouter) returns real `usage`. If cost /
+// caching analysis becomes an explicit thesis result, this runner does not
+// currently support it for CLI agents; otherwise it's enough to state that
+// each attempt was an independent invocation and caching was not controlled
+// or measured as a variable.
 async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
   const { id: prompt_id } = prompt_obj;
   log(`\n  [${agent_name}/${prompt_id}] attempt ${attempt}`);
@@ -1308,7 +738,6 @@ async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
       r_success        : false,
       grader_pass      : false,
       grader_score     : 0.0,
-      grounding_rate   : 0.0,
       failure_type     : "agent_cli_error",
       reason           : agent_result.error,
       context          : contextMetadata,
@@ -1336,7 +765,6 @@ async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
       r_success        : false,
       grader_pass      : false,
       grader_score     : 0.0,
-      grounding_rate   : 0.0,
       failure_type     : "no_code_extracted",
       reason           : "No R code in agent output. Inspect agent_stdout.txt and agent_stderr.txt in the workdir.",
       context          : contextMetadata,
@@ -1370,7 +798,6 @@ async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
       r_error          : r_result.error,
       grader_pass      : false,
       grader_score     : 0.0,
-      grounding_rate   : 0.0,
       failure_type     : r_result.error && /timed out|timeout/i.test(r_result.error) ? "timeout" : "r_runtime_error",
       reason           : r_result.error || "R execution failed. Inspect *_r_stdout.txt in the workdir.",
       context          : contextMetadata,
@@ -1382,7 +809,7 @@ async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
   }
   // 4. Run grader
   const grader_result = await runGrader(prompt_id, work_dir);
-  log(`  [${agent_name}/${prompt_id}] grader: pass=${grader_result.pass} score=${grader_result.score?.toFixed(2)} grounding=${grader_result.grounding_rate?.toFixed(2)}`);
+  log(`  [${agent_name}/${prompt_id}] grader: pass=${grader_result.pass} score=${grader_result.score?.toFixed(2)}`);
 
   return {
     agent          : agent_name,
@@ -1397,8 +824,6 @@ async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
     r_error          : r_result.error,
     grader_pass      : grader_result.pass   || false,
     grader_score     : grader_result.score  || 0.0,
-    grounding_rate   : grader_result.grounding_rate || 0.0,
-    grounding_fns    : grader_result.grounding_fns  || [],
     failure_type     : grader_result.pass ? "pass" : "grader_fail",
     reason           : grader_result.reason || "",
     context          : contextMetadata,
@@ -1411,6 +836,8 @@ async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
 
 // ── Pass@k calculation ─────────────────────────────────────────────────────────
 
+// This is empirical "success within k attempts" (did any of the k independent
+// attempts pass), NOT HumanEval's unbiased Pass@k estimator. Report it as such.
 function computePassAtK(attempts) {
   // Pass@k: 1 if any attempt passes, 0 otherwise
   return attempts.some(a => a.grader_pass) ? 1.0 : 0.0;
@@ -1418,10 +845,82 @@ function computePassAtK(attempts) {
 
 // ── Main benchmark runner ──────────────────────────────────────────────────────
 
+// Pure computation — no logging, no side effects. Called after every
+// attempt (cheap even at k=3 × 30 prompts) so results/<file>.json always
+// reflects the latest completed state, and once more at the end for the
+// final logged summary.
+function computeSummary(agent_name, selected, all_results) {
+  const prompt_groups = {};
+  for (const r of all_results) {
+    if (!prompt_groups[r.prompt_id]) prompt_groups[r.prompt_id] = [];
+    prompt_groups[r.prompt_id].push(r);
+  }
+  const prompt_passes  = Object.values(prompt_groups).map(g => computePassAtK(g));
+  const pass_rate      = prompt_passes.reduce((s, v) => s + v, 0) / Math.max(prompt_passes.length, 1);
+  const r_success_rate = all_results.filter(r => r.r_success).length  / Math.max(all_results.length, 1);
+  const avg_score      = all_results.reduce((s, r) => s + (r.grader_score   || 0), 0) / Math.max(all_results.length, 1);
+  const avg_latency    = all_results.reduce((s, r) => s + (r.agent_latency_ms || 0), 0) / Math.max(all_results.length, 1);
+  const categories     = [...new Set(all_results.map(r => r.category).filter(Boolean))];
+
+  return {
+    run_id, agent: agent_name,
+    condition   : getCondition(),
+    benchmark_version   : computeBenchmarkVersion(),
+    timestamp   : new Date().toISOString(),
+    n_prompts   : selected.length,
+    k           : CONFIG.k,
+    attempts_per_prompt : CONFIG.k,
+    n_attempts           : all_results.length,
+    complete              : all_results.length >= selected.length * CONFIG.k,
+    metrics     : { pass_at_k: pass_rate, r_success_rate, avg_score, avg_latency_ms: avg_latency },
+    by_category : Object.fromEntries(categories.map(cat => {
+      const cat_groups = Object.values(prompt_groups).filter(g => g[0].category === cat);
+      return [cat, cat_groups.length ? cat_groups.reduce((s, g) => s + computePassAtK(g), 0) / cat_groups.length : null];
+    })),
+    by_difficulty : Object.fromEntries(["simple", "medium", "hard"].map(diff => {
+      const diff_groups = Object.values(prompt_groups).filter(g =>
+        (g[0].difficulty === diff) || (g[0].prompt_id && g[0].prompt_id.startsWith(diff.slice(0, 3))));
+      return [diff, diff_groups.length ? diff_groups.reduce((s, g) => s + computePassAtK(g), 0) / diff_groups.length : null];
+    })),
+    results: all_results,
+  };
+}
+
+function logSummary(agent_name, summary) {
+  log(`\n${"─".repeat(70)}`);
+  log(`BENCHMARK SUMMARY — ${agent_name}`);
+  log(`${"─".repeat(70)}`);
+  log(`Pass@${CONFIG.k} (strict):     ${(summary.metrics.pass_at_k * 100).toFixed(1)}%`);
+  log(`Workflow success (R):  ${(summary.metrics.r_success_rate * 100).toFixed(1)}%`);
+  log(`Avg grader score:      ${summary.metrics.avg_score.toFixed(3)}`);
+  log(`Avg agent latency:     ${(summary.metrics.avg_latency_ms / 1000).toFixed(1)}s`);
+
+  if (Object.keys(summary.by_category).length > 0) {
+    log(`\nBy category (prompt-level Pass@${CONFIG.k}):`);
+    for (const [cat, v] of Object.entries(summary.by_category)) {
+      if (v === null) continue;
+      log(`  ${cat.padEnd(20)} ${(v * 100).toFixed(1)}%`);
+    }
+  }
+
+  log(`\nBy difficulty (prompt-level Pass@${CONFIG.k}):`);
+  for (const [diff, v] of Object.entries(summary.by_difficulty)) {
+    if (v === null) continue;
+    log(`  ${diff.padEnd(10)} ${(v * 100).toFixed(1)}%`);
+  }
+
+  log(`\nBy failure type:`);
+  const failure_types = [...new Set(summary.results.map(r => r.failure_type || (r.grader_pass ? "pass" : "unknown")))];
+  for (const ft of failure_types) {
+    const n = summary.results.filter(r => (r.failure_type || (r.grader_pass ? "pass" : "unknown")) === ft).length;
+    log(`  ${ft.padEnd(20)} ${n}`);
+  }
+}
+
 async function runBenchmark(agent_name, prompt_ids = null) {
   log(`\n${"═".repeat(70)}`);
   log(`Coding Agent Benchmark  run_id=${run_id}`);
-  log(`Agent: ${agent_name}  k=${CONFIG.k}`);
+  log(`Agent: ${agent_name}  k=${CONFIG.k}  condition=${getCondition()}  ${CONFIG.resume_run ? "(--resume: consulting checkpoints)" : "(fresh run — no checkpoints consulted)"}`);
   log(`${"═".repeat(70)}`);
 
   const prompts = loadJSONL(CONFIG.prompts_file);
@@ -1433,97 +932,49 @@ async function runBenchmark(agent_name, prompt_ids = null) {
   fs.mkdirSync(CONFIG.results_dir, { recursive: true });
   fs.mkdirSync(CONFIG.work_base,   { recursive: true });
 
+  const out_file = path.join(CONFIG.results_dir, `coding_agent_${agent_name}_${run_id}.json`);
   const all_results = [];
 
   for (const prompt_obj of selected) {
     const attempts = [];
     for (let k = 1; k <= CONFIG.k; k++) {
-      const result = await evaluatePrompt(agent_name, prompt_obj, k);
+      let result = loadCheckpoint(agent_name, prompt_obj.id, k);
+      if (result) {
+        log(`  [${agent_name}/${prompt_obj.id}] attempt ${k} — resumed from checkpoint (skipping agent call)`);
+      } else {
+        result = await evaluatePrompt(agent_name, prompt_obj, k);
+
+        if (!shouldCheckpoint(result)) {
+          // Infrastructure failure (e.g. Claude session/rate-limit error) —
+          // not a model attempt, not counted toward Pass@k, not checkpointed.
+          // Stop the run entirely rather than silently moving to the next
+          // prompt/attempt, so this can never be mistaken for a genuine
+          // failed benchmark attempt.
+          log(`  [checkpoint] infrastructure failure (${result.failure_type}) at ${prompt_obj.id} attempt ${k} — attempt NOT counted, run stopping. Resume with --resume once resolved.`);
+
+          const partial_summary = computeSummary(agent_name, selected, all_results);
+          fs.writeFileSync(out_file, JSON.stringify(partial_summary, null, 2));
+
+          throw new Error(`Benchmark interrupted at ${prompt_obj.id} attempt ${k}: ${result.reason}`);
+        }
+
+        saveCheckpoint(agent_name, prompt_obj.id, k, result);
+      }
       attempts.push(result);
       all_results.push(result);
-      if (result.grader_pass) break; // Stop early if passed
+
+      // Incremental save after every single attempt — a crash mid-run still
+      // leaves a valid, up-to-date results JSON rather than nothing at all.
+      const partial_summary = computeSummary(agent_name, selected, all_results);
+      fs.writeFileSync(out_file, JSON.stringify(partial_summary, null, 2));
     }
 
     const pass_at_k = computePassAtK(attempts);
-    log(`  [${prompt_obj.id}] Pass@${CONFIG.k}=${pass_at_k.toFixed(3)}`);
+    log(`  [${prompt_obj.id}] Pass@${CONFIG.k}=${pass_at_k.toFixed(3)} (${attempts.length}/${CONFIG.k} attempts run)`);
   }
 
-  // ── Summary ──────────────────────────────────────────────────────────────────
-  log(`\n${"─".repeat(70)}`);
-  log(`BENCHMARK SUMMARY — ${agent_name}`);
-  log(`${"─".repeat(70)}`);
-
-  // Prompt-level Pass@k
-  const prompt_groups = {};
-  for (const r of all_results) {
-    if (!prompt_groups[r.prompt_id]) prompt_groups[r.prompt_id] = [];
-    prompt_groups[r.prompt_id].push(r);
-  }
-  const prompt_passes  = Object.values(prompt_groups).map(g => computePassAtK(g));
-  const pass_rate      = prompt_passes.reduce((s, v) => s + v, 0) / Math.max(prompt_passes.length, 1);
-  const r_success_rate = all_results.filter(r => r.r_success).length  / Math.max(all_results.length, 1);
-  const avg_score      = all_results.reduce((s, r) => s + (r.grader_score   || 0), 0) / Math.max(all_results.length, 1);
-  const avg_grounding  = all_results.reduce((s, r) => s + (r.grounding_rate || 0), 0) / Math.max(all_results.length, 1);
-  const avg_latency    = all_results.reduce((s, r) => s + (r.agent_latency_ms || 0), 0) / Math.max(all_results.length, 1);
-
-  log(`Pass@${CONFIG.k} (strict):     ${(pass_rate * 100).toFixed(1)}%`);
-  log(`Workflow success (R):  ${(r_success_rate * 100).toFixed(1)}%`);
-  log(`Avg grader score:      ${avg_score.toFixed(3)}`);
-  log(`Avg grounding rate:    ${(avg_grounding * 100).toFixed(1)}%`);
-  log(`Avg agent latency:     ${(avg_latency / 1000).toFixed(1)}s`);
-
-  // By category
-  const categories = [...new Set(all_results.map(r => r.category).filter(Boolean))];
-  if (categories.length > 0) {
-    log(`\nBy category:`);
-    for (const cat of categories) {
-      const cat_results = all_results.filter(r => r.category === cat);
-      const cat_pass    = cat_results.filter(r => r.grader_pass).length / cat_results.length;
-      log(`  ${(cat || "unknown").padEnd(20)} ${(cat_pass * 100).toFixed(1)}% (${cat_results.length} prompts)`);
-    }
-  }
-
-  // By difficulty
-  log(`\nBy difficulty:`);
-  for (const diff of ["simple", "medium", "hard"]) {
-    const diff_results = all_results.filter(r => (r.difficulty === diff) ||
-      (r.prompt_id && r.prompt_id.startsWith(diff.slice(0,3))));
-    if (diff_results.length === 0) continue;
-    const diff_pass = diff_results.filter(r => r.grader_pass).length / diff_results.length;
-    log(`  ${diff.padEnd(10)} ${(diff_pass * 100).toFixed(1)}% (${diff_results.length} prompts)`);
-  }
-
-  log(`\nBy failure type:`);
-
-  const failure_types = [
-    ...new Set(
-      all_results.map(r => r.failure_type || (r.grader_pass ? "pass" : "unknown"))
-    )
-  ];
-
-  for (const ft of failure_types) {
-    const n = all_results.filter(r =>
-      (r.failure_type || (r.grader_pass ? "pass" : "unknown")) === ft
-    ).length;
-
-    log(`  ${ft.padEnd(20)} ${n}`);
-  }
-
-  // Save results
-  const out_file = path.join(CONFIG.results_dir,
-    `coding_agent_${agent_name}_${run_id}.json`);
-  const summary = {
-    run_id, agent: agent_name,
-    timestamp   : new Date().toISOString(),
-    n_prompts   : selected.length,
-    k           : CONFIG.k,
-    metrics     : { pass_at_k: pass_rate, r_success_rate, avg_score, avg_grounding, avg_latency_ms: avg_latency },
-    by_category : Object.fromEntries(categories.map(cat => {
-      const r = all_results.filter(x => x.category === cat);
-      return [cat, r.filter(x => x.grader_pass).length / r.length];
-    })),
-    results: all_results,
-  };
+  const summary = computeSummary(agent_name, selected, all_results);
+  logSummary(agent_name, summary);
   fs.writeFileSync(out_file, JSON.stringify(summary, null, 2));
   log(`\nResults saved → ${out_file}`);
   log(`✅ Done.`);
