@@ -122,12 +122,22 @@ const CONFIG = {
       cmd: () => {
         const model =
           process.env.GEMINI_MODEL ||
-          "gemini-2.5-flash";
+          "gemini-3.5-flash";
 
+        // NOTE: -p "." is required to force non-interactive/headless mode.
+        // Newer Gemini CLI versions default to interactive mode even when
+        // piped via stdin with no positional argument — confirmed by direct
+        // testing (stdin-only invocation hung waiting for interactive
+        // input instead of exiting). Per `gemini --help`, -p/--prompt's
+        // given value is appended with stdin content, so passing a trivial
+        // placeholder here is enough to flip the mode switch while the
+        // actual prompt content still flows entirely through the existing
+        // stdin pipe (not as a command-line argument), preserving the fix
+        // for the Windows ~8191-char argument-length truncation bug.
         return (
           `powershell -NoProfile -Command ` +
           `"Get-Content -Raw final_prompt.txt | ` +
-          `gemini -m ${model} --output-format text"`
+          `gemini -m ${model} --output-format text -p '.'"`
         );
       },
       extract: extractRCode,
