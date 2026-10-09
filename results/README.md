@@ -76,18 +76,4 @@ results[]                one record per attempt (grader_pass, grader_score, fail
   planner, against 16.7% for the same model without retrieval.
 
 ## Notes on the files
-
-- `vanilla_k3_merged.json` combines two runs: Claude Haiku 4.5 comes from a
-  re-run, because 16 of its 90 attempts in the first run failed with connection
-  errors. The file's `merge_provenance` field has the details.
-- Groq (GPT-OSS 20B) was dropped from the benchmark, and its entry was removed
-  from the files that contained it. Those files have a `post_processing` field
-  with the checksum of the original.
-- The Agentic RAG file was graded on execution only: an attempt passed if the R
-  code ran without error, with no task validation. Its numbers are therefore
-  not on the same scale as the Without/With Skills files. The `grading` column
-  of `api_summary.csv` shows which grading each file used.
-- The API Skills run recorded a different `recipe.md` (`skill_provenance.raw_sha256`
-  starts with `07309b3a`) than the one in this repository, which is the version
-  the coding-agent runs used.
 - Paths inside the files are from the machine the runs were made on.
