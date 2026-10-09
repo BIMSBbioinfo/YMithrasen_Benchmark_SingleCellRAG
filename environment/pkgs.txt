@@ -1,0 +1,13 @@
+celldex
+DoubletFinder
+dplyr
+ggplot2
+ggrepel
+grDevices
+Matrix
+patchwork
+scDblFinder
+Seurat
+SeuratObject
+SingleCellExperiment
+SingleR

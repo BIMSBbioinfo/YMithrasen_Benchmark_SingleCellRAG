@@ -1,0 +1,4080 @@
+{
+  "run_id": "2026-08-17T08-54-26",
+  "agent": "gemini",
+  "condition": "oracle_activated_progressive_disclosure",
+  "benchmark_version": "744037ef0c1d",
+  "timestamp": "2026-08-17T11:49:53.871Z",
+  "n_prompts": 30,
+  "k": 3,
+  "attempts_per_prompt": 3,
+  "n_attempts": 90,
+  "complete": true,
+  "metrics": {
+    "pass_at_k": 0.9666666666666667,
+    "r_success_rate": 0.9,
+    "avg_score": 0.9,
+    "avg_latency_ms": 63415.566666666666
+  },
+  "by_category": {
+    "simple": 1,
+    "medium": 1,
+    "hard": 0.9
+  },
+  "by_difficulty": {
+    "simple": 1,
+    "medium": 1,
+    "hard": 0.9
+  },
+  "results": [
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_01",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 1,
+      "agent_latency_ms": 22791,
+      "total_ms": 34701,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Valid Seurat object created (2700 cells, 13714 features)",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2155,
+          "bytes": 2155,
+          "estimated_tokens": 616,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005310344827586207
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_01_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_01",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 2,
+      "agent_latency_ms": 24963,
+      "total_ms": 38088,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Valid Seurat object created (2700 cells, 13714 features)",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2155,
+          "bytes": 2155,
+          "estimated_tokens": 616,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005310344827586207
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_01_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_01",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 3,
+      "agent_latency_ms": 26176,
+      "total_ms": 37806,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Valid Seurat object created (2700 cells, 13714 features)",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2155,
+          "bytes": 2155,
+          "estimated_tokens": 616,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005310344827586207
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_01_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_02",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 1,
+      "agent_latency_ms": 32895,
+      "total_ms": 44934,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "QC metrics and violin plot generated",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2284,
+          "bytes": 2284,
+          "estimated_tokens": 653,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005629310344827586
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_02_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_02",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 2,
+      "agent_latency_ms": 40413,
+      "total_ms": 58468,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "QC metrics and violin plot generated",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2284,
+          "bytes": 2284,
+          "estimated_tokens": 653,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005629310344827586
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_02_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_02",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 3,
+      "agent_latency_ms": 31258,
+      "total_ms": 53400,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "QC metrics and violin plot generated",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2284,
+          "bytes": 2284,
+          "estimated_tokens": 653,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005629310344827586
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_02_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_03",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 1,
+      "agent_latency_ms": 40408,
+      "total_ms": 57198,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Filtered Seurat object created (2638 cells) with filtering code present",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2256,
+          "bytes": 2256,
+          "estimated_tokens": 645,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005560344827586207
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_03_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_03",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 2,
+      "agent_latency_ms": 36431,
+      "total_ms": 53112,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Filtered Seurat object created (2638 cells) with filtering code present",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2256,
+          "bytes": 2256,
+          "estimated_tokens": 645,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005560344827586207
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_03_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_03",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 3,
+      "agent_latency_ms": 66197,
+      "total_ms": 81047,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Filtered Seurat object created (2638 cells) with filtering code present",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2256,
+          "bytes": 2256,
+          "estimated_tokens": 645,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005560344827586207
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_03_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_04",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 1,
+      "agent_latency_ms": 33409,
+      "total_ms": 52019,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Log-normalisation with scale factor found",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2214,
+          "bytes": 2214,
+          "estimated_tokens": 633,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005456896551724138
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_04_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_04",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 2,
+      "agent_latency_ms": 68378,
+      "total_ms": 80581,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Log-normalisation with scale factor found",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2214,
+          "bytes": 2214,
+          "estimated_tokens": 633,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005456896551724138
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_04_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_04",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 3,
+      "agent_latency_ms": 23412,
+      "total_ms": 33279,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Log-normalisation with scale factor found",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2214,
+          "bytes": 2214,
+          "estimated_tokens": 633,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005456896551724138
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_04_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_05",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 1,
+      "agent_latency_ms": 43914,
+      "total_ms": 57626,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "HVG identified and visualised",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2255,
+          "bytes": 2255,
+          "estimated_tokens": 645,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005560344827586207
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_05_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_05",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 2,
+      "agent_latency_ms": 48393,
+      "total_ms": 68649,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "HVG identified and visualised",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2255,
+          "bytes": 2255,
+          "estimated_tokens": 645,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005560344827586207
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_05_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_05",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 3,
+      "agent_latency_ms": 51454,
+      "total_ms": 66193,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "HVG identified and visualised",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2255,
+          "bytes": 2255,
+          "estimated_tokens": 645,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005560344827586207
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_05_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_06",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 1,
+      "agent_latency_ms": 36511,
+      "total_ms": 50745,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "NormalizeData + ScaleData found",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2246,
+          "bytes": 2246,
+          "estimated_tokens": 642,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.00553448275862069
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_06_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_06",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 2,
+      "agent_latency_ms": 32043,
+      "total_ms": 45215,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "NormalizeData + ScaleData found",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2246,
+          "bytes": 2246,
+          "estimated_tokens": 642,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.00553448275862069
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_06_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_06",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 3,
+      "agent_latency_ms": 39350,
+      "total_ms": 55205,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "NormalizeData + ScaleData found",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2246,
+          "bytes": 2246,
+          "estimated_tokens": 642,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.00553448275862069
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_06_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_07",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 1,
+      "agent_latency_ms": 51737,
+      "total_ms": 77189,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "PCA computed and visualised",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2312,
+          "bytes": 2312,
+          "estimated_tokens": 661,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005698275862068966
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_07_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_07",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 2,
+      "agent_latency_ms": 40235,
+      "total_ms": 80698,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "PCA computed and visualised",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2312,
+          "bytes": 2312,
+          "estimated_tokens": 661,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005698275862068966
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_07_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_07",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 3,
+      "agent_latency_ms": 45679,
+      "total_ms": 69073,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "PCA computed and visualised",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2312,
+          "bytes": 2312,
+          "estimated_tokens": 661,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005698275862068966
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_07_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_08",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 1,
+      "agent_latency_ms": 60428,
+      "total_ms": 113169,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Clustering complete: 9 clusters identified",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2282,
+          "bytes": 2282,
+          "estimated_tokens": 652,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005620689655172414
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_08_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_08",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 2,
+      "agent_latency_ms": 43389,
+      "total_ms": 97818,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Clustering complete: 9 clusters identified",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2282,
+          "bytes": 2282,
+          "estimated_tokens": 652,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005620689655172414
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_08_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_08",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 3,
+      "agent_latency_ms": 59949,
+      "total_ms": 112228,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Clustering complete: 9 clusters identified",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2282,
+          "bytes": 2282,
+          "estimated_tokens": 652,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005620689655172414
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_08_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_09",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 1,
+      "agent_latency_ms": 49586,
+      "total_ms": 104210,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "UMAP computed and visualised",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2246,
+          "bytes": 2246,
+          "estimated_tokens": 642,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.00553448275862069
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_09_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_09",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 2,
+      "agent_latency_ms": 55845,
+      "total_ms": 88575,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "UMAP computed and visualised",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2246,
+          "bytes": 2246,
+          "estimated_tokens": 642,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.00553448275862069
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_09_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_09",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 3,
+      "agent_latency_ms": 35405,
+      "total_ms": 66013,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "UMAP computed and visualised",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2246,
+          "bytes": 2246,
+          "estimated_tokens": 642,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.00553448275862069
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_09_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_10",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 1,
+      "agent_latency_ms": 24525,
+      "total_ms": 36777,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "FeatureScatter plots generated",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2257,
+          "bytes": 2257,
+          "estimated_tokens": 645,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005560344827586207
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_10_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_10",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 2,
+      "agent_latency_ms": 23360,
+      "total_ms": 34759,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "FeatureScatter plots generated",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2257,
+          "bytes": 2257,
+          "estimated_tokens": 645,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005560344827586207
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_10_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "simple_10",
+      "category": "simple",
+      "difficulty": "simple",
+      "attempt": 3,
+      "agent_latency_ms": 37368,
+      "total_ms": 49946,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "FeatureScatter plots generated",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2257,
+          "bytes": 2257,
+          "estimated_tokens": 645,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005560344827586207
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\simple_10_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_01",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 1,
+      "agent_latency_ms": 37352,
+      "total_ms": 52775,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "All 4 preprocessing steps present",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2262,
+          "bytes": 2262,
+          "estimated_tokens": 647,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005577586206896552
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_01_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_01",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 2,
+      "agent_latency_ms": 36136,
+      "total_ms": 51265,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "All 4 preprocessing steps present",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2262,
+          "bytes": 2262,
+          "estimated_tokens": 647,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005577586206896552
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_01_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_01",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 3,
+      "agent_latency_ms": 58593,
+      "total_ms": 108940,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "All 4 preprocessing steps present",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2262,
+          "bytes": 2262,
+          "estimated_tokens": 647,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005577586206896552
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_01_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_02",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 1,
+      "agent_latency_ms": 61292,
+      "total_ms": 99760,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full dim reduction + clustering + UMAP pipeline",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2257,
+          "bytes": 2257,
+          "estimated_tokens": 645,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005560344827586207
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_02_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_02",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 2,
+      "agent_latency_ms": 59340,
+      "total_ms": 111396,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full dim reduction + clustering + UMAP pipeline",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2257,
+          "bytes": 2257,
+          "estimated_tokens": 645,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005560344827586207
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_02_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_02",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 3,
+      "agent_latency_ms": 43636,
+      "total_ms": 79722,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full dim reduction + clustering + UMAP pipeline",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2257,
+          "bytes": 2257,
+          "estimated_tokens": 645,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005560344827586207
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_02_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_03",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 1,
+      "agent_latency_ms": 54646,
+      "total_ms": 138484,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full pipeline + FindAllMarkers + valid marker CSV saved",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2270,
+          "bytes": 2270,
+          "estimated_tokens": 649,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.0055948275862068965
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_03_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_03",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 2,
+      "agent_latency_ms": 49778,
+      "total_ms": 136804,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full pipeline + FindAllMarkers + valid marker CSV saved",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2270,
+          "bytes": 2270,
+          "estimated_tokens": 649,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.0055948275862068965
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_03_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_03",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 3,
+      "agent_latency_ms": 49741,
+      "total_ms": 135266,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full pipeline + FindAllMarkers + valid marker CSV saved",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2270,
+          "bytes": 2270,
+          "estimated_tokens": 649,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.0055948275862068965
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_03_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_04",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 1,
+      "agent_latency_ms": 73979,
+      "total_ms": 112625,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full pipeline + DoubletFinder with dynamic column detection",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2270,
+          "bytes": 2270,
+          "estimated_tokens": 649,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.0055948275862068965
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_04_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_04",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 2,
+      "agent_latency_ms": 57050,
+      "total_ms": 99040,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full pipeline + DoubletFinder with dynamic column detection",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2270,
+          "bytes": 2270,
+          "estimated_tokens": 649,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.0055948275862068965
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_04_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_04",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 3,
+      "agent_latency_ms": 69898,
+      "total_ms": 107412,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full pipeline + DoubletFinder with dynamic column detection",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2270,
+          "bytes": 2270,
+          "estimated_tokens": 649,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.0055948275862068965
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_04_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_05",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 1,
+      "agent_latency_ms": 123606,
+      "total_ms": 184577,
+      "r_executed": true,
+      "r_success": false,
+      "r_error": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_05_attempt1\\medium_05_generated.R\" 2>&1\n",
+      "grader_pass": false,
+      "grader_score": 0,
+      "failure_type": "r_runtime_error",
+      "reason": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_05_attempt1\\medium_05_generated.R\" 2>&1\n",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2345,
+          "bytes": 2345,
+          "estimated_tokens": 670,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005775862068965517
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_05_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_05",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 2,
+      "agent_latency_ms": 231108,
+      "total_ms": 268413,
+      "r_executed": true,
+      "r_success": false,
+      "r_error": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_05_attempt2\\medium_05_generated.R\" 2>&1\n",
+      "grader_pass": false,
+      "grader_score": 0,
+      "failure_type": "r_runtime_error",
+      "reason": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_05_attempt2\\medium_05_generated.R\" 2>&1\n",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2345,
+          "bytes": 2345,
+          "estimated_tokens": 670,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005775862068965517
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_05_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_05",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 3,
+      "agent_latency_ms": 107969,
+      "total_ms": 203383,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full pipeline + annotation with canonical markers + UMAP",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2345,
+          "bytes": 2345,
+          "estimated_tokens": 670,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005775862068965517
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_05_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_06",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 1,
+      "agent_latency_ms": 73684,
+      "total_ms": 160824,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full pipeline + top10 markers heatmap",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2270,
+          "bytes": 2270,
+          "estimated_tokens": 649,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.0055948275862068965
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_06_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_06",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 2,
+      "agent_latency_ms": 57844,
+      "total_ms": 157529,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full pipeline + top10 markers heatmap",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2270,
+          "bytes": 2270,
+          "estimated_tokens": 649,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.0055948275862068965
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_06_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_06",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 3,
+      "agent_latency_ms": 63286,
+      "total_ms": 163173,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full pipeline + top10 markers heatmap",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2270,
+          "bytes": 2270,
+          "estimated_tokens": 649,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.0055948275862068965
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_06_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_07",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 1,
+      "agent_latency_ms": 110815,
+      "total_ms": 197105,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Cluster 0 vs 3 DE + volcano plot with thresholds",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2342,
+          "bytes": 2342,
+          "estimated_tokens": 670,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005775862068965517
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_07_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_07",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 2,
+      "agent_latency_ms": 79029,
+      "total_ms": 150590,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Cluster 0 vs 3 DE + volcano plot with thresholds",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2342,
+          "bytes": 2342,
+          "estimated_tokens": 670,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005775862068965517
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_07_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_07",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 3,
+      "agent_latency_ms": 74321,
+      "total_ms": 127693,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Cluster 0 vs 3 DE + volcano plot with thresholds",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2342,
+          "bytes": 2342,
+          "estimated_tokens": 670,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005775862068965517
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_07_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_08",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 1,
+      "agent_latency_ms": 45649,
+      "total_ms": 88461,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "pbmc_final.rds saved with a valid Seurat object and UMAP reduction",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2253,
+          "bytes": 2253,
+          "estimated_tokens": 644,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005551724137931035
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_08_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_08",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 2,
+      "agent_latency_ms": 37534,
+      "total_ms": 79478,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "pbmc_final.rds saved with a valid Seurat object and UMAP reduction",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2253,
+          "bytes": 2253,
+          "estimated_tokens": 644,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005551724137931035
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_08_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_08",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 3,
+      "agent_latency_ms": 46749,
+      "total_ms": 89008,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "pbmc_final.rds saved with a valid Seurat object and UMAP reduction",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2253,
+          "bytes": 2253,
+          "estimated_tokens": 644,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005551724137931035
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_08_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_09",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 1,
+      "agent_latency_ms": 60134,
+      "total_ms": 127302,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "FeaturePlot with 9/9 markers across full pipeline",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2302,
+          "bytes": 2302,
+          "estimated_tokens": 658,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005672413793103449
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_09_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_09",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 2,
+      "agent_latency_ms": 44212,
+      "total_ms": 91781,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "FeaturePlot with 9/9 markers across full pipeline",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2302,
+          "bytes": 2302,
+          "estimated_tokens": 658,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005672413793103449
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_09_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_09",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 3,
+      "agent_latency_ms": 52451,
+      "total_ms": 117971,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "FeaturePlot with 9/9 markers across full pipeline",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2302,
+          "bytes": 2302,
+          "estimated_tokens": 658,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.005672413793103449
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_09_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_10",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 1,
+      "agent_latency_ms": 62348,
+      "total_ms": 99465,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full pipeline + CellCycleScoring + UMAP by phase",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2258,
+          "bytes": 2258,
+          "estimated_tokens": 646,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.0055689655172413794
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_10_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_10",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 2,
+      "agent_latency_ms": 58640,
+      "total_ms": 119643,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full pipeline + CellCycleScoring + UMAP by phase",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2258,
+          "bytes": 2258,
+          "estimated_tokens": 646,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.0055689655172413794
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_10_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "medium_10",
+      "category": "medium",
+      "difficulty": "medium",
+      "attempt": 3,
+      "agent_latency_ms": 53759,
+      "total_ms": 91845,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full pipeline + CellCycleScoring + UMAP by phase",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 2258,
+          "bytes": 2258,
+          "estimated_tokens": 646,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.0055689655172413794
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\medium_10_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_01",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 1,
+      "agent_latency_ms": 79787,
+      "total_ms": 119109,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Correctly inferred 10X format and ran pipeline",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1823,
+          "bytes": 1823,
+          "estimated_tokens": 521,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004491379310344827
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_01_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_01",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 2,
+      "agent_latency_ms": 76563,
+      "total_ms": 117238,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Correctly inferred 10X format and ran pipeline",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1823,
+          "bytes": 1823,
+          "estimated_tokens": 521,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004491379310344827
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_01_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_01",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 3,
+      "agent_latency_ms": 79023,
+      "total_ms": 124374,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Correctly inferred 10X format and ran pipeline",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1823,
+          "bytes": 1823,
+          "estimated_tokens": 521,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004491379310344827
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_01_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_02",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 1,
+      "agent_latency_ms": 48616,
+      "total_ms": 64723,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "QC + filtering applied, 2638 cells remaining",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1806,
+          "bytes": 1806,
+          "estimated_tokens": 516,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.0044482758620689655
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_02_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_02",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 2,
+      "agent_latency_ms": 43715,
+      "total_ms": 58749,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "QC + filtering applied, 2577 cells remaining",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1806,
+          "bytes": 1806,
+          "estimated_tokens": 516,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.0044482758620689655
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_02_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_02",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 3,
+      "agent_latency_ms": 42194,
+      "total_ms": 58805,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "QC + filtering applied, 2638 cells remaining",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1806,
+          "bytes": 1806,
+          "estimated_tokens": 516,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.0044482758620689655
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_02_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_03",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 1,
+      "agent_latency_ms": 59672,
+      "total_ms": 103800,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "All dim reduction steps present",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1822,
+          "bytes": 1822,
+          "estimated_tokens": 521,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004491379310344827
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_03_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_03",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 2,
+      "agent_latency_ms": 77682,
+      "total_ms": 123443,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "All dim reduction steps present",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1822,
+          "bytes": 1822,
+          "estimated_tokens": 521,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004491379310344827
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_03_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_03",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 3,
+      "agent_latency_ms": 55094,
+      "total_ms": 97662,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "All dim reduction steps present",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1822,
+          "bytes": 1822,
+          "estimated_tokens": 521,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004491379310344827
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_03_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_04",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 1,
+      "agent_latency_ms": 126010,
+      "total_ms": 211345,
+      "r_executed": true,
+      "r_success": false,
+      "r_error": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_04_attempt1\\hard_04_generated.R\" 2>&1\n",
+      "grader_pass": false,
+      "grader_score": 0,
+      "failure_type": "r_runtime_error",
+      "reason": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_04_attempt1\\hard_04_generated.R\" 2>&1\n",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1822,
+          "bytes": 1822,
+          "estimated_tokens": 521,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004491379310344827
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_04_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_04",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 2,
+      "agent_latency_ms": 122515,
+      "total_ms": 214257,
+      "r_executed": true,
+      "r_success": false,
+      "r_error": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_04_attempt2\\hard_04_generated.R\" 2>&1\n",
+      "grader_pass": false,
+      "grader_score": 0,
+      "failure_type": "r_runtime_error",
+      "reason": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_04_attempt2\\hard_04_generated.R\" 2>&1\n",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1822,
+          "bytes": 1822,
+          "estimated_tokens": 521,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004491379310344827
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_04_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_04",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 3,
+      "agent_latency_ms": 170328,
+      "total_ms": 283134,
+      "r_executed": true,
+      "r_success": false,
+      "r_error": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_04_attempt3\\hard_04_generated.R\" 2>&1\n",
+      "grader_pass": false,
+      "grader_score": 0,
+      "failure_type": "r_runtime_error",
+      "reason": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_04_attempt3\\hard_04_generated.R\" 2>&1\n",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1822,
+          "bytes": 1822,
+          "estimated_tokens": 521,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004491379310344827
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_04_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_05",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 1,
+      "agent_latency_ms": 46389,
+      "total_ms": 89479,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Clustering + UMAP + visualisation",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1783,
+          "bytes": 1783,
+          "estimated_tokens": 510,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004396551724137931
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_05_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_05",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 2,
+      "agent_latency_ms": 47038,
+      "total_ms": 90329,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Clustering + UMAP + visualisation",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1783,
+          "bytes": 1783,
+          "estimated_tokens": 510,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004396551724137931
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_05_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_05",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 3,
+      "agent_latency_ms": 39890,
+      "total_ms": 87459,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Clustering + UMAP + visualisation",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1783,
+          "bytes": 1783,
+          "estimated_tokens": 510,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004396551724137931
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_05_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_06",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 1,
+      "agent_latency_ms": 99237,
+      "total_ms": 204127,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "FindMarkers + annotation + visualisation",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1814,
+          "bytes": 1814,
+          "estimated_tokens": 519,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004474137931034483
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_06_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_06",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 2,
+      "agent_latency_ms": 150327,
+      "total_ms": 234645,
+      "r_executed": true,
+      "r_success": false,
+      "r_error": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_06_attempt2\\hard_06_generated.R\" 2>&1\n",
+      "grader_pass": false,
+      "grader_score": 0,
+      "failure_type": "r_runtime_error",
+      "reason": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_06_attempt2\\hard_06_generated.R\" 2>&1\n",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1814,
+          "bytes": 1814,
+          "estimated_tokens": 519,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004474137931034483
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_06_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_06",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 3,
+      "agent_latency_ms": 121549,
+      "total_ms": 189303,
+      "r_executed": true,
+      "r_success": false,
+      "r_error": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_06_attempt3\\hard_06_generated.R\" 2>&1\n",
+      "grader_pass": false,
+      "grader_score": 0,
+      "failure_type": "r_runtime_error",
+      "reason": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_06_attempt3\\hard_06_generated.R\" 2>&1\n",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1814,
+          "bytes": 1814,
+          "estimated_tokens": 519,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004474137931034483
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_06_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_07",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 1,
+      "agent_latency_ms": 108146,
+      "total_ms": 197739,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Complete Seurat pipeline: 7 of 7 steps",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1779,
+          "bytes": 1779,
+          "estimated_tokens": 509,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004387931034482759
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_07_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_07",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 2,
+      "agent_latency_ms": 102267,
+      "total_ms": 187072,
+      "r_executed": true,
+      "r_success": false,
+      "r_error": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_07_attempt2\\hard_07_generated.R\" 2>&1\n",
+      "grader_pass": false,
+      "grader_score": 0,
+      "failure_type": "r_runtime_error",
+      "reason": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_07_attempt2\\hard_07_generated.R\" 2>&1\n",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1779,
+          "bytes": 1779,
+          "estimated_tokens": 509,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004387931034482759
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_07_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_07",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 3,
+      "agent_latency_ms": 75341,
+      "total_ms": 166708,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Complete Seurat pipeline: 7 of 7 steps",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1779,
+          "bytes": 1779,
+          "estimated_tokens": 509,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004387931034482759
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_07_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_08",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 1,
+      "agent_latency_ms": 55409,
+      "total_ms": 97600,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full pipeline + DoubletFinder + dynamic column + singlet subset",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1813,
+          "bytes": 1813,
+          "estimated_tokens": 518,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.00446551724137931
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_08_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_08",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 2,
+      "agent_latency_ms": 55336,
+      "total_ms": 95153,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full pipeline + DoubletFinder + dynamic column + singlet subset",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1813,
+          "bytes": 1813,
+          "estimated_tokens": 518,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.00446551724137931
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_08_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_08",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 3,
+      "agent_latency_ms": 86755,
+      "total_ms": 124553,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Full pipeline + DoubletFinder + dynamic column + singlet subset",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1813,
+          "bytes": 1813,
+          "estimated_tokens": 518,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.00446551724137931
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_08_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_09",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 1,
+      "agent_latency_ms": 66436,
+      "total_ms": 109766,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "FindMarkers + visualisation + output file",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1833,
+          "bytes": 1833,
+          "estimated_tokens": 524,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004517241379310345
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_09_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_09",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 2,
+      "agent_latency_ms": 74768,
+      "total_ms": 120199,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "FindMarkers + visualisation + output file",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1833,
+          "bytes": 1833,
+          "estimated_tokens": 524,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004517241379310345
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_09_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_09",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 3,
+      "agent_latency_ms": 49452,
+      "total_ms": 92672,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "FindMarkers + visualisation + output file",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1833,
+          "bytes": 1833,
+          "estimated_tokens": 524,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004517241379310345
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_09_attempt3"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_10",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 1,
+      "agent_latency_ms": 78819,
+      "total_ms": 173368,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Production script: 6 of 6 quality checks passed",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1855,
+          "bytes": 1855,
+          "estimated_tokens": 530,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004568965517241379
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_10_attempt1"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_10",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 2,
+      "agent_latency_ms": 95829,
+      "total_ms": 191691,
+      "r_executed": true,
+      "r_success": true,
+      "r_error": null,
+      "grader_pass": true,
+      "grader_score": 1,
+      "failure_type": "pass",
+      "reason": "Production script: 6 of 6 quality checks passed",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1855,
+          "bytes": 1855,
+          "estimated_tokens": 530,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004568965517241379
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_10_attempt2"
+    },
+    {
+      "agent": "gemini",
+      "prompt_id": "hard_10",
+      "category": "hard",
+      "difficulty": "hard",
+      "attempt": 3,
+      "agent_latency_ms": 112733,
+      "total_ms": 127515,
+      "r_executed": true,
+      "r_success": false,
+      "r_error": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_10_attempt3\\hard_10_generated.R\" 2>&1\n",
+      "grader_pass": false,
+      "grader_score": 0,
+      "failure_type": "r_runtime_error",
+      "reason": "Command failed: \"C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.exe\" \"D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_10_attempt3\\hard_10_generated.R\" 2>&1\n",
+      "context": {
+        "condition": "oracle_activated_progressive_disclosure",
+        "teaser": {
+          "chars": 1105,
+          "bytes": 1105,
+          "estimated_tokens": 316,
+          "lines": 10
+        },
+        "recipe_provenance": {
+          "chars": 15097,
+          "bytes": 15171,
+          "estimated_tokens": 4314,
+          "lines": 232
+        },
+        "final_prompt": {
+          "chars": 1855,
+          "bytes": 1855,
+          "estimated_tokens": 530,
+          "lines": 27
+        },
+        "configured_context_window_tokens": 128000,
+        "reserved_output_tokens": 12000,
+        "estimated_input_budget_tokens": 116000,
+        "estimated_context_usage_ratio": 0.004568965517241379
+      },
+      "model": null,
+      "usage": null,
+      "finish_reason": null,
+      "work_dir": "D:\\MDC_internship\\YMithrasen_Benchmark_SingleCellRAG\\coding_agent_benchmark\\workdirs\\gemini\\oracle_activated_progressive_disclosure\\hard_10_attempt3"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+condition,model,display_name,k,n_prompts,pass_k,attempt_success_rate,workflow,grounding,grading,source_file
+Without Skills,gpt-5.5,GPT-5.5,3,30,0.7000,0.6444,0.9664,0.9840,validation_object_selection_v2,vanilla_k3_merged.json
+Without Skills,gpt-5.4-mini,GPT-5.4 Mini,3,30,0.7000,0.5333,0.9380,0.9804,validation_object_selection_v2,vanilla_k3_merged.json
+Without Skills,gemini-openrouter,Gemini 3.5 Flash,3,30,0.8667,0.7667,0.9345,0.9938,validation_object_selection_v2,vanilla_k3_merged.json
+Without Skills,gemini-flash-lite,Gemini 3.1 Flash-Lite,3,30,0.7333,0.6444,0.9193,0.9826,validation_object_selection_v2,vanilla_k3_merged.json
+Without Skills,claude-opus-4-8,Claude Opus 4.8,3,30,0.7667,0.7222,0.9380,0.9869,validation_object_selection_v2,vanilla_k3_merged.json
+Without Skills,claude-sonnet-5,Claude Sonnet 5,3,30,0.9000,0.8222,0.9407,0.9982,validation_object_selection_v2,vanilla_k3_merged.json
+Without Skills,claude-haiku-4-5,Claude Haiku 4.5,3,30,0.4000,0.2111,0.9151,0.9944,validation_object_selection_v2,vanilla_k3_merged.json
+With Skills,gpt-5.5,GPT-5.5,3,30,0.9333,0.8333,0.9859,0.9944,validation_object_selection_v2,skills_results_2026-08-02T13-16-53-819.json
+With Skills,gpt-5.4-mini,GPT-5.4 Mini,3,30,0.9000,0.8000,0.9387,0.9962,validation_object_selection_v2,skills_results_2026-08-02T13-16-53-819.json
+With Skills,gemini-openrouter,Gemini 3.5 Flash,3,30,0.9667,0.8444,0.9052,0.9473,validation_object_selection_v2,skills_results_2026-08-02T13-16-53-819.json
+With Skills,gemini-flash-lite,Gemini 3.1 Flash-Lite,3,30,0.8333,0.8222,0.9407,0.9926,validation_object_selection_v2,skills_results_2026-08-02T13-16-53-819.json
+With Skills,claude-opus-4-8,Claude Opus 4.8,3,30,0.9000,0.8667,0.9506,0.9836,validation_object_selection_v2,skills_results_2026-08-02T13-16-53-819.json
+With Skills,claude-sonnet-5,Claude Sonnet 5,3,30,0.9000,0.8222,0.9433,0.9873,validation_object_selection_v2,skills_results_2026-08-02T13-16-53-819.json
+With Skills,claude-haiku-4-5,Claude Haiku 4.5,3,30,0.8667,0.8000,0.9343,0.9869,validation_object_selection_v2,skills_results_2026-08-02T13-16-53-819.json
+Agentic RAG,rolv,Agentic RAG,3,30,0.9333,0.9000,0.7567,0.8261,execution_only,results_2026-06-11T20-49-17-589.json
+Agentic RAG,rolv-nopreexec,Agentic RAG (no pre-exec),3,30,0.9333,0.8889,0.7600,0.8304,execution_only,results_2026-06-11T20-49-17-589.json
+Agentic RAG,rolv-raw,Claude Sonnet 4.5,3,30,0.1667,0.1556,0.6667,0.6195,execution_only,results_2026-06-11T20-49-17-589.json
+Without Skills (earlier k=3 run),gpt-5.5,GPT-5.5,3,30,0.6333,0.5889,0.7869,0.7855,validation_v1,results_2026-07-19T20-16-10-541.json
+Without Skills (earlier k=3 run),gpt-5.4-mini,GPT-5.4 Mini,3,30,0.7000,0.5000,0.9590,0.9930,validation_v1,results_2026-07-19T20-16-10-541.json
+Without Skills (earlier k=3 run),gemini-openrouter,Gemini 3.5 Flash,3,30,0.6667,0.5333,0.7178,0.9793,validation_v1,results_2026-07-19T20-16-10-541.json
+Without Skills (earlier k=3 run),gemini-flash-lite,Gemini 3.1 Flash-Lite,3,30,0.7667,0.6667,0.9225,0.9866,validation_v1,results_2026-07-19T20-16-10-541.json
+Without Skills (earlier k=3 run),claude-opus-4-8,Claude Opus 4.8,3,30,0.6000,0.6000,0.9442,0.9986,validation_v1,results_2026-07-19T20-16-10-541.json
+Without Skills (earlier k=3 run),claude-sonnet-5,Claude Sonnet 5,3,30,0.8333,0.7333,0.9378,0.9865,validation_v1,results_2026-07-19T20-16-10-541.json
+Without Skills (earlier k=3 run),claude-haiku-4-5,Claude Haiku 4.5,3,30,0.5000,0.2778,0.9315,0.9925,validation_v1,results_2026-07-19T20-16-10-541.json
+Without Skills (k=1 run),gpt-5.5,GPT-5.5,1,30,0.6333,0.6333,0.7743,0.8288,validation_v1,results_2026-07-19T16-55-57-401.json
+Without Skills (k=1 run),gpt-5.4-mini,GPT-5.4 Mini,1,30,0.4333,0.4333,0.8642,0.9531,validation_v1,results_2026-07-19T16-55-57-401.json
+Without Skills (k=1 run),gemini-openrouter,Gemini 3.5 Flash,1,30,0.5333,0.5333,0.7274,0.9987,validation_v1,results_2026-07-19T16-55-57-401.json
+Without Skills (k=1 run),gemini-flash-lite,Gemini 3.1 Flash-Lite,1,30,0.6333,0.6333,0.9243,0.9796,validation_v1,results_2026-07-19T16-55-57-401.json
+Without Skills (k=1 run),claude-opus-4-8,Claude Opus 4.8,1,30,0.5667,0.5667,0.9093,0.9849,validation_v1,results_2026-07-19T16-55-57-401.json
+Without Skills (k=1 run),claude-sonnet-5,Claude Sonnet 5,1,30,0.7333,0.7333,0.9407,0.9910,validation_v1,results_2026-07-19T16-55-57-401.json
+Without Skills (k=1 run),claude-haiku-4-5,Claude Haiku 4.5,1,30,0.3333,0.3333,0.8717,0.9921,validation_v1,results_2026-07-19T16-55-57-401.json

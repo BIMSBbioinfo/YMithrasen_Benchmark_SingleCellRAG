@@ -1,40 +1,23 @@
-/**
- * coding_agent_runner.js
- *
- * Automated benchmark harness for coding agents on scRNA-seq tasks.
- * Inspired by HumanEval (Pass@k), SWE-bench (repo-grounded eval),
- * Terminal-Bench (end-to-end workflow), and scBench (deterministic grading).
- *
- * NOTE on Pass@k: computePassAtK() below reports whether ANY of the k
- * attempts passed (empirical "success within k attempts"), not HumanEval's
- * formal unbiased Pass@k estimator (which corrects for n>k samples via a
- * combinatorial formula). Report it in the thesis as empirical Pass@k /
- * success-within-k, not as the HumanEval estimator — the two are not
- * numerically interchangeable even though they share a name.
- *
- * Usage:
- *   node coding_agent_runner.js --agent claude
- *   node coding_agent_runner.js --agent codex
- *   node coding_agent_runner.js --agent gemini
- *   node coding_agent_runner.js --agent claude --prompts p01,p02,p03
- *   node coding_agent_runner.js --agent all
- *
- * RESUME: interrupted runs (e.g. Claude Code session/token limits during a
- * long k=3 run) can be resumed with --resume — completed attempts are
- * loaded from results/checkpoints/ and the agent is not called again for
- * them. Resume is OFF by default (a plain invocation always re-runs
- * everything); checkpoints are still written as the run progresses either
- * way, so --resume can pick up from any prior invocation, complete or
- * interrupted. Model outputs are never cached/reused ACROSS attempts (k
- * independence is preserved); only an already-completed, already-graded
- * attempt for the exact same agent+condition+prompt_id+attempt can be
- * skipped — and infrastructure failures (agent_cli_error — no usable
- * response was ever obtained) are never checkpointed, so a session/rate-
- * limit interruption is always retried on --resume rather than treated as
- * done. Checkpoints are automatically invalidated (ignored, re-run) if the
- * prompts file, graders.R, any file under recipes/, or the dataset path
- * changes — see computeBenchmarkVersion().
- */
+// coding_agent_runner.js
+// Benchmarks Claude Code, Codex CLI and Gemini CLI on the scRNA-seq prompts.
+// Each attempt: build the prompt, call the agent in a fresh working directory,
+// extract the R code, run it, then grade the outputs with graders/graders.R.
+//
+// Two conditions:
+//   default      With Skills: a short teaser in the prompt and a copy of recipes/
+//                in the working directory (condition oracle_activated_progressive_disclosure)
+//   --no-recipe  Without Skills: the task prompt only (condition no_recipe)
+//
+// Usage (from the repo root; k comes from BENCH_K, default 1):
+//   node coding_agent_benchmark/coding_agent_runner.js --agent claude
+//   node coding_agent_benchmark/coding_agent_runner.js --agent codex --no-recipe
+//   node coding_agent_benchmark/coding_agent_runner.js --agent all --prompts simple_01,hard_04
+//   node coding_agent_benchmark/coding_agent_runner.js --agent claude --resume
+//
+// Pass@k here means "at least one of the k attempts passed", not the HumanEval estimator.
+// Interrupted runs can be continued with --resume: completed attempts are read from
+// results/checkpoints/ and CLI failures are always retried.
+// Needs the claude, codex and gemini CLIs on the PATH.
 
 import "dotenv/config";
 import { exec } from "child_process";
@@ -51,7 +34,15 @@ const __dirname = (() => {
   }
 })();
 
-// ── Configuration ──────────────────────────────────────────────────────────────
+// ---- Configuration ----
+
+// The prompt is piped to the agent CLI from final_prompt.txt:
+// through PowerShell on Windows, through sh on Linux and macOS.
+function pipePrompt(cli) {
+  return process.platform === "win32"
+    ? `powershell -NoProfile -Command "Get-Content -Raw final_prompt.txt | ${cli}"`
+    : `cat final_prompt.txt | ${cli}`;
+}
 
 const CONFIG = {
   // Paths
@@ -60,21 +51,15 @@ const CONFIG = {
   recipe_file: path.join(__dirname, "..", "recipes", "recipe.md"),
   workflows_dir: path.resolve(__dirname, "..", "recipes"),
   dataset_dir  : process.env.BENCH_DATASET_DIR ||
-                 "D:/MDC_internship/YMithrasen_Benchmark_SingleCellRAG/benchmark/datasets/filtered_gene_bc_matrices/hg19",
+                 path.resolve(__dirname, "..", "data", "pbmc3k", "filtered_gene_bc_matrices", "hg19").replace(/\\/g, "/"),
   prompts_file : path.join(__dirname, "prompts", "coding_agent_prompts.jsonl"),
   grader_script: path.join(__dirname, "graders", "graders.R"),
   results_dir  : path.join(__dirname, "results"),
   work_base    : path.join(__dirname, "workdirs"),
   checkpoints_dir: path.join(__dirname, "results", "checkpoints"),
-  r_exec       : process.env.R_EXEC || "C:/Program Files/R/R-4.6.1/bin/Rscript.exe",
+  r_exec       : process.env.R_EXEC || "Rscript", // Rscript from PATH unless R_EXEC is set
 
-  // Resume/checkpoint behaviour: OFF by default. A checkpoint is only
-  // consulted (and an attempt skipped) when --resume is explicitly passed —
-  // safer than resume-by-default, since months later a "new experiment"
-  // invocation shouldn't silently reuse old checkpoints. Checkpoints are
-  // still WRITTEN after every genuine completed attempt regardless of this
-  // flag (see shouldCheckpoint below), so a later --resume run can always
-  // pick up from wherever an earlier run left off.
+  // checkpoints are always written but only read with --resume
   resume_run   : process.argv.includes("--resume"),
 
   // Benchmark settings
@@ -82,38 +67,30 @@ const CONFIG = {
   timeout_ms            : Number(process.env.BENCH_TIMEOUT_MS    || 600000),
   r_timeout_ms          : Number(process.env.BENCH_R_TIMEOUT_MS  || 600000),
   no_recipe             : process.argv.includes("--no-recipe") || process.env.BENCH_NO_RECIPE === "1",
-  // Recipe delivery for the non-baseline condition is always progressive
-  // disclosure (teaser only, agent discovers ./recipes itself via its own
-  // filesystem tools — see buildAgentTeaser). Full-recipe and pointer-card
-  // injection modes were removed; recipe_benchmark_runner.js is the frozen
-  // full-injection ablation if that comparison is needed again.
-  // Context budgeting
+  // the skill is always delivered as teaser + files; see buildAgentTeaser
   recipe_warning_chars  : Number(process.env.BENCH_RECIPE_WARNING_CHARS    || 16000),
   recipe_max_chars      : Number(process.env.BENCH_RECIPE_MAX_CHARS         || 20000),
   context_window_tokens : Number(process.env.BENCH_CONTEXT_WINDOW_TOKENS   || 128000),
   reserved_output_tokens: Number(process.env.BENCH_MAX_TOKENS               || 12000),
   context_warning_ratio : Number(process.env.BENCH_CONTEXT_WARNING_RATIO   || 0.8),
 
-  // Agent CLI commands (sandbox: recipes only + dataset read-only)
+  // agent CLI commands; the prompt is piped in from final_prompt.txt
   agents: {
     claude: {
-      cmd: (prompt, work_dir) =>
-        `powershell -NoProfile -Command "Get-Content -Raw final_prompt.txt | claude --print"`,
+      cmd: (prompt, work_dir) => pipePrompt("claude --print"),
       extract: extractRCode,
     },
     codex: {
       cmd: () => {
         const model = process.env.CODEX_MODEL || "gpt-5.6-terra";
-        return (
-          `powershell -NoProfile -Command ` +
-          `"Get-Content -Raw final_prompt.txt | ` +
+        return pipePrompt(
           `codex exec ` +
           `-m ${model} ` +
           `--sandbox read-only ` +
           `--skip-git-repo-check ` +
           `--ephemeral ` +
           `--color never ` +
-          `-"`
+          `-`
         );
       },
       extract: extractRCode,
@@ -124,51 +101,24 @@ const CONFIG = {
           process.env.GEMINI_MODEL ||
           "gemini-3.5-flash";
 
-        // NOTE: -p "." is required to force non-interactive/headless mode.
-        // Newer Gemini CLI versions default to interactive mode even when
-        // piped via stdin with no positional argument — confirmed by direct
-        // testing (stdin-only invocation hung waiting for interactive
-        // input instead of exiting). Per `gemini --help`, -p/--prompt's
-        // given value is appended with stdin content, so passing a trivial
-        // placeholder here is enough to flip the mode switch while the
-        // actual prompt content still flows entirely through the existing
-        // stdin pipe (not as a command-line argument), preserving the fix
-        // for the Windows ~8191-char argument-length truncation bug.
-        return (
-          `powershell -NoProfile -Command ` +
-          `"Get-Content -Raw final_prompt.txt | ` +
-          `gemini -m ${model} --output-format text -p '.'"`
-        );
+        // -p '.' forces headless mode; the real prompt still comes in on stdin
+        return pipePrompt(`gemini -m ${model} --output-format text -p '.'`);
       },
       extract: extractRCode,
     },
   },
 };
 
-// Single source of truth for the experimental condition label — derived
-// directly from CONFIG.no_recipe so it can never drift from what
-// buildPromptWithContext() / setupWorkDir() actually did. Saved into both
-// per-attempt context_metadata.json and the final summary JSON (see #7).
-// Named to match skills_benchmark_runner.js's convention: skill relevance
-// AND its primary instruction file (recipe.md) have already been decided
-// (oracle-selected) — the agent autonomously selects only which supporting
-// files, if any, it needs. This is not a claim about discovering native
-// Claude/Codex/Gemini Skills activation, nor about discovering which file
-// in ./recipes is authoritative.
+// condition label saved in every result file
 function getCondition() {
   return CONFIG.no_recipe ? "no_recipe" : "oracle_activated_progressive_disclosure";
 }
 
-// ── Resume / checkpointing ───────────────────────────────────────────────────
-// Solves interrupted long k=3 runs (e.g. Claude Code session/token limits)
-// without compromising Pass@k: only a COMPLETED, already-graded attempt for
-// the exact same agent+condition+prompt_id+attempt can be skipped on resume.
-// Model outputs are never cached across attempts — every attempt that
-// actually needs to run still calls the agent independently.
+// ---- Resume / checkpointing ----
+// Only a completed, graded attempt for the same agent, condition, prompt and attempt
+// number is reused. Model output is never shared between attempts.
 
-// Recursively collects (relative_path, content) for every text file under a
-// directory, sorted for a deterministic hash regardless of OS listing order.
-// Binary/unreadable files are skipped rather than erroring.
+// [relative path, content] for every text file under dir, sorted by path
 function collectDirTextContent(dir) {
   const out = [];
   function walk(d, rel) {
@@ -189,20 +139,17 @@ function collectDirTextContent(dir) {
 }
 
 let _benchmark_version = null;
+// Hash of the prompts file, graders.R, everything under recipes/ and the dataset path.
+// A checkpoint from a different version is ignored.
 function computeBenchmarkVersion() {
   if (_benchmark_version) return _benchmark_version;
   const parts = [CONFIG.prompts_file, CONFIG.grader_script]
     .map(p => { try { return fs.readFileSync(p, "utf8"); } catch { return ""; } });
-  // Whole recipes directory (recipe.md + every supporting file under
-  // recipes/code/, recipes/scripts/, etc.) — not just recipe.md — so a
-  // change to any file the agent could actually read invalidates stale
-  // checkpoints.
+  // the whole recipes/ folder, since the agent can read any file in it
   for (const [relPath, content] of collectDirTextContent(CONFIG.recipes_dir)) {
     parts.push(`${relPath}\u0000${content}`);
   }
-  // Dataset identifier — the path only, not its (large) contents. Switching
-  // to a different dataset should invalidate checkpoints even if nothing
-  // else changed.
+  // dataset path only, not its contents
   parts.push(CONFIG.dataset_dir);
 
   _benchmark_version = crypto.createHash("sha256").update(parts.join("\u0000")).digest("hex").slice(0, 12);
@@ -213,14 +160,8 @@ function checkpointPath(agent_name, prompt_id, attempt) {
   return path.join(CONFIG.checkpoints_dir, agent_name, getCondition(), `${prompt_id}_attempt${attempt}.json`);
 }
 
-// Only a genuine completed model attempt is checkpoint-worthy. An
-// agent_cli_error means the CLI call itself failed (session limit, rate
-// limit, transient error) BEFORE any usable response was obtained — that is
-// not a completed attempt, and checkpointing it would make resume skip the
-// exact thing it's supposed to retry. grader_fail / r_runtime_error /
-// no_code_extracted / timeout all mean the agent DID produce a response
-// (which was then graded, or failed to run/parse) — those are genuine
-// completed attempts and remain checkpointable.
+// agent_cli_error means the CLI call itself failed (session or rate limit), so there is
+// nothing to checkpoint and the attempt must be retried.
 function shouldCheckpoint(result) {
   return result.failure_type !== "agent_cli_error";
 }
@@ -231,11 +172,11 @@ function loadCheckpoint(agent_name, prompt_id, attempt) {
   if (!fs.existsSync(p)) return null;
   try {
     const data = JSON.parse(fs.readFileSync(p, "utf8"));
-    if (data.benchmark_version !== computeBenchmarkVersion()) return null; // stale — prompts/recipe/grader/dataset changed
+    if (data.benchmark_version !== computeBenchmarkVersion()) return null; // stale: prompts, recipe, grader or dataset changed
     if (!data.result) return null;
     return data.result;
   } catch {
-    return null; // corrupt/partial checkpoint — treat as absent, will be re-run and overwritten
+    return null; // corrupt checkpoint: treat as missing
   }
 }
 
@@ -249,7 +190,7 @@ function saveCheckpoint(agent_name, prompt_id, attempt, result) {
   }, null, 2));
 }
 
-// ── Helpers ────────────────────────────────────────────────────────────────────
+// ---- Helpers ----
 
 const run_id = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
 
@@ -274,6 +215,7 @@ function cleanPromptWhitespace(text) {
     .trim();
 }
 
+// rough estimate, for logging only
 function estimateTokens(text) {
   return Math.ceil(String(text || "").length / 3.5);
 }
@@ -310,6 +252,7 @@ function looksLikeR(code) {
       || /<-\s*/.test(code);
 }
 
+// Drops <scratchpad>/<thinking> blocks, then joins all fenced blocks that look like R.
 function extractRCode(text) {
   if (!text) return null;
 
@@ -353,9 +296,7 @@ function loadRecipeDocument() {
   return { raw, compact, stats };
 }
 
-// Pulls `name:` out of recipe.md's YAML frontmatter (between the first two
-// `---` lines) without a full YAML parser — same convention as
-// skills_benchmark_runner.js's extractFrontmatterField.
+// reads a field from recipe.md's YAML frontmatter
 function extractFrontmatterField(raw, field) {
   const frontmatterMatch = raw.match(/^---\n([\s\S]*?)\n---/);
   if (!frontmatterMatch) return null;
@@ -363,33 +304,15 @@ function extractFrontmatterField(raw, field) {
   return line ? line.split(":").slice(1).join(":").trim() : null;
 }
 
-// Pulls the body paragraph under a given "## Heading" (up to the next "##").
-// Same convention as skills_benchmark_runner.js's extractSection.
+// body of a "## Heading" section, up to the next "##"
 function extractNamedSection(raw, heading) {
   const re = new RegExp(`##\\s+${heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*\\n([\\s\\S]*?)(?=\\n##\\s|$)`, "i");
   const match = raw.match(re);
   return match ? match[1].trim() : null;
 }
 
-// Builds the SHORT metadata-only teaser injected into the prompt for the
-// "progressive" condition — mirrors skills_benchmark_runner.js's
-// buildSkillTeaser(): the agent gets a skill name + a one-paragraph
-// description of what it does, NOT the recipe body or any script content.
-//
-// The relevant skill AND its primary instruction file (recipe.md) are
-// provided by the benchmark condition — the coding agent autonomously
-// selects only which, if any, additional supporting files it needs for the
-// specific task. This is deliberate: the condition is named
-// oracle_activated_progressive_disclosure because skill *selection* is
-// already decided; this runner is not testing whether the agent can
-// discover which file in ./recipes is authoritative.
-//
-// The key difference from the plain-API skills condition: these are coding
-// agents (Claude Code / Codex / Gemini CLI) with real filesystem access, and
-// setupWorkDir() already copies the full ./recipes folder into the agent's
-// sandboxed work_dir before it runs. So there's no need for a fake view()
-// tool like skills_shim.js provides to the non-agentic API models — the
-// agent can just use its own native file-reading tools on ./recipes.
+// Teaser for the With Skills condition: skill name, what it does, and where recipe.md is.
+// The agent reads the files in ./recipes with its own tools.
 function buildAgentTeaser() {
   const recipe = loadRecipeDocument();
   const name = extractFrontmatterField(recipe.raw, "name") || "a domain-specific single-cell analysis skill";
@@ -411,8 +334,9 @@ function buildAgentTeaser() {
   return { teaser, recipe };
 }
 
+// Full prompt for one task: role, teaser (With Skills only), dataset path, task, output rules.
 function buildPromptWithContext(prompt_obj) {
-  // No-recipe condition: bare task with no guidance
+  // Without Skills: task only
   if (CONFIG.no_recipe) {
     const promptText = cleanPromptWhitespace(`
 You are an expert bioinformatician working with single-cell RNA-seq data in R using Seurat.
@@ -444,7 +368,7 @@ OUTPUT REQUIREMENTS:
     };
   }
 
-  // Progressive-disclosure condition: the agent gets a short teaser only.
+  // With Skills: task plus teaser
   log(`  [recipe] condition=${getCondition()}`);
 
   const { teaser, recipe } = buildAgentTeaser();
@@ -498,8 +422,9 @@ OUTPUT REQUIREMENTS:
   };
 }
 
-// ── Working directory setup ────────────────────────────────────────────────────
+// ---- Working directory setup ----
 
+// Fresh working directory for one attempt.
 function setupWorkDir(agent, prompt_id, attempt) {
   const work_dir = path.join(
     CONFIG.work_base,
@@ -515,11 +440,8 @@ function setupWorkDir(agent, prompt_id, attempt) {
   // Remove all outputs from an earlier run.
   cleanWorkDir(work_dir);
 
-  // Copy a fresh recipe directory — ONLY for the progressive-disclosure
-  // condition. For --no-recipe, the folder must not exist at all: these are
-  // coding agents with general filesystem access, so even an unmentioned
-  // ./recipes folder sitting in the work_dir could be discovered and read on
-  // its own initiative, silently contaminating the vanilla baseline.
+  // recipes/ is copied only in the With Skills condition. Without Skills it must not
+  // exist at all, or the agent could find it on its own.
   if (!CONFIG.no_recipe) {
     const recipes_dest = path.join(
       work_dir,
@@ -570,8 +492,9 @@ function cleanWorkDir(work_dir) {
   }
 }
 
-// ── OpenRouter API call ────────────────────────────────────────────────────────
+// ---- OpenRouter API call ----
 
+// Only for agents declared with api: true. None of the three configured agents use it.
 async function callOpenRouter(model, prompt_text) {
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) return { stdout: "", stderr: "", error: "OPENROUTER_API_KEY not set" };
@@ -614,8 +537,10 @@ async function callOpenRouter(model, prompt_text) {
   }
 }
 
-// ── Agent call ─────────────────────────────────────────────────────────────────
+// ---- Agent call ----
 
+// Writes the prompt to final_prompt.txt and pipes it to the agent CLI
+// (avoids the Windows command-line length limit).
 async function callAgent(agent_name, prompt_text, work_dir) {
   const agent = CONFIG.agents[agent_name];
 
@@ -623,7 +548,7 @@ async function callAgent(agent_name, prompt_text, work_dir) {
   log(`  [prompt] chars=${prompt_text.length}`);
   log(`  [${agent_name}] calling agent...`);
 
-  // API-mode agents (e.g. gemini via OpenRouter) — no CLI subprocess
+  // API-mode agents: no CLI subprocess
   if (agent.api) {
     const result = await callOpenRouter(agent.model, prompt_text);
     fs.writeFileSync(path.join(work_dir, "agent_stdout.txt"), result.stdout || "", "utf8");
@@ -651,7 +576,7 @@ async function callAgent(agent_name, prompt_text, work_dir) {
   });
 }
 
-// ── R execution ───────────────────────────────────────────────────────────────
+// ---- R execution ----
 
 function executeRCode(r_code, work_dir, prompt_id) {
   return new Promise((resolve) => {
@@ -676,8 +601,9 @@ function executeRCode(r_code, work_dir, prompt_id) {
   });
 }
 
-// ── Grader ─────────────────────────────────────────────────────────────────────
+// ---- Grader ----
 
+// Runs graders.R on the working directory and parses its JSON verdict.
 function runGrader(prompt_id, work_dir) {
   return new Promise((resolve) => {
     const cmd = `"${CONFIG.r_exec}" "${CONFIG.grader_script}" "${prompt_id}" "${work_dir}"`;
@@ -698,17 +624,8 @@ function runGrader(prompt_id, work_dir) {
   });
 }
 
-// ── Single prompt evaluation ───────────────────────────────────────────────────
-// NOTE on `usage`: the claude/codex CLI agents (see CONFIG.agents) are invoked
-// via plain stdout/stderr subprocess calls, not a structured API response, so
-// their `agent_result.usage` (and therefore every result object's `usage`
-// field below) will generally be null — token counts and any provider-side
-// prompt-caching effects are NOT captured for those two agents. Only the
-// OpenRouter-API-mode path (callOpenRouter) returns real `usage`. If cost /
-// caching analysis becomes an explicit thesis result, this runner does not
-// currently support it for CLI agents; otherwise it's enough to state that
-// each attempt was an independent invocation and caching was not controlled
-// or measured as a variable.
+// ---- Single prompt evaluation ----
+// Token usage is not captured for CLI agents, so `usage` is null in their results.
 async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
   const { id: prompt_id } = prompt_obj;
   log(`\n  [${agent_name}/${prompt_id}] attempt ${attempt}`);
@@ -844,21 +761,16 @@ async function evaluatePrompt(agent_name, prompt_obj, attempt = 1) {
   };
 }
 
-// ── Pass@k calculation ─────────────────────────────────────────────────────────
+// ---- Pass@k calculation ----
 
-// This is empirical "success within k attempts" (did any of the k independent
-// attempts pass), NOT HumanEval's unbiased Pass@k estimator. Report it as such.
+// empirical Pass@k: did any of the k attempts pass
 function computePassAtK(attempts) {
-  // Pass@k: 1 if any attempt passes, 0 otherwise
   return attempts.some(a => a.grader_pass) ? 1.0 : 0.0;
 }
 
-// ── Main benchmark runner ──────────────────────────────────────────────────────
+// ---- Main benchmark runner ----
 
-// Pure computation — no logging, no side effects. Called after every
-// attempt (cheap even at k=3 × 30 prompts) so results/<file>.json always
-// reflects the latest completed state, and once more at the end for the
-// final logged summary.
+// Builds the result-file object from the attempts so far. Called after every attempt.
 function computeSummary(agent_name, selected, all_results) {
   const prompt_groups = {};
   for (const r of all_results) {
@@ -927,6 +839,7 @@ function logSummary(agent_name, summary) {
   }
 }
 
+// Runs k attempts per prompt for one agent and writes the results file.
 async function runBenchmark(agent_name, prompt_ids = null) {
   log(`\n${"═".repeat(70)}`);
   log(`Coding Agent Benchmark  run_id=${run_id}`);
@@ -955,11 +868,7 @@ async function runBenchmark(agent_name, prompt_ids = null) {
         result = await evaluatePrompt(agent_name, prompt_obj, k);
 
         if (!shouldCheckpoint(result)) {
-          // Infrastructure failure (e.g. Claude session/rate-limit error) —
-          // not a model attempt, not counted toward Pass@k, not checkpointed.
-          // Stop the run entirely rather than silently moving to the next
-          // prompt/attempt, so this can never be mistaken for a genuine
-          // failed benchmark attempt.
+          // CLI failure: not a model attempt, so stop the run instead of counting it. Use --resume to continue.
           log(`  [checkpoint] infrastructure failure (${result.failure_type}) at ${prompt_obj.id} attempt ${k} — attempt NOT counted, run stopping. Resume with --resume once resolved.`);
 
           const partial_summary = computeSummary(agent_name, selected, all_results);
@@ -973,8 +882,7 @@ async function runBenchmark(agent_name, prompt_ids = null) {
       attempts.push(result);
       all_results.push(result);
 
-      // Incremental save after every single attempt — a crash mid-run still
-      // leaves a valid, up-to-date results JSON rather than nothing at all.
+      // save after every attempt so a crash still leaves a valid results file
       const partial_summary = computeSummary(agent_name, selected, all_results);
       fs.writeFileSync(out_file, JSON.stringify(partial_summary, null, 2));
     }
@@ -992,11 +900,10 @@ async function runBenchmark(agent_name, prompt_ids = null) {
   return summary;
 }
 
-// ── CLI entry ──────────────────────────────────────────────────────────────────
+// ---- CLI entry ----
 
-// Parse CLI args — works both with `node file.js` and `node -e "import(...)"`
+// CLI args, with env vars as fallback
 const raw_args = process.argv.slice(2);
-// Also check env vars as fallback
 const agent_idx   = raw_args.indexOf("--agent");
 const agent_arg   = agent_idx >= 0 ? raw_args[agent_idx + 1] : (process.env.BENCH_AGENT || "claude");
 

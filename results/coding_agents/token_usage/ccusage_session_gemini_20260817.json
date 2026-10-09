@@ -1,0 +1,4336 @@
+{
+  "session": [
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 48207,
+      "inputTokens": 31237,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 48207,
+          "cost": 0.09778155,
+          "inputTokens": 31237,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 689
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 689,
+      "period": "01ce555c-a31c-48bc-a66e-e94b0dfcfe78",
+      "totalCost": 0.09778155,
+      "totalTokens": 84299
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 208294,
+      "inputTokens": 105308,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 208294,
+          "cost": 0.3269421,
+          "inputTokens": 105308,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2519
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2519,
+      "period": "01e30eea-c84f-4f5e-beee-6c227bd627aa",
+      "totalCost": 0.3269421,
+      "totalTokens": 328906
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 9025,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0421575,
+          "inputTokens": 9025,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 522
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 522,
+      "period": "02a8cd24-fa4b-4139-9d88-4f219d36412c",
+      "totalCost": 0.0421575,
+      "totalTokens": 12205
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 40701,
+      "inputTokens": 46017,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 40701,
+          "cost": 0.10286865,
+          "inputTokens": 46017,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 316
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 316,
+      "period": "042146dd-9489-4279-9012-aef11b9d5dba",
+      "totalCost": 0.10286865,
+      "totalTokens": 89800
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 154306,
+      "inputTokens": 62614,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 154306,
+          "cost": 0.18081390000000003,
+          "inputTokens": 62614,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1453
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1453,
+      "period": "04e5c152-eaa9-4ea2-bfba-77c481389362",
+      "totalCost": 0.18081390000000003,
+      "totalTokens": 224003
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 23133,
+      "inputTokens": 17332,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 23133,
+          "cost": 0.08202794999999999,
+          "inputTokens": 17332,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 910
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 910,
+      "period": "04e80795-cbef-45a3-bc76-03786c229366",
+      "totalCost": 0.08202794999999999,
+      "totalTokens": 46305
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 186235,
+      "inputTokens": 97829,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 186235,
+          "cost": 0.32453775000000007,
+          "inputTokens": 97829,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 5049
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 5049,
+      "period": "06eb5c7c-93af-4daf-b7ba-ab2760dbcf55",
+      "totalCost": 0.32453775000000007,
+      "totalTokens": 300715
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 371308,
+      "inputTokens": 129841,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 371308,
+          "cost": 0.4660527,
+          "inputTokens": 129841,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 3792
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 3792,
+      "period": "08209e35-d090-4983-b622-7fbe2dbd0cda",
+      "totalCost": 0.4660527,
+      "totalTokens": 525104
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8886,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.043101,
+          "inputTokens": 8886,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 497
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 497,
+      "period": "084954cf-c2c9-4ca5-9572-5513b4b59211",
+      "totalCost": 0.043101,
+      "totalTokens": 12194
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 248452,
+      "inputTokens": 118793,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 248452,
+          "cost": 0.2696733,
+          "inputTokens": 118793,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 927
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 927,
+      "period": "09d44756-ba40-41e1-9aea-f276b60dfa4f",
+      "totalCost": 0.2696733,
+      "totalTokens": 373269
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8991,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0290295,
+          "inputTokens": 8991,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 186
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 186,
+      "period": "0b9a5c9a-ba6a-499e-94e3-cfbcf83c4f4e",
+      "totalCost": 0.0290295,
+      "totalTokens": 10718
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 170635,
+      "inputTokens": 77461,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 170635,
+          "cost": 0.32676375,
+          "inputTokens": 77461,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 3529
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 3529,
+      "period": "0f3f5c58-8a52-4a27-a940-6b64cebdc2bb",
+      "totalCost": 0.32676375,
+      "totalTokens": 268649
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8975,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.027394500000000002,
+          "inputTokens": 8975,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 163
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 163,
+      "period": "10a1a516-0caf-4c39-9b78-c8bf860e96d8",
+      "totalCost": 0.027394500000000002,
+      "totalTokens": 10523
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 9011,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0421185,
+          "inputTokens": 9011,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 302
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 302,
+      "period": "10f8bafc-cb86-4401-8182-eadc9bbb0875",
+      "totalCost": 0.0421185,
+      "totalTokens": 12189
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 170433,
+      "inputTokens": 99300,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 170433,
+          "cost": 0.24274395,
+          "inputTokens": 99300,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1097
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1097,
+      "period": "1186815e-785e-47e2-89b6-464dc9f67bfb",
+      "totalCost": 0.24274395,
+      "totalTokens": 277314
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 73136,
+      "inputTokens": 39164,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 73136,
+          "cost": 0.12444540000000001,
+          "inputTokens": 39164,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1051
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1051,
+      "period": "11b06ae0-f22f-4d9e-96d0-845d44421fc5",
+      "totalCost": 0.12444540000000001,
+      "totalTokens": 118381
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 48440,
+      "inputTokens": 44570,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 48440,
+          "cost": 0.132099,
+          "inputTokens": 44570,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1128
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1128,
+      "period": "120e68d0-0179-4655-b62d-561493638f80",
+      "totalCost": 0.132099,
+      "totalTokens": 99452
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 113741,
+      "inputTokens": 63237,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 113741,
+          "cost": 0.23298465,
+          "inputTokens": 63237,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 3523
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 3523,
+      "period": "12749a8e-70ec-4e65-8316-187333a23131",
+      "totalCost": 0.23298465,
+      "totalTokens": 190430
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 81215,
+      "inputTokens": 46320,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 81215,
+          "cost": 0.14807325000000002,
+          "inputTokens": 46320,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1277
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1277,
+      "period": "135187bc-74af-402c-8259-eea9a028e23b",
+      "totalCost": 0.14807325000000002,
+      "totalTokens": 134914
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 9004,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.039237,
+          "inputTokens": 9004,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 415
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 415,
+      "period": "1461b176-a670-40c6-a028-07cf1bb7fd4b",
+      "totalCost": 0.039237,
+      "totalTokens": 11863
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8991,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0315855,
+          "inputTokens": 8991,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 206
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 206,
+      "period": "14c62a2a-f83e-448c-9497-769da508e79b",
+      "totalCost": 0.0315855,
+      "totalTokens": 11002
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 242230,
+      "inputTokens": 119144,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 242230,
+          "cost": 0.3010365,
+          "inputTokens": 119144,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1329
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1329,
+      "period": "1655d88d-00db-4d75-8316-9918465e2e45",
+      "totalCost": 0.3010365,
+      "totalTokens": 370928
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 48819,
+      "inputTokens": 59052,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 48819,
+          "cost": 0.14053185,
+          "inputTokens": 59052,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 920
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 920,
+      "period": "1714a32b-5c8a-406d-b0db-3d301e124193",
+      "totalCost": 0.14053185,
+      "totalTokens": 112830
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 73268,
+      "inputTokens": 42442,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 73268,
+          "cost": 0.1254402,
+          "inputTokens": 42442,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 459
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 459,
+      "period": "17ad1c2a-42d9-4710-aa5d-90b968628520",
+      "totalCost": 0.1254402,
+      "totalTokens": 121353
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 138096,
+      "inputTokens": 71073,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 138096,
+          "cost": 0.2235339,
+          "inputTokens": 71073,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2684
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2684,
+      "period": "1954194c-9679-48b0-9a0d-cbd57cbb0c46",
+      "totalCost": 0.2235339,
+      "totalTokens": 219859
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8993,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.045700500000000005,
+          "inputTokens": 8993,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 551
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 551,
+      "period": "1a6eb996-c8e8-4c5f-a4c3-79cc3dff472f",
+      "totalCost": 0.045700500000000005,
+      "totalTokens": 12572
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 7521,
+      "inputTokens": 20991,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 7521,
+          "cost": 0.07512165000000001,
+          "inputTokens": 20991,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 861
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 861,
+      "period": "1ab02731-e09e-490d-ae20-6317055931d0",
+      "totalCost": 0.07512165000000001,
+      "totalTokens": 33235
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 73172,
+      "inputTokens": 46241,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 73172,
+          "cost": 0.1615983,
+          "inputTokens": 46241,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1490
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1490,
+      "period": "1b319f47-5257-4709-a15f-db8f61e1db30",
+      "totalCost": 0.1615983,
+      "totalTokens": 128442
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 7525,
+      "inputTokens": 21216,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 7525,
+          "cost": 0.06512775000000001,
+          "inputTokens": 21216,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 617
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 617,
+      "period": "1b9d26d9-3821-456e-9e21-757ba0d1e50e",
+      "totalCost": 0.06512775000000001,
+      "totalTokens": 32316
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 97119,
+      "inputTokens": 46353,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 97119,
+          "cost": 0.15739335,
+          "inputTokens": 46353,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1164
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1164,
+      "period": "1bdd7344-016d-4819-adc7-d96826749efa",
+      "totalCost": 0.15739335,
+      "totalTokens": 151616
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8995,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0418965,
+          "inputTokens": 8995,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 288
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 288,
+      "period": "1c462515-d2e3-4fdd-90c3-edba6339c2d5",
+      "totalCost": 0.0418965,
+      "totalTokens": 12151
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 105682,
+      "inputTokens": 65749,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 105682,
+          "cost": 0.1919748,
+          "inputTokens": 65749,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1495
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1495,
+      "period": "1e6bcf7b-5936-4d8f-8b27-96ecf7de2f72",
+      "totalCost": 0.1919748,
+      "totalTokens": 180042
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 23249,
+      "inputTokens": 39939,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 23249,
+          "cost": 0.13241685,
+          "inputTokens": 39939,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 781
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 781,
+      "period": "1fc78e2e-dfd8-4cb7-a194-1f8f2069edf8",
+      "totalCost": 0.13241685,
+      "totalTokens": 70857
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 89045,
+      "inputTokens": 83167,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 89045,
+          "cost": 0.17562825,
+          "inputTokens": 83167,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 937
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 937,
+      "period": "208ae813-955f-48fd-862e-b2050d8eb17b",
+      "totalCost": 0.17562825,
+      "totalTokens": 176381
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 28315,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0943215,
+          "inputTokens": 28315,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 910
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 910,
+      "period": "2140eaeb-d015-41f0-9da5-efd3661aec24",
+      "totalCost": 0.0943215,
+      "totalTokens": 34076
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 129980,
+      "inputTokens": 87231,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 129980,
+          "cost": 0.29084250000000006,
+          "inputTokens": 87231,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 4499
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 4499,
+      "period": "2256df9a-8522-4c83-b5e3-0011a25b3f42",
+      "totalCost": 0.29084250000000006,
+      "totalTokens": 232822
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 7542,
+      "inputTokens": 21906,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 7542,
+          "cost": 0.0789633,
+          "inputTokens": 21906,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 560
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 560,
+      "period": "23837326-ec57-4cd0-8ba0-e39d94b63ac7",
+      "totalCost": 0.0789633,
+      "totalTokens": 34445
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 121904,
+      "inputTokens": 71865,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 121904,
+          "cost": 0.23329109999999997,
+          "inputTokens": 71865,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2289
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2289,
+      "period": "24c7370c-63d1-4fbe-9997-3cffd10f7bbf",
+      "totalCost": 0.23329109999999997,
+      "totalTokens": 205681
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8975,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.031003500000000003,
+          "inputTokens": 8975,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 194
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 194,
+      "period": "250badf7-de48-441f-a79d-90e7c782d401",
+      "totalCost": 0.031003500000000003,
+      "totalTokens": 10924
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8887,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0501495,
+          "inputTokens": 8887,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 936
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 936,
+      "period": "2613372b-25a7-4788-88fa-46ffc5c449df",
+      "totalCost": 0.0501495,
+      "totalTokens": 12978
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 235303,
+      "inputTokens": 123474,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 235303,
+          "cost": 0.31420545,
+          "inputTokens": 123474,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2375
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2375,
+      "period": "2a5340ab-715d-4227-aea1-e7161079abea",
+      "totalCost": 0.31420545,
+      "totalTokens": 369188
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8888,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.054182999999999995,
+          "inputTokens": 8888,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 565
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 565,
+      "period": "2a9f9c12-8bbd-4e12-9a5f-d0dc8a389224",
+      "totalCost": 0.054182999999999995,
+      "totalTokens": 13427
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8995,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0669525,
+          "inputTokens": 8995,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 630
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 630,
+      "period": "2b0c978d-7b14-41f0-8d03-5ae00a2a0b05",
+      "totalCost": 0.0669525,
+      "totalTokens": 14935
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8999,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.057661500000000004,
+          "inputTokens": 8999,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 704
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 704,
+      "period": "2c0a70bd-6411-486d-830e-ca99d764f541",
+      "totalCost": 0.057661500000000004,
+      "totalTokens": 13906
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 9040,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.060927,
+          "inputTokens": 9040,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 857
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 857,
+      "period": "2dd7fada-8585-450e-9a8a-90de2f9bc06b",
+      "totalCost": 0.060927,
+      "totalTokens": 14303
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 28562,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.073002,
+          "inputTokens": 28562,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 735
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 735,
+      "period": "2e47f614-0868-4a32-83a4-ea23163b6bff",
+      "totalCost": 0.073002,
+      "totalTokens": 31913
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 56928,
+      "inputTokens": 41920,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 56928,
+          "cost": 0.12147719999999998,
+          "inputTokens": 41920,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1018
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1018,
+      "period": "2f7964ac-195b-4230-a9d3-b6e9c7616660",
+      "totalCost": 0.12147719999999998,
+      "totalTokens": 104410
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 56918,
+      "inputTokens": 49007,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 56918,
+          "cost": 0.1338072,
+          "inputTokens": 49007,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 920
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 920,
+      "period": "2ffc72e4-ba3c-49d4-a819-52f49b38a96f",
+      "totalCost": 0.1338072,
+      "totalTokens": 111676
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 28345,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.10799250000000002,
+          "inputTokens": 28345,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1174
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1174,
+      "period": "3359a871-6944-43a8-bf05-7b5b1abeff65",
+      "totalCost": 0.10799250000000002,
+      "totalTokens": 35620
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8993,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0480765,
+          "inputTokens": 8993,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 488
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 488,
+      "period": "34d9d977-b78e-46bb-bf28-81ab181fd996",
+      "totalCost": 0.0480765,
+      "totalTokens": 12836
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 7522,
+      "inputTokens": 11352,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 7522,
+          "cost": 0.04741530000000001,
+          "inputTokens": 11352,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 479
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 479,
+      "period": "35011439-cb40-4955-913d-531a1d65bc0c",
+      "totalCost": 0.04741530000000001,
+      "totalTokens": 22125
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 195055,
+      "inputTokens": 97338,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 195055,
+          "cost": 0.27145725,
+          "inputTokens": 97338,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2267
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2267,
+      "period": "366b987a-b807-4539-867e-d59068a70e21",
+      "totalCost": 0.27145725,
+      "totalTokens": 303081
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 103400,
+      "inputTokens": 58943,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 103400,
+          "cost": 0.16498049999999997,
+          "inputTokens": 58943,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1294
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1294,
+      "period": "368266be-8acb-4b91-9154-f154a4a2f770",
+      "totalCost": 0.16498049999999997,
+      "totalTokens": 169127
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 130005,
+      "inputTokens": 74769,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 130005,
+          "cost": 0.23773725,
+          "inputTokens": 74769,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2250
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2250,
+      "period": "36affd9a-4bcf-4b2a-b4e9-5394c9513515",
+      "totalCost": 0.23773725,
+      "totalTokens": 216561
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 218073,
+      "inputTokens": 97113,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 218073,
+          "cost": 0.26487945,
+          "inputTokens": 97113,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1775
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1775,
+      "period": "374b53d6-67c5-4c82-9d8c-38a699c65252",
+      "totalCost": 0.26487945,
+      "totalTokens": 324797
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 9004,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.032379000000000005,
+          "inputTokens": 9004,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 372
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 372,
+      "period": "398b4e12-76f7-4439-a6ad-f57e1e41fe8b",
+      "totalCost": 0.032379000000000005,
+      "totalTokens": 11101
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 89401,
+      "inputTokens": 53983,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 89401,
+          "cost": 0.17194665,
+          "inputTokens": 53983,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1600
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1600,
+      "period": "3b72baa5-7404-466a-9004-352b99a62ab6",
+      "totalCost": 0.17194665,
+      "totalTokens": 152002
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 9001,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0485115,
+          "inputTokens": 9001,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 475
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 475,
+      "period": "3bc056a9-9ce7-4f05-992a-23691b42822d",
+      "totalCost": 0.0485115,
+      "totalTokens": 12891
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 40718,
+      "inputTokens": 51115,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 40718,
+          "cost": 0.1251342,
+          "inputTokens": 51115,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 452
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 452,
+      "period": "3d4f279b-7e5e-42da-b944-efaa68a5698e",
+      "totalCost": 0.1251342,
+      "totalTokens": 96539
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8886,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.04059,
+          "inputTokens": 8886,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 440
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 440,
+      "period": "3e748641-6a21-414b-9351-c1c28162fda6",
+      "totalCost": 0.04059,
+      "totalTokens": 11915
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 16291,
+      "inputTokens": 23889,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 16291,
+          "cost": 0.07373715,
+          "inputTokens": 23889,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 454
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 454,
+      "period": "3f28b484-09cb-4f6f-8aa7-61e4009a9fc0",
+      "totalCost": 0.07373715,
+      "totalTokens": 44120
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 32575,
+      "inputTokens": 39417,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 32575,
+          "cost": 0.08890575,
+          "inputTokens": 39417,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 324
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 324,
+      "period": "414d652b-9c8f-440b-be90-307cb219b7ee",
+      "totalCost": 0.08890575,
+      "totalTokens": 74758
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 129661,
+      "inputTokens": 81003,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 129661,
+          "cost": 0.20408865,
+          "inputTokens": 81003,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1347
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1347,
+      "period": "467a4da3-4c37-42f6-8f49-26236b0bb15c",
+      "totalCost": 0.20408865,
+      "totalTokens": 217679
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 40676,
+      "inputTokens": 36422,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 40676,
+          "cost": 0.11559839999999999,
+          "inputTokens": 36422,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 812
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 812,
+      "period": "486eb675-dd9b-4321-88c8-a53af3c6282b",
+      "totalCost": 0.11559839999999999,
+      "totalTokens": 83194
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8889,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0325215,
+          "inputTokens": 8889,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 368
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 368,
+      "period": "4941c299-229a-494a-9557-c1f9e8ebd70f",
+      "totalCost": 0.0325215,
+      "totalTokens": 11021
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 24432,
+      "inputTokens": 32469,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 24432,
+          "cost": 0.09322829999999999,
+          "inputTokens": 32469,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 531
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 531,
+      "period": "4a195187-5b65-456e-a26f-b577441b4da0",
+      "totalCost": 0.09322829999999999,
+      "totalTokens": 61441
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8997,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0358425,
+          "inputTokens": 8997,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 329
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 329,
+      "period": "4a5ebd5f-55ed-4c00-b05c-0c93082a1eaf",
+      "totalCost": 0.0358425,
+      "totalTokens": 11480
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8999,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.061135499999999995,
+          "inputTokens": 8999,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 771
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 771,
+      "period": "4acdbaf7-faa2-4a02-ad26-3a180c48b479",
+      "totalCost": 0.061135499999999995,
+      "totalTokens": 14292
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8995,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.034057500000000004,
+          "inputTokens": 8995,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 300
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 300,
+      "period": "4e22088d-3635-402d-ad61-c3b455558d9d",
+      "totalCost": 0.034057500000000004,
+      "totalTokens": 11280
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 267027,
+      "inputTokens": 124730,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 267027,
+          "cost": 0.39871605000000004,
+          "inputTokens": 124730,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2527
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2527,
+      "period": "4e855b25-906e-45da-b79f-6041c055fc11",
+      "totalCost": 0.39871605000000004,
+      "totalTokens": 410820
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 56877,
+      "inputTokens": 41385,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 56877,
+          "cost": 0.11710304999999999,
+          "inputTokens": 41385,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1444
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1444,
+      "period": "4f45a310-a2cb-4f7b-88e6-505d6096d9b1",
+      "totalCost": 0.11710304999999999,
+      "totalTokens": 103428
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 276204,
+      "inputTokens": 105562,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 276204,
+          "cost": 0.3532056,
+          "inputTokens": 105562,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 3144
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 3144,
+      "period": "52900d69-4175-4d60-8fb9-471220da0218",
+      "totalCost": 0.3532056,
+      "totalTokens": 398814
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8887,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0502755,
+          "inputTokens": 8887,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 673
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 673,
+      "period": "52b03fed-3b95-4867-b181-29689dcb30b6",
+      "totalCost": 0.0502755,
+      "totalTokens": 12992
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 9000,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.04446,
+          "inputTokens": 9000,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 457
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 457,
+      "period": "556e5500-5096-4aba-bf25-b6058a6d207e",
+      "totalCost": 0.04446,
+      "totalTokens": 12440
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 65059,
+      "inputTokens": 40777,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 65059,
+          "cost": 0.14090835000000002,
+          "inputTokens": 40777,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1074
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1074,
+      "period": "55f9576e-c0cd-4452-b8c1-26a997f52f03",
+      "totalCost": 0.14090835000000002,
+      "totalTokens": 113612
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 153574,
+      "inputTokens": 89194,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 153574,
+          "cost": 0.3001161,
+          "inputTokens": 89194,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 4017
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 4017,
+      "period": "56a3c7c4-a93e-425c-b027-6aee4519d21c",
+      "totalCost": 0.3001161,
+      "totalTokens": 258689
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 105610,
+      "inputTokens": 51010,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 105610,
+          "cost": 0.14902950000000004,
+          "inputTokens": 51010,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1414
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1414,
+      "period": "56e23ea1-628e-4309-a7af-4dd0d901f6f5",
+      "totalCost": 0.14902950000000004,
+      "totalTokens": 162917
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8993,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0451425,
+          "inputTokens": 8993,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 519
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 519,
+      "period": "572139c4-0076-4e02-8324-e839be3f66aa",
+      "totalCost": 0.0451425,
+      "totalTokens": 12510
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 16258,
+      "inputTokens": 13788,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 16258,
+          "cost": 0.0674997,
+          "inputTokens": 13788,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 627
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 627,
+      "period": "59abae97-8f5b-49a6-843b-d37620c6fd97",
+      "totalCost": 0.0674997,
+      "totalTokens": 34977
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8997,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0362025,
+          "inputTokens": 8997,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 317
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 317,
+      "period": "5d1444fd-6413-49b8-868a-11ea06094b23",
+      "totalCost": 0.0362025,
+      "totalTokens": 11520
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 8127,
+      "inputTokens": 23020,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 8127,
+          "cost": 0.07280205000000001,
+          "inputTokens": 23020,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 471
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 471,
+      "period": "5e0d50dd-0faf-42f0-bc33-bb9d5c9c8b01",
+      "totalCost": 0.07280205000000001,
+      "totalTokens": 35264
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 89390,
+      "inputTokens": 53285,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 89390,
+          "cost": 0.17444400000000004,
+          "inputTokens": 53285,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2676
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2676,
+      "period": "5e861655-8661-4352-9e8c-e232fffa9213",
+      "totalCost": 0.17444400000000004,
+      "totalTokens": 151687
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 97499,
+      "inputTokens": 74464,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 97499,
+          "cost": 0.21322485,
+          "inputTokens": 74464,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1560
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1560,
+      "period": "5f8093a7-ee41-4a61-963a-2b1c38b90f0a",
+      "totalCost": 0.21322485,
+      "totalTokens": 181619
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 13300,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.021759,
+          "inputTokens": 13300,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1,
+      "period": "60d92b12-bdf0-45cf-b25f-70fb74ca1eeb",
+      "totalCost": 0.021759,
+      "totalTokens": 13501
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 65080,
+      "inputTokens": 50734,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 65080,
+          "cost": 0.13702799999999998,
+          "inputTokens": 50734,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 906
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 906,
+      "period": "61abacdd-5290-46aa-8f1f-f390b74d50cb",
+      "totalCost": 0.13702799999999998,
+      "totalTokens": 121499
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8997,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0489915,
+          "inputTokens": 8997,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 544
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 544,
+      "period": "61c3e3f4-979b-4c18-8e92-b6a6f8f5519c",
+      "totalCost": 0.0489915,
+      "totalTokens": 12941
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 38070,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.084105,
+          "inputTokens": 38070,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 517
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 517,
+      "period": "61f97096-cd7b-4463-8c32-efe38727ab0b",
+      "totalCost": 0.084105,
+      "totalTokens": 41070
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8995,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0480435,
+          "inputTokens": 8995,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 497
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 497,
+      "period": "621e8103-4ff0-4f5f-9c61-763c4b0f2346",
+      "totalCost": 0.0480435,
+      "totalTokens": 12834
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 15638,
+      "inputTokens": 25193,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 15638,
+          "cost": 0.0797262,
+          "inputTokens": 25193,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 864
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 864,
+      "period": "62a38737-0ddd-41ec-a705-83257a3048ea",
+      "totalCost": 0.0797262,
+      "totalTokens": 45230
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 81243,
+      "inputTokens": 61468,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 81243,
+          "cost": 0.16807244999999998,
+          "inputTokens": 61468,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 955
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 955,
+      "period": "6446d2f3-840e-434b-be07-67cff6b94b4e",
+      "totalCost": 0.16807244999999998,
+      "totalTokens": 149787
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 7505,
+      "inputTokens": 20961,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 7505,
+          "cost": 0.07257225,
+          "inputTokens": 20961,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 649
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 649,
+      "period": "67f60f1c-2bad-4aaa-9c59-f579420be1b1",
+      "totalCost": 0.07257225,
+      "totalTokens": 32911
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 19031,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0610545,
+          "inputTokens": 19031,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 451
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 451,
+      "period": "6a506e19-573f-43ed-a34c-c8fb5cefc6c7",
+      "totalCost": 0.0610545,
+      "totalTokens": 22643
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 81253,
+      "inputTokens": 48217,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 81253,
+          "cost": 0.14468745,
+          "inputTokens": 48217,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1184
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1184,
+      "period": "6dfd0540-f83a-479f-bf38-60b4e5f02428",
+      "totalCost": 0.14468745,
+      "totalTokens": 136156
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 8108,
+      "inputTokens": 30187,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 8108,
+          "cost": 0.09441269999999999,
+          "inputTokens": 30187,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 800
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 800,
+      "period": "6dfdf373-cc44-47c9-8211-7bdbac4ce98c",
+      "totalCost": 0.09441269999999999,
+      "totalTokens": 43619
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 128506,
+      "inputTokens": 69856,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 128506,
+          "cost": 0.1801749,
+          "inputTokens": 69856,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1127
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1127,
+      "period": "6f59b8c6-7813-4984-b94a-e1662b4c86c1",
+      "totalCost": 0.1801749,
+      "totalTokens": 204597
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 14989,
+      "inputTokens": 12955,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 14989,
+          "cost": 0.04704285,
+          "inputTokens": 12955,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 686
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 686,
+      "period": "6f6351af-f1c9-4141-b922-58523cbe603f",
+      "totalCost": 0.04704285,
+      "totalTokens": 30762
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8975,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.027124500000000003,
+          "inputTokens": 8975,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 181
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 181,
+      "period": "7068661a-a1c1-491c-8101-d37a2533778b",
+      "totalCost": 0.027124500000000003,
+      "totalTokens": 10493
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 138141,
+      "inputTokens": 78019,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 138141,
+          "cost": 0.18905865000000002,
+          "inputTokens": 78019,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1123
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1123,
+      "period": "7124c7e6-9dab-44a7-9e4c-726d5adc0985",
+      "totalCost": 0.18905865000000002,
+      "totalTokens": 221861
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 72827,
+      "inputTokens": 41862,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 72827,
+          "cost": 0.14073105,
+          "inputTokens": 41862,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1122
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1122,
+      "period": "71aa60c0-cbe1-4ff3-a2fa-3b401f186439",
+      "totalCost": 0.14073105,
+      "totalTokens": 122135
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 56979,
+      "inputTokens": 39593,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 56979,
+          "cost": 0.12020835,
+          "inputTokens": 39593,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 504
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 504,
+      "period": "7329233b-0074-40a9-9834-d1f8cf76e806",
+      "totalCost": 0.12020835,
+      "totalTokens": 102380
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8995,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0360645,
+          "inputTokens": 8995,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 262
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 262,
+      "period": "74fc214b-d3e5-4f17-b6e3-cf0a5d7300ce",
+      "totalCost": 0.0360645,
+      "totalTokens": 11503
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 389633,
+      "inputTokens": 162778,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 389633,
+          "cost": 0.43238295,
+          "inputTokens": 162778,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 4353
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 4353,
+      "period": "75bcde98-c295-4fe7-9ff6-45c868f81417",
+      "totalCost": 0.43238295,
+      "totalTokens": 566830
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 7528,
+      "inputTokens": 11487,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 7528,
+          "cost": 0.0480777,
+          "inputTokens": 11487,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 382
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 382,
+      "period": "75d0da13-cf29-4047-9097-50eb5c7821b9",
+      "totalCost": 0.0480777,
+      "totalTokens": 22317
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 65007,
+      "inputTokens": 42882,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 65007,
+          "cost": 0.14827905,
+          "inputTokens": 42882,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1692
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1692,
+      "period": "76db067e-21d4-4303-9e27-3305a729b416",
+      "totalCost": 0.14827905,
+      "totalTokens": 116134
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 8132,
+      "inputTokens": 11463,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 8132,
+          "cost": 0.0510573,
+          "inputTokens": 11463,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 444
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 444,
+      "period": "771e07fb-4e4c-4062-97a0-c83870acb733",
+      "totalCost": 0.0510573,
+      "totalTokens": 23222
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 9014,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.07244400000000001,
+          "inputTokens": 9014,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1238
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1238,
+      "period": "7851c6a9-9553-48c4-a8bc-f7a3dd01beb8",
+      "totalCost": 0.07244400000000001,
+      "totalTokens": 15561
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 387169,
+      "inputTokens": 163847,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 387169,
+          "cost": 0.46895985,
+          "inputTokens": 163847,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2838
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2838,
+      "period": "78a72fca-cf25-4d94-9431-543be3eb43ca",
+      "totalCost": 0.46895985,
+      "totalTokens": 569362
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 243339,
+      "inputTokens": 123184,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 243339,
+          "cost": 0.33671984999999993,
+          "inputTokens": 123184,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1710
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1710,
+      "period": "7a9f6501-e948-4b49-aca0-d4447f097ec9",
+      "totalCost": 0.33671984999999993,
+      "totalTokens": 379350
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 170740,
+      "inputTokens": 82285,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 170740,
+          "cost": 0.20932050000000002,
+          "inputTokens": 82285,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2082
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2082,
+      "period": "7e60304d-71af-4963-96b9-9bff9f2d15ed",
+      "totalCost": 0.20932050000000002,
+      "totalTokens": 259723
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 7642,
+      "inputTokens": 11921,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 7642,
+          "cost": 0.09621180000000001,
+          "inputTokens": 11921,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 938
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 938,
+      "period": "81748d75-07aa-4f90-8d9a-fddd8f6bdc61",
+      "totalCost": 0.09621180000000001,
+      "totalTokens": 28139
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 130044,
+      "inputTokens": 64028,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 130044,
+          "cost": 0.19402860000000002,
+          "inputTokens": 64028,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1440
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1440,
+      "period": "8200594c-bf04-46c2-9f42-9fb04d99ef89",
+      "totalCost": 0.19402860000000002,
+      "totalTokens": 202792
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 9011,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0360795,
+          "inputTokens": 9011,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 270
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 270,
+      "period": "821f0871-567a-4b48-b0b5-b483837a3d90",
+      "totalCost": 0.0360795,
+      "totalTokens": 11518
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 9001,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0458835,
+          "inputTokens": 9001,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 393
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 393,
+      "period": "830891de-827e-46b4-ad34-3b8df75cf942",
+      "totalCost": 0.0458835,
+      "totalTokens": 12599
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 8132,
+      "inputTokens": 11267,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 8132,
+          "cost": 0.09458430000000001,
+          "inputTokens": 11267,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1081
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1081,
+      "period": "87eb769d-7f41-4b1c-a462-41629e0db9e0",
+      "totalCost": 0.09458430000000001,
+      "totalTokens": 27895
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8995,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.037000500000000006,
+          "inputTokens": 8995,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 273
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 273,
+      "period": "88bed1dc-d3b1-456c-b5aa-c48f0de372a6",
+      "totalCost": 0.037000500000000006,
+      "totalTokens": 11607
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 7510,
+      "inputTokens": 11176,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 7510,
+          "cost": 0.0477615,
+          "inputTokens": 11176,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 793
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 793,
+      "period": "8a3f5543-fb36-432a-a0ca-0257632a1a75",
+      "totalCost": 0.0477615,
+      "totalTokens": 22005
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 32537,
+      "inputTokens": 28128,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 32537,
+          "cost": 0.11510355,
+          "inputTokens": 28128,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 892
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 892,
+      "period": "8c7b5628-1f7c-4c4f-a8aa-276f585672e5",
+      "totalCost": 0.11510355,
+      "totalTokens": 68224
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 7512,
+      "inputTokens": 11103,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 7512,
+          "cost": 0.0473103,
+          "inputTokens": 11103,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 582
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 582,
+      "period": "8d61d712-f1c7-4eea-bca9-4557b7447270",
+      "totalCost": 0.0473103,
+      "totalTokens": 21896
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 128970,
+      "inputTokens": 85792,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 128970,
+          "cost": 0.19972949999999998,
+          "inputTokens": 85792,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1090
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1090,
+      "period": "8df6a634-783f-44a1-b01e-a13367bdc6cb",
+      "totalCost": 0.19972949999999998,
+      "totalTokens": 220506
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 7516,
+      "inputTokens": 30430,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 7516,
+          "cost": 0.0746994,
+          "inputTokens": 30430,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 656
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 656,
+      "period": "8ef9abf8-3c6f-4f54-8e10-2082967de5b1",
+      "totalCost": 0.0746994,
+      "totalTokens": 41049
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 154496,
+      "inputTokens": 75477,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 154496,
+          "cost": 0.19975890000000002,
+          "inputTokens": 75477,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2245
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2245,
+      "period": "8f2281f5-f354-47dd-8029-b4593ec9e3e3",
+      "totalCost": 0.19975890000000002,
+      "totalTokens": 237014
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 48806,
+      "inputTokens": 44163,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 48806,
+          "cost": 0.1220124,
+          "inputTokens": 44163,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 965
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 965,
+      "period": "900e5b41-49fa-4318-925c-b147feaffd4a",
+      "totalCost": 0.1220124,
+      "totalTokens": 98352
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 16240,
+      "inputTokens": 23735,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 16240,
+          "cost": 0.07091549999999999,
+          "inputTokens": 23735,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 629
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 629,
+      "period": "93698f91-7820-47ee-9d16-8ad58985a084",
+      "totalCost": 0.07091549999999999,
+      "totalTokens": 43628
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 146275,
+      "inputTokens": 115338,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 146275,
+          "cost": 0.26395125,
+          "inputTokens": 115338,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1062
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1062,
+      "period": "95934ab1-5092-439d-a010-e5b87d87ee52",
+      "totalCost": 0.26395125,
+      "totalTokens": 269280
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 65109,
+      "inputTokens": 44436,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 65109,
+          "cost": 0.11298735000000001,
+          "inputTokens": 44436,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 664
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 664,
+      "period": "95fba98f-e51c-4e01-a0b2-9447f56d5f37",
+      "totalCost": 0.11298735000000001,
+      "totalTokens": 113608
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 56726,
+      "inputTokens": 50709,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 56726,
+          "cost": 0.1719174,
+          "inputTokens": 50709,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1350
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1350,
+      "period": "976c34bf-a366-4af7-9516-6e6002c04f22",
+      "totalCost": 0.1719174,
+      "totalTokens": 117140
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 65068,
+      "inputTokens": 43097,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 65068,
+          "cost": 0.1641627,
+          "inputTokens": 43097,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2431
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2431,
+      "period": "97b2e80a-d0a3-45a9-b0b4-d9b8c1e19e04",
+      "totalCost": 0.1641627,
+      "totalTokens": 118138
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 121977,
+      "inputTokens": 104546,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 121977,
+          "cost": 0.24607155,
+          "inputTokens": 104546,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1047
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1047,
+      "period": "98e81990-6a79-4c8f-8c97-75842c304754",
+      "totalCost": 0.24607155,
+      "totalTokens": 234407
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 185011,
+      "inputTokens": 97882,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 185011,
+          "cost": 0.31516365,
+          "inputTokens": 97882,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2384
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2384,
+      "period": "9d83c148-f2f1-4cfd-9238-15c845c7e804",
+      "totalCost": 0.31516365,
+      "totalTokens": 298514
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8995,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0585285,
+          "inputTokens": 8995,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 811
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 811,
+      "period": "9f86f4f6-3759-4eb0-897d-9eaebd18786a",
+      "totalCost": 0.0585285,
+      "totalTokens": 13999
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 73201,
+      "inputTokens": 62085,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 73201,
+          "cost": 0.15165465,
+          "inputTokens": 62085,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 807
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 807,
+      "period": "a12e9c8e-6192-4306-8d7d-c560e0c00677",
+      "totalCost": 0.15165465,
+      "totalTokens": 140569
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8997,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.044230500000000006,
+          "inputTokens": 8997,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 508
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 508,
+      "period": "a248f6d2-1303-4fbb-988c-dd0b6fdf43c2",
+      "totalCost": 0.044230500000000006,
+      "totalTokens": 12412
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 240863,
+      "inputTokens": 104069,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 240863,
+          "cost": 0.30852195,
+          "inputTokens": 104069,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2619
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2619,
+      "period": "a3733360-c9c0-479a-88b0-54d13baf820d",
+      "totalCost": 0.30852195,
+      "totalTokens": 357853
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 9000,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.039843,
+          "inputTokens": 9000,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 267
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 267,
+      "period": "a5456298-af0f-45f6-ad37-0dda923a6340",
+      "totalCost": 0.039843,
+      "totalTokens": 11927
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 24060,
+      "inputTokens": 32863,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 24060,
+          "cost": 0.0929535,
+          "inputTokens": 32863,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 419
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 419,
+      "period": "a9df68ca-0776-46c6-8636-9fdb3f7c9f59",
+      "totalCost": 0.0929535,
+      "totalTokens": 61373
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 7525,
+      "inputTokens": 30918,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 7525,
+          "cost": 0.08502675000000001,
+          "inputTokens": 30918,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 714
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 714,
+      "period": "aa69fd33-7439-4f3e-b1dd-6f125c22653f",
+      "totalCost": 0.08502675000000001,
+      "totalTokens": 42612
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8889,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0336375,
+          "inputTokens": 8889,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 269
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 269,
+      "period": "ab8b2d35-8056-405f-8c98-17474c99c760",
+      "totalCost": 0.0336375,
+      "totalTokens": 11145
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 48821,
+      "inputTokens": 33989,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 48821,
+          "cost": 0.11409765,
+          "inputTokens": 33989,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 607
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 607,
+      "period": "aee172b8-de06-4ea0-b244-ddca87c6cfa3",
+      "totalCost": 0.11409765,
+      "totalTokens": 89009
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 15811,
+      "inputTokens": 44021,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 15811,
+          "cost": 0.15066315,
+          "inputTokens": 44021,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1024
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1024,
+      "period": "b0391cf3-e43c-47b8-88a3-fe875c4a6c6b",
+      "totalCost": 0.15066315,
+      "totalTokens": 68972
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 227117,
+      "inputTokens": 121754,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 227117,
+          "cost": 0.30188355,
+          "inputTokens": 121754,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1960
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1960,
+      "period": "b16e7b2b-8d83-4ce9-9121-451372187609",
+      "totalCost": 0.30188355,
+      "totalTokens": 358336
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 8137,
+      "inputTokens": 12324,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 8137,
+          "cost": 0.048461550000000006,
+          "inputTokens": 12324,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 379
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 379,
+      "period": "b24fd143-1e7e-47ee-bd18-5cd8344340dc",
+      "totalCost": 0.048461550000000006,
+      "totalTokens": 23656
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 18739,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0626415,
+          "inputTokens": 18739,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 308
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 308,
+      "period": "b3173908-aa5f-43cd-b696-e82726e32c39",
+      "totalCost": 0.0626415,
+      "totalTokens": 22576
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 24383,
+      "inputTokens": 46022,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 24383,
+          "cost": 0.15310545,
+          "inputTokens": 46022,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1158
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1158,
+      "period": "b44b35e8-3d13-45ec-a1f5-0c4ae108d420",
+      "totalCost": 0.15310545,
+      "totalTokens": 79340
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 9000,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.041337,
+          "inputTokens": 9000,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 240
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 240,
+      "period": "b58915e8-e2ca-45e8-98b4-51e4a4b48296",
+      "totalCost": 0.041337,
+      "totalTokens": 12093
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 16288,
+      "inputTokens": 23988,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 16288,
+          "cost": 0.0704472,
+          "inputTokens": 23988,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 359
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 359,
+      "period": "b7ed5092-6d13-420f-a38c-ad76d4692589",
+      "totalCost": 0.0704472,
+      "totalTokens": 43834
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8995,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.042967500000000006,
+          "inputTokens": 8995,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 640
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 640,
+      "period": "b8807763-7a7b-4f2f-be7e-93d9034c55ef",
+      "totalCost": 0.042967500000000006,
+      "totalTokens": 12270
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 48806,
+      "inputTokens": 48593,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 48806,
+          "cost": 0.1403574,
+          "inputTokens": 48593,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1028
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1028,
+      "period": "b8e12197-53cd-43de-a685-47066cf0cf04",
+      "totalCost": 0.1403574,
+      "totalTokens": 104082
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 16245,
+      "inputTokens": 13816,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 16245,
+          "cost": 0.05765775,
+          "inputTokens": 13816,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 600
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 600,
+      "period": "b9b68bbe-7cb2-452e-83eb-ce5a39cd0277",
+      "totalCost": 0.05765775,
+      "totalTokens": 33894
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 89437,
+      "inputTokens": 62651,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 89437,
+          "cost": 0.17076104999999997,
+          "inputTokens": 62651,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1186
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1186,
+      "period": "baf5b877-724e-413f-8b97-9134e7ea3820",
+      "totalCost": 0.17076104999999997,
+      "totalTokens": 159129
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 161619,
+      "inputTokens": 107852,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 161619,
+          "cost": 0.28578585000000006,
+          "inputTokens": 107852,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2354
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2354,
+      "period": "bd260107-913d-4756-abb0-49b396be9bd4",
+      "totalCost": 0.28578585000000006,
+      "totalTokens": 280556
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 89414,
+      "inputTokens": 59690,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 89414,
+          "cost": 0.1559211,
+          "inputTokens": 59690,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1040
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1040,
+      "period": "bdce1b95-ec78-4890-8c14-5581a74ed7e7",
+      "totalCost": 0.1559211,
+      "totalTokens": 154990
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8995,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.051283499999999996,
+          "inputTokens": 8995,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 823
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 823,
+      "period": "be0f3343-a32a-4d32-a3c8-2d2e8fc4c04e",
+      "totalCost": 0.051283499999999996,
+      "totalTokens": 13194
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 8131,
+      "inputTokens": 11129,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 8131,
+          "cost": 0.03694815,
+          "inputTokens": 11129,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 233
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 233,
+      "period": "c126eb86-6c14-44aa-b079-7bffd0b96335",
+      "totalCost": 0.03694815,
+      "totalTokens": 21375
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8999,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.061594499999999996,
+          "inputTokens": 8999,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 786
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 786,
+      "period": "c4bee36d-1710-4c5b-b1e7-cd51849a4b98",
+      "totalCost": 0.061594499999999996,
+      "totalTokens": 14343
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 16242,
+      "inputTokens": 23579,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 16242,
+          "cost": 0.08835780000000001,
+          "inputTokens": 23579,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1105
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1105,
+      "period": "c59089d0-6b1f-471c-b585-a46ef3a6be3c",
+      "totalCost": 0.08835780000000001,
+      "totalTokens": 45438
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 24433,
+      "inputTokens": 35852,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 24433,
+          "cost": 0.11181195,
+          "inputTokens": 35852,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 500
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 500,
+      "period": "c67d3b6e-0262-426d-9037-08a2576cf4af",
+      "totalCost": 0.11181195,
+      "totalTokens": 66326
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8995,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.034003500000000006,
+          "inputTokens": 8995,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 288
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 288,
+      "period": "c6a349f7-320f-476f-ace4-b611c47260a3",
+      "totalCost": 0.034003500000000006,
+      "totalTokens": 11274
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 97635,
+      "inputTokens": 54691,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 97635,
+          "cost": 0.15994275,
+          "inputTokens": 54691,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 679
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 679,
+      "period": "ca11dac7-029d-4971-ba03-1fd3137a3dc4",
+      "totalCost": 0.15994275,
+      "totalTokens": 159355
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 73179,
+      "inputTokens": 45839,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 73179,
+          "cost": 0.17048235000000003,
+          "inputTokens": 45839,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1555
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1555,
+      "period": "ca2168df-f49c-4cb8-b66d-19da5ce6c8fb",
+      "totalCost": 0.17048235000000003,
+      "totalTokens": 129101
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 7617,
+      "inputTokens": 21463,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 7617,
+          "cost": 0.05474805,
+          "inputTokens": 21463,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 419
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 419,
+      "period": "cd15d8b4-5923-4365-96ac-a8cfc3313266",
+      "totalCost": 0.05474805,
+      "totalTokens": 31459
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 81292,
+      "inputTokens": 60197,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 81292,
+          "cost": 0.1613403,
+          "inputTokens": 60197,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1020
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1020,
+      "period": "d05b6a52-23b3-4840-9f09-e00eec482bd4",
+      "totalCost": 0.1613403,
+      "totalTokens": 148028
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 9000,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.03483,
+          "inputTokens": 9000,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 263
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 263,
+      "period": "d82c1550-47f5-48dd-a777-774f9d61db8f",
+      "totalCost": 0.03483,
+      "totalTokens": 11370
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 186840,
+      "inputTokens": 93097,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 186840,
+          "cost": 0.2552685,
+          "inputTokens": 93097,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2424
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2424,
+      "period": "dbd721a6-e1e6-4fea-ac10-163411b2da85",
+      "totalCost": 0.2552685,
+      "totalTokens": 289670
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 8122,
+      "inputTokens": 20816,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 8122,
+          "cost": 0.049452300000000005,
+          "inputTokens": 20816,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 242
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 242,
+      "period": "de51853b-5486-40a5-a2f3-778b429577c9",
+      "totalCost": 0.049452300000000005,
+      "totalTokens": 30828
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 8147,
+      "inputTokens": 14849,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 8147,
+          "cost": 0.09939255,
+          "inputTokens": 14849,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 962
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 962,
+      "period": "e0c1ebda-d43b-41f8-83a9-506a8eb17312",
+      "totalCost": 0.09939255,
+      "totalTokens": 31429
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 162070,
+      "inputTokens": 96590,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 162070,
+          "cost": 0.23550750000000004,
+          "inputTokens": 96590,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1447
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1447,
+      "period": "e22dcdc4-8fac-418a-9b99-f8d1f9e52484",
+      "totalCost": 0.23550750000000004,
+      "totalTokens": 266028
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 31995,
+      "inputTokens": 23036,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 31995,
+          "cost": 0.09056325,
+          "inputTokens": 23036,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 804
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 804,
+      "period": "e27bacd1-da82-4d6c-8449-71ee2eb9b5e8",
+      "totalCost": 0.09056325,
+      "totalTokens": 60721
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 28610,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.085089,
+          "inputTokens": 28610,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 617
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 617,
+      "period": "e5c3ab1d-64cd-400f-962a-0b85f11d873f",
+      "totalCost": 0.085089,
+      "totalTokens": 33296
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 8123,
+      "inputTokens": 21150,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 8123,
+          "cost": 0.06362445,
+          "inputTokens": 21150,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 310
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 310,
+      "period": "e7d826b3-15a1-4116-b2b7-fb5e6a483114",
+      "totalCost": 0.06362445,
+      "totalTokens": 32682
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 9025,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0480255,
+          "inputTokens": 9025,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 558
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 558,
+      "period": "e8f1cd15-d9fd-4a1e-81c2-60b88028342a",
+      "totalCost": 0.0480255,
+      "totalTokens": 12857
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 24429,
+      "inputTokens": 31557,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 24429,
+          "cost": 0.07872885,
+          "inputTokens": 31557,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 451
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 451,
+      "period": "e8f350d9-7a18-4f42-8d2d-88f044b736ea",
+      "totalCost": 0.07872885,
+      "totalTokens": 59067
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 73150,
+      "inputTokens": 44093,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 73150,
+          "cost": 0.151596,
+          "inputTokens": 44093,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1202
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1202,
+      "period": "ea1b98fb-b165-4ea1-b9e8-e8921be4f6e0",
+      "totalCost": 0.151596,
+      "totalTokens": 125519
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 40690,
+      "inputTokens": 43350,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 40690,
+          "cost": 0.09696750000000001,
+          "inputTokens": 43350,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 543
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 543,
+      "period": "eae109de-a23e-4640-84ec-bcde689573a0",
+      "totalCost": 0.09696750000000001,
+      "totalTokens": 86911
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 105686,
+      "inputTokens": 106156,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 105686,
+          "cost": 0.3008349,
+          "inputTokens": 106156,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2332
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2332,
+      "period": "eb04b67c-2719-4f86-b6b4-e6005c6362ab",
+      "totalCost": 0.3008349,
+      "totalTokens": 225814
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8995,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0407985,
+          "inputTokens": 8995,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 264
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 264,
+      "period": "eb981d0f-f9fc-4ef6-a923-04c9099e9cd7",
+      "totalCost": 0.0407985,
+      "totalTokens": 12029
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 15343,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0244005,
+          "inputTokens": 15343,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1,
+      "period": "ebd77990-2efb-4839-8b70-161f56179d4d",
+      "totalCost": 0.0244005,
+      "totalTokens": 15497
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 24397,
+      "inputTokens": 20000,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 24397,
+          "cost": 0.12720555,
+          "inputTokens": 20000,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1342
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1342,
+      "period": "eccc348b-73de-4e6e-96df-14bcdfc2bddb",
+      "totalCost": 0.12720555,
+      "totalTokens": 54791
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 8104,
+      "inputTokens": 30686,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 8104,
+          "cost": 0.0875106,
+          "inputTokens": 30686,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 814
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 814,
+      "period": "ef8f37d1-5337-4109-834b-e61372ad4d24",
+      "totalCost": 0.0875106,
+      "totalTokens": 43264
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8887,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.0636945,
+          "inputTokens": 8887,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 938
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 938,
+      "period": "f0a12b97-8976-43e6-bed9-ce7d0920d107",
+      "totalCost": 0.0636945,
+      "totalTokens": 14483
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 194644,
+      "inputTokens": 114123,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 194644,
+          "cost": 0.2828571000000001,
+          "inputTokens": 114123,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1362
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1362,
+      "period": "f19f550b-f211-4ae4-9ed0-094fc7643c91",
+      "totalCost": 0.2828571000000001,
+      "totalTokens": 317931
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 383285,
+      "inputTokens": 183862,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 383285,
+          "cost": 0.47473875,
+          "inputTokens": 183862,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 3720
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 3720,
+      "period": "f5380ae6-6925-44b3-adcb-451598e4f143",
+      "totalCost": 0.47473875,
+      "totalTokens": 582864
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 24417,
+      "inputTokens": 34334,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 24417,
+          "cost": 0.09343155,
+          "inputTokens": 34334,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 628
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 628,
+      "period": "f5c5058c-45b0-49c9-95f9-7679c51bd23e",
+      "totalCost": 0.09343155,
+      "totalTokens": 63003
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 8123,
+      "inputTokens": 20971,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 8123,
+          "cost": 0.05856795000000001,
+          "inputTokens": 20971,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 395
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 395,
+      "period": "f60d5623-b7b6-4ee2-a6b0-77485cb5e0f7",
+      "totalCost": 0.05856795000000001,
+      "totalTokens": 31971
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 19054,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.061845000000000004,
+          "inputTokens": 19054,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 591
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 591,
+      "period": "f88d9053-a625-4851-9b80-718b15b8f14d",
+      "totalCost": 0.061845000000000004,
+      "totalTokens": 22750
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 97585,
+      "inputTokens": 55294,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 97585,
+          "cost": 0.20574075,
+          "inputTokens": 55294,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 2652
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 2652,
+      "period": "f8e20598-e201-42c0-8c9b-1d42f8097722",
+      "totalCost": 0.20574075,
+      "totalTokens": 164897
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "inputTokens": 8995,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 0,
+          "cost": 0.041302500000000006,
+          "inputTokens": 8995,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 245
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 245,
+      "period": "fa771855-a8ce-44f1-8a2a-d5e55bab92fe",
+      "totalCost": 0.041302500000000006,
+      "totalTokens": 12085
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 24433,
+      "inputTokens": 30636,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 24433,
+          "cost": 0.06981494999999999,
+          "inputTokens": 30636,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 322
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 322,
+      "period": "fbc1bb04-6a00-40dd-b0d4-aa2e4df0fdb5",
+      "totalCost": 0.06981494999999999,
+      "totalTokens": 57313
+    },
+    {
+      "agent": "gemini",
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 22511,
+      "inputTokens": 15736,
+      "modelBreakdowns": [
+        {
+          "cacheCreationTokens": 0,
+          "cacheReadTokens": 22511,
+          "cost": 0.09123165,
+          "inputTokens": 15736,
+          "modelName": "gemini-3.5-flash",
+          "outputTokens": 1390
+        }
+      ],
+      "modelsUsed": [
+        "gemini-3.5-flash"
+      ],
+      "outputTokens": 1390,
+      "period": "fd1f1aa9-ec1d-4474-875a-212481293108",
+      "totalCost": 0.09123165,
+      "totalTokens": 45386
+    }
+  ],
+  "totals": {
+    "cacheCreationTokens": 0,
+    "cacheReadTokens": 11584366,
+    "inputTokens": 7930156,
+    "outputTokens": 201362,
+    "totalCost": 24.25141290000002,
+    "totalTokens": 20694358
+  }
+}

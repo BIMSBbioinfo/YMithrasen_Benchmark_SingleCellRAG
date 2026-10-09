@@ -1,0 +1,7 @@
+condition,agent,display_name,k,n_prompts,n_attempts,pass_at_k,r_success_rate,completion_rate,avg_grader_score,avg_latency_s,benchmark_version,source_file
+Without Skills,claude,Claude Code,3,30,90,0.9333,0.8778,0.8778,0.8778,27.0,744037ef0c1d,coding_agent_claude_2026-08-16T14-23-33.json
+With Skills,claude,Claude Code,3,30,90,0.9667,0.9111,0.9111,0.9111,35.3,744037ef0c1d,coding_agent_skills-claude_2026-08-16T11-20-54.json
+Without Skills,codex,Codex CLI,3,30,90,0.9000,0.7778,0.7444,0.7622,9.6,744037ef0c1d,coding_agent_codex_2026-08-16T20-33-59.json
+With Skills,codex,Codex CLI,3,30,90,1.0000,0.9556,0.9444,0.9533,31.5,744037ef0c1d,coding_agent_skills-codex_2026-08-16T17-09-28.json
+Without Skills,gemini,Gemini CLI,3,30,90,0.9333,0.9000,0.8667,0.8867,37.0,744037ef0c1d,coding_agent_gemini_2026-08-17T12-23-36.json
+With Skills,gemini,Gemini CLI,3,30,90,0.9667,0.9000,0.9000,0.9000,63.4,744037ef0c1d,coding_agent_skills-gemini_2026-08-17T08-54-26.json
